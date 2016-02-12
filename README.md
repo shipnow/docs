@@ -89,6 +89,8 @@ About this documentation
 This documentation is hosted publicly at [GitHub][github]. If you find any
 error or room for improvement, feel free to send a contribution.
 
+Copyright (c) 2016 ShipNow SRL <developers@shipnow.com.ar>
+
 [swagger]: https://docs.shipnow.com.ar/swagger/
 [json]: http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
 [http1.1]: https://tools.ietf.org/html/rfc2616
