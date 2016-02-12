@@ -13,13 +13,13 @@ Making requests
 If you need to test your clients, feel free to pollute the testing API with
 test data, though keep in mind that it will be cleared every few hours.
 
-On occasions, may testing may diverge slightly from production. This should not
+On occasions, testing may diverge slightly from production. This should not
 last long, since we generally deploy to one and quickly to the other. If you
 find such discrepancies, don't worry, since they should quickly propagate to
 production.
 
-Both APIs use HTTPS (ie: HTTP + TLS) exclusively. You should never attempt to
-reach them using raw HTTP.
+Both APIs use HTTPS (ie: HTTP + TLS) exclusively. You MUST NOT attempt to reach
+them using raw HTTP.
 
 Authentication
 --------------
@@ -59,8 +59,8 @@ Users can have three access levels:
 Data
 ----
 
-All data is send and received using [JSON][json]. Request data will be
-contained inside a `results` element:
+All data is sent and received using [JSON][json]. Request data will be
+contained inside a `results` object:
 
     {
         "results": [
