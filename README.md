@@ -25,7 +25,7 @@ Authentication
 --------------
 
 Authentication is not yet done via OAuth, but a simpler password-based
-mechanism.  
+mechanism.
 
 Users will provide their username and password, which you will then exchange
 for a `Token` by posting these to `/user/authentication`. This token should be
@@ -49,13 +49,13 @@ Access Levels
 Users can have three access levels:
 
  * ShipNow: These are internal account, that can access data for all clients,
-   and are used internally when actually moving products around.  
+   and are used internally when actually moving products around.
    You will generally never see these user types unless you're deploying
    the ShipNow app for your own warehouse.
  * Administrator: These are the top-level users for each account, and can
    create other users, as well as a few more special actions.
  * Regular: These are the lower-level users, which can create/edit orders,
-   product, and use other day-to-day interfaces.  
+   product, and use other day-to-day interfaces.
    Bot accounts should generally also be regular users.
 
 Data
