@@ -48,6 +48,9 @@ the user, inside the `Authorization` header as follows:
 
     Token token=gNGQNzZ2muAdRKZT3miNccnwYxSrZ6zl2t1B6l6tcHpUw00pok
 
+You SHOULD NOT store user's username or password. You should only store the
+provided token.
+
 Accounts vs Users
 -----------------
 
