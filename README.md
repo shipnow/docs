@@ -103,11 +103,15 @@ In case of a 4XX or 5XX status code, errors MAY be included in an errors array:
 We adhere quite closely to [HTTP 1.1][http1.1], with one exception: When data
 validation fails, we will return a 422 status code.
 
-About this documentation
-------------------------
+Contributing
+------------
 
-This documentation is hosted publicly at [GitHub][github]. If you find any
+This documentation is hosted publicly at [GitHub][github].  If you find any
 error or room for improvement, feel free to send a contribution.
+
+If you encounter any undocumented behaviours, or bugs in the API, please open an
+issue in this project's issue tracker. We'll update the documentation (or fix
+the underlying issue).
 
 Copyright (c) 2016 ShipNow SRL <developers@shipnow.com.ar>
 
