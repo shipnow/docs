@@ -58,7 +58,8 @@ Each client has a single account, which in turn, has multiple users. An account
 will hold all orders and products for that client, which all users of that
 account can access (with different access levels).
 
-Each account can have as many users as they need.
+Each account can have as many users as they need.  Additional users can be
+created via the API or the sellers interface.
 
 Access Levels
 -------------
