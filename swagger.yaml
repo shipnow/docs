@@ -3,7 +3,9 @@ info:
   version: 1.0.0
   title: Shipnow API
   description: |
-    This is the documentation for the ShipNow public API. Please see the <a href="https://github.com/shipnow/docs/blob/master/README.md">README</a> first for a brief introduction to how our API works.
+    This is the documentation for the ShipNow public API. Please see the <a
+    href="https://github.com/shipnow/docs/blob/master/README.md">README</a>
+    first for a brief introduction to how our API works.
   contact:
     name: ShipNow API Team
     email: developers@shipnow.com.ar
@@ -22,7 +24,7 @@ paths:
   /orders:
     get:
       description: |
-        Returns all orders from the system that the user has access to.
+        Returns all orders from the system to which the user has access.
       operationId: findOrders
       parameters:
         - name: status
@@ -87,7 +89,7 @@ paths:
               $ref: '#/definitions/Order'
     post:
       description: |
-        Creates a new Order
+        Creates a new order, and returns it, with it's new id.
       operationId: createOrder
       parameters:
         - $ref: '#/parameters/NewOrder'
@@ -96,35 +98,46 @@ paths:
           description: the created order
           schema:
             $ref: '#/definitions/Order'
-  /pets/{id}:
+  /orders/{id}:
     get:
-      description: Returns a user based on a single ID, if the user does not have access to the pet
-      operationId: find pet by id
+      description: |
+        Returns a order identified by id.
+      operationId: findOrder
       parameters:
         - name: id
           in: path
-          description: ID of pet to fetch
+          description: id of order to fetch
           required: true
           type: integer
           format: int64
       responses:
         200:
-          description: pet response
+          description: order response
           schema:
             $ref: '#/definitions/Order'
     delete:
-      description: deletes a single pet based on the ID supplied
-      operationId: deletePet
+      description: |
+        deletes a single order based on the id supplied
+      operationId: deleteOrder
       parameters:
         - name: id
           in: path
-          description: ID of pet to delete
+          description: id of order to delete
           required: true
           type: integer
           format: int64
       responses:
         204:
-          description: pet deleted
+          description: order deleted
+
+# TODO: ordesr/shipments
+# TODO: products
+# TODO: users
+# TODO: stores
+# TODO: shipping_filters
+# TODO: tracking
+# TODO: ping
+
 securityDefinitions:
   token:
       type: "apiKey"
@@ -183,7 +196,7 @@ parameters:
           type: string
         carrier_code:
           type: string
-        store_id: 
+        store_id:
           type: string
           description: the id of this order's store
         items:
