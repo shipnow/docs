@@ -28,9 +28,23 @@ Authentication is not yet done via OAuth, but a simpler password-based
 mechanism.
 
 Users will provide their username and password, which you will then exchange
-for a `Token` by posting these to `/user/authentication`. This token should be
-included in every request header to operate on behalf of the user (inside the
-`Authorization` header):
+for a `Token` by `POST`ing to `/user/authentication`, using HTTP Basic
+Authentication (as defined in [rfc2617][rfc2617]). This will return the entire
+user object, which contains the user's token:
+
+    {
+        "id": 1,
+        "email": "hugo@barrera.io",
+        "token": "VXyuYdTflB9NY1KUMfcddDcAJeye4vfAv7cZg8m7qDNmhuZ3V6",
+        "type": "human",
+        "description": "Hugo",
+        "role": "admin",
+        "account": {},
+        "avatar_url": null
+    }
+
+This token should be included in every request header to operate on behalf of
+the user, inside the `Authorization` header as follows:
 
     Token token=gNGQNzZ2muAdRKZT3miNccnwYxSrZ6zl2t1B6l6tcHpUw00pok
 
@@ -97,3 +111,4 @@ Copyright (c) 2016 ShipNow SRL <developers@shipnow.com.ar>
 [json]: http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
 [http1.1]: https://tools.ietf.org/html/rfc2616
 [github]: https://github.com/shipnow/docs
+[rfc2617]: https://tools.ietf.org/html/rfc2617#section-2
