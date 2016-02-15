@@ -26,9 +26,11 @@ Authentication
 
 Authentication is not yet done via OAuth, but a simpler password-based
 mechanism.  
+
 Users will provide their username and password, which you will then exchange
-for a `Token`. This token should be included in every request header to operate
-on behalf of the user (inside the `Authorization` header):
+for a `Token` by posting these to `/user/authentication`. This token should be
+included in every request header to operate on behalf of the user (inside the
+`Authorization` header):
 
     Token token=gNGQNzZ2muAdRKZT3miNccnwYxSrZ6zl2t1B6l6tcHpUw00pok
 
