@@ -94,6 +94,9 @@ info:
             ]
         }
 
+    All models also contain `updated_at` and `created_at` fields. They are the
+    last-update and creation times respectively  and cannot be manually edited.
+
     In case of a 4XX or 5XX status code, errors MAY be included in an errors array:
 
         {
