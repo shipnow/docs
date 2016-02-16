@@ -121,6 +121,24 @@ paths:
             $ref: '#/definitions/Order'
         404:
           description: order not found
+    put:
+      description: |
+        Update an existing order. Note that not all fields are editable at all
+        times. Once orders have been packed, items and shipping data cannot be
+        altered. Only certain status transitions are valid.
+      operationId: updateOrder
+      parameters:
+        - name: id
+          in: path
+          description: The id of the order to be updated.
+          required: true
+          type: integer
+        - $ref: '#/parameters/Order'
+      responses:
+        200:
+          description: The updated order.
+          schema:
+            $ref: '#/parameters/Order/schema'
     delete:
       description: |
         deletes a single order based on the id supplied
