@@ -455,10 +455,8 @@ paths:
               - $ref: '#/parameters/User/schema'
 
 # TODO: ordesr/shipments
-# TODO: products
-# TODO: users
 # TODO: stores
-# TODO: shipping_filters
+# TODO: shipping_services
 # TODO: tracking
 
   /ping:
