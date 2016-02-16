@@ -250,15 +250,23 @@ paths:
             allOf:
               - $ref: '#/parameters/User/schema'
 
-
-
 # TODO: ordesr/shipments
 # TODO: products
 # TODO: users
 # TODO: stores
 # TODO: shipping_filters
 # TODO: tracking
-# TODO: ping
+
+  /ping:
+    get:
+      description:
+        Use this endpoint to test connectivity to the ShipNow API, response
+        times, or debug other possible network-related issues.
+      operationId: ping
+      security: []
+      responses:
+        200:
+          description: This endpoint will always return the string "pong".
 
 securityDefinitions:
   token:
