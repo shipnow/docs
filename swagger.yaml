@@ -206,7 +206,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Order'
+              $ref: '#/parameters/Order/schema'
     post:
       description: |
         Creates a new order, and returns it with its new id.
@@ -217,7 +217,7 @@ paths:
         200:
           description: The newly created order.
           schema:
-            $ref: '#/definitions/Order'
+            $ref: '#/parameters/User/schema'
         422:
           description: A list of validation errors.
   /orders/{id}:
@@ -236,7 +236,7 @@ paths:
         200:
           description: An Order.
           schema:
-            $ref: '#/definitions/Order'
+            $ref: '#/parameters/Order/schema'
         404:
           description: Order with given id not found.
     put:
@@ -288,7 +288,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Product'
+              $ref: '#/parameters/Product/schema'
     post:
       description: |
         Creates a new product, and returns it with its new id.
@@ -299,7 +299,7 @@ paths:
         200:
           description: The newly created product
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/parameters/Product/schema'
         422:
           description: A list of validation errors.
   /products/{id}/:
@@ -318,7 +318,7 @@ paths:
         200:
           description: A product.
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/parameters/Product/schema'
         404:
           description: Product with given id not found.
     put:
@@ -580,13 +580,3 @@ parameters:
           type: string
           format: url
           description: The URL to an avatar used to idenfity this user.
-definitions:
-  Order:
-    allOf:
-      - $ref: '#/parameters/Order/schema'
-  NewOrder:
-    allOf:
-      - $ref: '#/parameters/NewOrder/schema'
-  Product:
-    allOf:
-      - $ref: '#/parameters/Product/schema'
