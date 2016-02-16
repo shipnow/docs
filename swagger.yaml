@@ -24,7 +24,9 @@ paths:
   /orders:
     get:
       description: |
-        Returns all orders from the system to which the user has access.
+        Returns all orders from the system to which the user has access. This
+        will generally be all the orders for the account related to the current
+        user.
       operationId: findOrders
       parameters:
         - name: status
@@ -98,6 +100,8 @@ paths:
           description: the created order
           schema:
             $ref: '#/definitions/Order'
+        422:
+          description: a list of errors
   /orders/{id}:
     get:
       description: |
@@ -115,6 +119,8 @@ paths:
           description: order response
           schema:
             $ref: '#/definitions/Order'
+        404:
+          description: order not found
     delete:
       description: |
         deletes a single order based on the id supplied
