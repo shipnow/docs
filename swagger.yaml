@@ -108,6 +108,35 @@ info:
     We adhere quite closely to [HTTP 1.1][http1.1], with one exception: When data
     validation fails, we will return a 422 status code.
 
+    Webhooks
+    --------
+
+    You can receive notifications in your app when certain event occur. For now,
+    the only available notification is order creation/update.
+
+    Notifications are delivered via webhooks, which you can configure by
+    setting the `webhook_url` to your account (see the `/account` documentation
+    below).
+
+    Webhook notifications will be delivered by `POST`ing data about the event
+    with the following format:
+
+        {
+          "account": 1,
+          "topic": "order/created",
+          "resource_id": 1
+        }
+
+     * `account` is the account for which this notification applies.  This will
+        only be relevant to you if your application handles multiple ShipNow
+        accounts.
+     * `topic` describes the event, and is composed of `model:event`. `event`
+       can be either `created` or `updated`, and model can only be `order`
+       (This WILL change in future, so don't blindly assume it's always
+       `order`!
+     * `resources_id` is the `id` of the model which fired this notification
+       (eg: the id of the order that has been created).
+
     Contributing
     ------------
 
