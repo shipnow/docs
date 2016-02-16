@@ -409,6 +409,8 @@ parameters:
         external_reference:
           type: string
           description: A free-form text to later find and search this order.
+        comment:
+          type: string
         ship_to:
           type: object
           required:
@@ -443,44 +445,23 @@ parameters:
               type: string
             email:
               type: string
-        comment:
-          type: string
-        service_code:
-          type: string
-        carrier_code:
-          type: string
+        shipping_options:
+          type: object
+          required:
+            - service_code
+            - carrier_code
+          properties:
+            service_code:
+              type: string
+            carrier_code:
+              type: string
         store_id:
           type: string
-          description: the id of this order's store
-        items:
-          type: array
-          description: The items (products) that this order contains.
-          items:
-            - type: object
-              required:
-              - product_id
-              - quantity
-              properties:
-                product_id:
-                  description: The id of a product. See /products.
-                  type: integer
-                quantity:
-                  description: The amount of these items that this order contains.
-                  type: integer
-        status:
+          description: The id of this order's store.
+        store_type:
           type: string
-          enum:
-           - awaiting_payment
-           - on_hold
-           - awaiting_shipment
-           - ready_to_pick
-  Order:
-    name: order
-    in: body
-    schema:
-      allOf:
-        - $ref: '#/parameters/NewOrder/schema'
-      properties:
+          description: The store_type for this order's store.
+          readOnly: true
         status:
           type: string
           example: "awating_payment"
@@ -498,6 +479,43 @@ parameters:
            - picking_list
            - ready_to_pack
            - ready_to_ship
+        items:
+          type: array
+          description: The items (products) included in this order.
+          items:
+            - type: object
+              required:
+              - id
+              - quantity
+              properties:
+                id:
+                  description: The id of a product. See /products.
+                  type: integer
+                external_reference:
+                  type: string
+                  description: The product's external_reference.
+                  readOnly: true
+                quantity:
+                  description: The amount of this product that this order contains.
+                  type: integer
+                unit_price:
+                  description: This product's price (per unit).
+                  readOnly: true
+                  type: number
+                title:
+                  description: The product's title
+                  type: string
+                image_url:
+                  description: Ths product's image_url.
+                  type: string
+        #shipments
+  Order:
+    name: order
+    in: body
+    schema:
+      allOf:
+        - $ref: '#/parameters/NewOrder/schema'
+      properties:
         id:
           readOnly: true
           type: integer
@@ -509,7 +527,6 @@ parameters:
       required:
         - external_reference
         - title
-        # XXX: location?
       properties:
         external_reference:
           type: string
@@ -517,6 +534,9 @@ parameters:
         title:
           type: string
           description: A name for this product. This is free-form text, and is only used for display purposes.
+        stock:
+          type: number
+          description: Remaining stock for this product
         price:
           type: number
           description: This product's price. Insurance coverage will be based on this price.
@@ -527,18 +547,17 @@ parameters:
           type: string
           format: url
           description: A URL to an image that visually identifies this product.
-        weight:
-          type: number
-        height:
-          type: number
-        length:
-          type: number
-        width:
-          type: number
-        # location?
-        stock:
-          type: integer
-          description: The remaining stock for this product.
+        dimensions:
+          type: object
+          properties:
+            weight:
+              type: number
+            height:
+              type: number
+            length:
+              type: number
+            width:
+              type: number
         extra_data:
           type: object
           description: A free-form JSON field where custom data can be stored for each product.
