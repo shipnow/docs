@@ -91,22 +91,22 @@ paths:
               $ref: '#/definitions/Order'
     post:
       description: |
-        Creates a new order, and returns it, with it's new id.
+        Creates a new order, and returns it with its new id.
       operationId: createOrder
       parameters:
         - $ref: '#/parameters/NewOrder'
       responses:
         200:
-          description: the created order
+          description: The newly created order.
           schema:
             $ref: '#/definitions/Order'
         422:
-          description: a list of errors
+          description: A list of validation errors.
   /orders/{id}:
     get:
       description: |
-        Returns a order identified by id.
-      operationId: findOrder
+        Returns an order identified by id.
+      operationId: getOrder
       parameters:
         - name: id
           in: path
@@ -116,11 +116,11 @@ paths:
           format: int64
       responses:
         200:
-          description: order response
+          description: An Order.
           schema:
             $ref: '#/definitions/Order'
         404:
-          description: order not found
+          description: Order with given id not found.
     put:
       description: |
         Update an existing order. Note that not all fields are editable at all
@@ -141,12 +141,12 @@ paths:
             $ref: '#/parameters/Order/schema'
     delete:
       description: |
-        deletes a single order based on the id supplied
+        Deletes a single order based on the id supplied.
       operationId: deleteOrder
       parameters:
         - name: id
           in: path
-          description: id of order to delete
+          description: The id of order to delete.
   /products:
     get:
       description: |
