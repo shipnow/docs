@@ -2,7 +2,7 @@ ShipNow API
 ===========
 
 ShipNow exposes it's information using RESTful interface. Detailed
-documentation of every endpoint is available [here][swagger].
+documentation of every endpoint is available [here][apiary].
 
 Making requests
 ---------------
@@ -115,7 +115,7 @@ the underlying issue).
 
 Copyright (c) 2016 ShipNow SRL <developers@shipnow.com.ar>
 
-[swagger]: https://docs.shipnow.com.ar/swagger/
+[apiary]: http://docs.shipnow.apiary.io/
 [json]: http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
 [http1.1]: https://tools.ietf.org/html/rfc2616
 [github]: https://github.com/shipnow/docs
