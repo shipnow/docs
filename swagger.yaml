@@ -147,6 +147,12 @@ paths:
         - name: id
           in: path
           description: The id of order to delete.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Order deleted.
   /products:
     get:
       description: |
@@ -276,6 +282,7 @@ parameters:
       properties:
         external_reference:
           type: string
+          description: A free-form text to later find and search this order.
         ship_to:
           type: object
           required:
