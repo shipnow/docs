@@ -129,6 +129,24 @@ paths:
       responses:
         204:
           description: order deleted
+  /users/authentication:
+    post:
+      description: |
+        Authenticates a user and returns an API-compatible token.
+        Implementations should provide the username and password using HTTP
+        Basic Auth (as defined in RFC2617).
+      operationId: authenticateUser
+      security:
+        - auth: []
+      responses:
+        200:
+          description: the user object
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/parameters/User/schema'
+
+
 
 # TODO: ordesr/shipments
 # TODO: products
@@ -140,9 +158,13 @@ paths:
 
 securityDefinitions:
   token:
-      type: "apiKey"
-      name: "Authorization"
-      in: "header"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+    description: Used for all non-public endpoints.
+  auth:
+    type: "basic"
+    description: Used to obtain a per-user token.
 parameters:
   NewOrder:
     in: body
@@ -243,6 +265,34 @@ parameters:
         id:
           readOnly: true
           type: integer
+  User:
+    name: user
+    in: body
+    schema:
+      properties:
+        id:
+          description: The unique id.
+        email:
+          type: string
+          example: "alice@example.com"
+        token:
+          type: string
+          example: biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH
+          description: The API token.
+        description:
+          type: string
+          description: A free-form description for this user.
+        role:
+          type: string
+          enum:
+            - regular
+            - admin
+            - shipnow
+        # TODO: account:
+        avatar_url:
+          type: string
+          format: url
+          description: The URL to an avatar used to idenfity this user.
 definitions:
   Order:
     allOf:
