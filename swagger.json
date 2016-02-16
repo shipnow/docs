@@ -1,0 +1,997 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Shipnow API",
+        "description": "ShipNow exposes it's information using RESTful interface. Detailed\ndocumentation of every endpoint is available below.\n\nMaking requests\n---------------\n\n * Our production API is hosted at https://api.shipnow.com.ar.\n * Our testing API is hosted at https://api-staging.shipnow.com.ar.\n\nIf you need to test your clients, feel free to pollute the testing API with\ntest data, though keep in mind that it will be cleared every few hours.\n\nOn occasions, testing may diverge slightly from production. This should not\nlast long, since we generally deploy to one and quickly to the other. If you\nfind such discrepancies, don't worry, since they should quickly propagate to\nproduction.\n\nBoth APIs use HTTPS (ie: HTTP + TLS) exclusively. You MUST NOT attempt to reach\nthem using raw HTTP.\n\nAuthentication\n--------------\n\nAuthentication is not yet done via OAuth, but a simpler password-based\nmechanism.\n\nUsers will provide their username and password, which you will then exchange\nfor a `Token` by `POST`ing to `/user/authentication`, using HTTP Basic\nAuthentication (as defined in [rfc2617][rfc2617]). This will return the entire\nuser object, which contains the user's token:\n\n    {\n        \"id\": 1,\n        \"email\": \"hugo@barrera.io\",\n        \"token\": \"VXyuYdTflB9NY1KUMfcddDcAJeye4vfAv7cZg8m7qDNmhuZ3V6\",\n        \"type\": \"human\",\n        \"description\": \"Hugo\",\n        \"role\": \"admin\",\n        \"account\": {},\n        \"avatar_url\": null\n    }\n\nThis token should be included in every request header to operate on behalf of\nthe user, inside the `Authorization` header, as follows:\n\n    Token token=gNGQNzZ2muAdRKZT3miNccnwYxSrZ6zl2t1B6l6tcHpUw00pok\n\nYou SHOULD NOT store user's username or password. You should only store the\nprovided token.\n\nAccounts vs Users\n-----------------\n\nEach client has a single account, which in turn, has multiple users. An account\nwill hold all orders and products for that client, which all users of that\naccount can access (with different access levels).\n\nEach account can have as many users as they need.  Additional users can be\ncreated via the API or the sellers interface.\n\nAccess Levels\n-------------\n\nUsers can have three access levels:\n\n * ShipNow: These are internal account, that can access data for all clients,\n   and are used internally when actually moving products around.\n   You will generally never see these user types unless you're deploying\n   the ShipNow app for your own warehouse.\n * Administrator: These are the top-level users for each account, and can\n   create other users, as well as a few more special actions.\n * Regular: These are the lower-level users, which can create/edit orders,\n   product, and use other day-to-day interfaces.\n   Bot accounts should generally also be regular users.\n\nData\n----\n\nAll data is sent and received using [JSON][json]. Request data will be\ncontained inside a `results` object:\n\n    {\n        \"results\": [\n           {\n              \"id\": 1,\n              \"name\": \"sample object 1\",\n              \"created_at\": \"2017-12-14T15:42:12.898Z\"\n           }\n        ]\n    }\n\nAll models also contain `updated_at` and `created_at` fields. They are the\nlast-update and creation times respectively  and cannot be manually edited.\n\nIn case of a 4XX or 5XX status code, errors MAY be included in an errors array:\n\n    {\n        \"errors\": [\n            \"Access Denied\"\n        ]\n    }\n\nWe adhere quite closely to [HTTP 1.1][http1.1], with one exception: When data\nvalidation fails, we will return a 422 status code.\n\nWebhooks\n--------\n\nYou can receive notifications in your app when certain event occur. For now,\nthe only available notification is order creation/update.\n\nNotifications are delivered via webhooks, which you can configure by\nsetting the `webhook_url` to your account (see the `/account` documentation\nbelow).\n\nWebhook notifications will be delivered by `POST`ing data about the event\nwith the following format:\n\n    {\n      \"account\": 1,\n      \"topic\": \"order/created\",\n      \"resource_id\": 1\n    }\n\n * `account` is the account for which this notification applies.  This will\n    only be relevant to you if your application handles multiple ShipNow\n    accounts.\n * `topic` describes the event, and is composed of `model:event`. `event`\n   can be either `created` or `updated`, and model can only be `order`\n   (This WILL change in future, so don't blindly assume it's always\n   `order`!\n * `resources_id` is the `id` of the model which fired this notification\n   (eg: the id of the order that has been created).\n\nContributing\n------------\n\nThis documentation is hosted publicly at [GitHub][github].  If you find any\nerror or room for improvement, feel free to send a contribution.\n\nIf you encounter any undocumented behaviours, or bugs in the API, please open an\nissue in this project's issue tracker. We'll update the documentation (or fix\nthe underlying issue).\n\nCopyright (c) 2016 ShipNow SRL <developers@shipnow.com.ar>\n\n[json]: http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf\n[http1.1]: https://tools.ietf.org/html/rfc2616\n[github]: https://github.com/shipnow/docs\n[rfc2617]: https://tools.ietf.org/html/rfc2617#section-2\n",
+        "contact": {
+            "name": "ShipNow API Team",
+            "email": "developers@shipnow.com.ar",
+            "url": "https://www.shipnow.com.ar"
+        }
+    },
+    "host": "api-staging.shipnow.com.ar",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "security": [
+        {
+            "token": []
+        }
+    ],
+    "paths": {
+        "/orders": {
+            "get": {
+                "description": "Returns all orders from the system to which the user has access. This\nwill generally be all the orders for the account related to the current\nuser.\n",
+                "operationId": "findOrders",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "filter by status",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "date_from",
+                        "in": "query",
+                        "description": "exclude orders created before this date",
+                        "required": false,
+                        "type": "string",
+                        "format": "date"
+                    },
+                    {
+                        "name": "date_to",
+                        "in": "query",
+                        "description": "exclude orders created after this date",
+                        "required": false,
+                        "type": "string",
+                        "format": "date"
+                    },
+                    {
+                        "name": "status_detail",
+                        "in": "query",
+                        "description": "filter by status_detail",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "external_reference",
+                        "in": "query",
+                        "description": "find order with this external_reference",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "carrier_code",
+                        "in": "query",
+                        "description": "filter by carrier_code",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "store_id",
+                        "in": "query",
+                        "description": "filter by store",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sku",
+                        "in": "query",
+                        "description": "filter orders with the product with this sku",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "tracking_number",
+                        "in": "query",
+                        "description": "find order with this tracking_number",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "a list of orders",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/parameters/Order/schema"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Creates a new order, and returns it with its new id.\n",
+                "operationId": "createOrder",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/NewOrder"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The newly created order.",
+                        "schema": {
+                            "$ref": "#/parameters/User/schema"
+                        }
+                    },
+                    "422": {
+                        "description": "A list of validation errors."
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "description": "Returns an order identified by id.\n",
+                "operationId": "getOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of order to fetch",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An Order.",
+                        "schema": {
+                            "$ref": "#/parameters/Order/schema"
+                        }
+                    },
+                    "404": {
+                        "description": "Order with given id not found."
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing order. Note that not all fields are editable at all\ntimes. Once orders have been packed, items and shipping data cannot be\naltered. Only certain status transitions are valid.\n",
+                "operationId": "updateOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of the order to be updated.",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "$ref": "#/parameters/Order"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The updated order.",
+                        "schema": {
+                            "$ref": "#/parameters/Order/schema"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a single order based on the id supplied.\n",
+                "operationId": "deleteOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of order to delete.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Order deleted."
+                    }
+                }
+            }
+        },
+        "/order/{orderId}/shipments": {
+            "get": {
+                "description": "Returns the shipment for this order. Older orders MAY have more than\none shipment if they were returned.\n",
+                "operationId": "findShipments",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "description": "The id of the order for which this shipment applies.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of shipments",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/parameters/Shipment/schema"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Order with given orderId not found."
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "description": "Returns all the products to which the user has access.\n",
+                "operationId": "findProducts",
+                "parameters": [
+                    {
+                        "name": "external_reference",
+                        "in": "query",
+                        "description": "Filter by this external_reference.",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of zero or more products.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/parameters/Product/schema"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Creates a new product, and returns it with its new id.\n",
+                "operationId": "createProduct",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/NewProduct"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The newly created product",
+                        "schema": {
+                            "$ref": "#/parameters/Product/schema"
+                        }
+                    },
+                    "422": {
+                        "description": "A list of validation errors."
+                    }
+                }
+            }
+        },
+        "/products/{id}/": {
+            "get": {
+                "description": "Returns a product identified by id.\n",
+                "operationId": "getProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of the product to fetch.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A product.",
+                        "schema": {
+                            "$ref": "#/parameters/Product/schema"
+                        }
+                    },
+                    "404": {
+                        "description": "Product with given id not found."
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing product.\n",
+                "operationId": "updateProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of the product to be updated.",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "$ref": "#/parameters/Product"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The updated product.",
+                        "schema": {
+                            "$ref": "#/parameters/Product/schema"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a single product based on the id supplied.\n",
+                "operationId": "deleteProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of product to delete.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Product deleted."
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "Returns all users for the current user's account.\n",
+                "operationId": "findUsers",
+                "responses": {
+                    "200": {
+                        "description": "An array of User objects",
+                        "schema": {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "$ref": "#/parameters/User/schema"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Creates a new user for this account.\n\nNote that the calling user requires `admin` priviledges for this call\nto work (ie: `user.type` must be equal to `admin`)\n",
+                "operationId": "createUser",
+                "responses": {
+                    "200": {
+                        "description": "The newly created User.",
+                        "schema": {
+                            "$ref": "#/parameters/User/schema"
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied to user creation."
+                    },
+                    "422": {
+                        "description": "A list of validation errors."
+                    }
+                }
+            }
+        },
+        "/users/{id}/": {
+            "get": {
+                "description": "Returns a user identified by id.\n",
+                "operationId": "getUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of the user to fetch.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A user.",
+                        "schema": {
+                            "$ref": "#/parameters/User/schema"
+                        }
+                    },
+                    "404": {
+                        "description": "User with given id not found."
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing User.\n\nUsers of type `admin` can update all users for an account. `regular`\nusers can only edit themselves.\n",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of the User to be updated.",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "$ref": "#/parameters/User"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The updated User.",
+                        "schema": {
+                            "$ref": "#/parameters/User/schema"
+                        }
+                    },
+                    "403": {
+                        "description": "Current User cannot modify target User."
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a single User based on the id supplied.\n\nOnly users of type `admin` can call this endpoint.\n",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of User to delete.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User deleted."
+                    },
+                    "403": {
+                        "description": "Current User cannot delete target User."
+                    }
+                }
+            }
+        },
+        "/users/authentication": {
+            "post": {
+                "description": "Authenticates a user and returns an API-compatible token.\nImplementations should provide the username and password using HTTP\nBasic Auth (as defined in RFC2617).\n",
+                "operationId": "authenticateUser",
+                "security": [
+                    {
+                        "auth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "the user object",
+                        "schema": {
+                            "type": "object",
+                            "allOf": [
+                                {
+                                    "$ref": "#/parameters/User/schema"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts": {
+            "get": {
+                "description": "Returns all accounts to which the user has access - this will almost\nalways be just the user's account.\n",
+                "operationId": "findAccount",
+                "responses": {
+                    "200": {
+                        "description": "An array of Account objects",
+                        "schema": {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "$ref": "#/parameters/Account/schema"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/{id}": {
+            "put": {
+                "description": "Update an account.\nOnly `admin`-type users can update accounts, and they can only update\ntheir own.\n",
+                "operationId": "updateAccount",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of the Account to be updated.",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "$ref": "#/parameters/Account"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The updated Account.",
+                        "schema": {
+                            "$ref": "#/parameters/Account/schema"
+                        }
+                    },
+                    "403": {
+                        "description": "Current User cannot modify target Account."
+                    }
+                }
+            }
+        },
+        "/ping": {
+            "get": {
+                "description": "Use this endpoint to test connectivity to the ShipNow API, response times, or debug other possible network-related issues.",
+                "operationId": "ping",
+                "security": [],
+                "responses": {
+                    "200": {
+                        "description": "This endpoint will always return the string \"pong\"."
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "token": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "Used for all non-public endpoints."
+        },
+        "auth": {
+            "type": "basic",
+            "description": "Used to obtain a per-user token."
+        }
+    },
+    "parameters": {
+        "NewOrder": {
+            "in": "body",
+            "name": "order",
+            "schema": {
+                "type": "object",
+                "required": [
+                    "external_reference",
+                    "ship_to",
+                    "items"
+                ],
+                "properties": {
+                    "external_reference": {
+                        "type": "string",
+                        "description": "A free-form text to later find and search this order."
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "ship_to": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "last_name",
+                            "zip_code",
+                            "address_line",
+                            "city",
+                            "email"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "last_name": {
+                                "type": "string"
+                            },
+                            "phone": {
+                                "type": "string"
+                            },
+                            "zip_code": {
+                                "type": "integer"
+                            },
+                            "address_line": {
+                                "type": "string"
+                            },
+                            "street_name": {
+                                "type": "string"
+                            },
+                            "street_number": {
+                                "type": "string"
+                            },
+                            "unit": {
+                                "type": "string"
+                            },
+                            "floot": {
+                                "type": "string"
+                            },
+                            "city": {
+                                "type": "string"
+                            },
+                            "state": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "shipping_options": {
+                        "type": "object",
+                        "required": [
+                            "service_code",
+                            "carrier_code"
+                        ],
+                        "properties": {
+                            "service_code": {
+                                "type": "string"
+                            },
+                            "carrier_code": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "store_id": {
+                        "type": "string",
+                        "description": "The id of this order's store."
+                    },
+                    "store_type": {
+                        "type": "string",
+                        "description": "The store_type for this order's store.",
+                        "readOnly": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "awating_payment",
+                        "enum": [
+                            "awaiting_payment",
+                            "on_hold",
+                            "cancelled",
+                            "awaiting_shipment",
+                            "filtered",
+                            "shipped",
+                            "not_delivered",
+                            "delivered",
+                            "return",
+                            "ready_to_pick",
+                            "picking_list",
+                            "ready_to_pack",
+                            "ready_to_ship"
+                        ]
+                    },
+                    "items": {
+                        "type": "array",
+                        "description": "The items (products) included in this order.",
+                        "items": [
+                            {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "description": "The id of a product. See /products.",
+                                        "type": "integer"
+                                    },
+                                    "external_reference": {
+                                        "type": "string",
+                                        "description": "The product's external_reference.",
+                                        "readOnly": true
+                                    },
+                                    "quantity": {
+                                        "description": "The amount of this product that this order contains.",
+                                        "type": "integer"
+                                    },
+                                    "unit_price": {
+                                        "description": "This product's price (per unit).",
+                                        "readOnly": true,
+                                        "type": "number"
+                                    },
+                                    "title": {
+                                        "description": "The product's title",
+                                        "type": "string"
+                                    },
+                                    "image_url": {
+                                        "description": "Ths product's image_url.",
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "Order": {
+            "name": "order",
+            "in": "body",
+            "schema": {
+                "allOf": [
+                    {
+                        "$ref": "#/parameters/NewOrder/schema"
+                    }
+                ],
+                "properties": {
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "Shipment": {
+            "in": "body",
+            "name": "shipment",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "order_id": {
+                        "type": "integer"
+                    },
+                    "speed_shipping": {
+                        "type": "string"
+                    },
+                    "speed_handling": {
+                        "type": "string"
+                    },
+                    "estimated_handling": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "estimated_delivery": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "shipping_price": {
+                        "type": "number"
+                    },
+                    "insurance_price": {
+                        "type": "number"
+                    },
+                    "tracking_number": {
+                        "type": "string"
+                    },
+                    "external_reference": {
+                        "type": "string"
+                    },
+                    "shipped_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "delivered_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "prepared_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "last_mile_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "not_delivered_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "carrier_code": {
+                        "type": "string"
+                    },
+                    "service_code": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "PAS",
+                            "PAP"
+                        ]
+                    }
+                }
+            }
+        },
+        "NewProduct": {
+            "in": "body",
+            "name": "product",
+            "schema": {
+                "type": "object",
+                "required": [
+                    "external_reference",
+                    "title"
+                ],
+                "properties": {
+                    "external_reference": {
+                        "type": "string",
+                        "description": "A free-form text to later find and search this product."
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "A name for this product. This is free-form text, and is only used for display purposes."
+                    },
+                    "stock": {
+                        "type": "number",
+                        "description": "Remaining stock for this product"
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "This product's price. Insurance coverage will be based on this price."
+                    },
+                    "currency": {
+                        "type": "string",
+                        "description": "The currency for this product's price. Should be ARS, for now."
+                    },
+                    "image_url": {
+                        "type": "string",
+                        "format": "url",
+                        "description": "A URL to an image that visually identifies this product."
+                    },
+                    "dimensions": {
+                        "type": "object",
+                        "properties": {
+                            "weight": {
+                                "type": "number"
+                            },
+                            "height": {
+                                "type": "number"
+                            },
+                            "length": {
+                                "type": "number"
+                            },
+                            "width": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "extra_data": {
+                        "type": "object",
+                        "description": "A free-form JSON field where custom data can be stored for each product."
+                    }
+                }
+            }
+        },
+        "Product": {
+            "name": "product",
+            "in": "body",
+            "schema": {
+                "allOf": [
+                    {
+                        "$ref": "#/parameters/NewProduct/schema"
+                    }
+                ],
+                "properties": {
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "User": {
+            "name": "user",
+            "in": "body",
+            "schema": {
+                "properties": {
+                    "id": {
+                        "description": "The unique id."
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "alice@example.com"
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH",
+                        "description": "The API token."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A free-form description for this user."
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "regular",
+                            "admin",
+                            "shipnow"
+                        ]
+                    },
+                    "avatar_url": {
+                        "type": "string",
+                        "format": "url",
+                        "description": "The URL to an avatar used to idenfity this user."
+                    }
+                }
+            }
+        },
+        "Account": {
+            "name": "account",
+            "in": "body",
+            "schema": {
+                "properties": {
+                    "id": {
+                        "readOnly": true,
+                        "description": "The unique id."
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "alice@example.com"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "company_name": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "object",
+                        "properties": {
+                            "postal_code": {
+                                "type": "string"
+                            },
+                            "address_line": {
+                                "type": "string"
+                            },
+                            "street_name": {
+                                "type": "string"
+                            },
+                            "street_number": {
+                                "type": "string"
+                            },
+                            "unit": {
+                                "type": "string"
+                            },
+                            "floor": {
+                                "type": "string"
+                            },
+                            "city": {
+                                "type": "string"
+                            },
+                            "state": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH"
+                    },
+                    "image_url": {
+                        "type": "string",
+                        "format": "url",
+                        "description": "The URL to an image used to idenfity this account."
+                    },
+                    "webhook_url": {
+                        "type": "string",
+                        "format": "url",
+                        "description": "The URL where webhooks notifications are sent to. See the\ndocumentation on webhooks for more details.\n"
+                    }
+                }
+            }
+        }
+    }
+}
