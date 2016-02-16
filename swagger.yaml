@@ -327,15 +327,20 @@ parameters:
           type: string
           description: the id of this order's store
         items:
-          type: object
-          required:
-            - product_id
-            - quantity
-          properties:
-            product_id:
-              type: integer
-            quantity:
-              type: integer
+          type: array
+          description: The items (products) that this order contains.
+          items:
+            - type: object
+              required:
+              - product_id
+              - quantity
+              properties:
+                product_id:
+                  description: The id of a product. See /products.
+                  type: integer
+                quantity:
+                  description: The amount of these items that this order contains.
+                  type: integer
         status:
           type: string
           enum:
