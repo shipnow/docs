@@ -351,6 +351,92 @@ paths:
       responses:
         204:
           description: Product deleted.
+  /users:
+    get:
+      description: |
+        Returns all users for the current user's account.
+      operationId: findUsers
+      responses:
+        200:
+          description: An array of User objects
+          schema:
+            type: array
+            items:
+              - $ref: '#/parameters/User/schema'
+    post:
+      description: |
+        Creates a new user for this account.
+
+        Note that the calling user requires `admin` priviledges for this call
+        to work (ie: `user.type` must be equal to `admin`)
+      operationId: createUser
+      responses:
+        200:
+          description: The newly created User.
+          schema:
+            $ref: '#/parameters/User/schema'
+        403:
+          description: Access denied to user creation.
+        422:
+          description: A list of validation errors.
+  /users/{id}/:
+    get:
+      description: |
+        Returns a user identified by id.
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user to fetch.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: A user.
+          schema:
+            $ref: '#/parameters/User/schema'
+        404:
+          description: User with given id not found.
+    put:
+      description: |
+        Update an existing User.
+
+        Users of type `admin` can update all users for an account. `regular`
+        users can only edit themselves.
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          description: The id of the User to be updated.
+          required: true
+          type: integer
+        - $ref: '#/parameters/User'
+      responses:
+        200:
+          description: The updated User.
+          schema:
+            $ref: '#/parameters/User/schema'
+        403:
+          description: Current User cannot modify target User.
+    delete:
+      description: |
+        Delete a single User based on the id supplied.
+
+        Only users of type `admin` can call this endpoint.
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: The id of User to delete.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: User deleted.
+        403:
+          description: Current User cannot delete target User.
   /users/authentication:
     post:
       description: |
