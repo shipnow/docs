@@ -453,6 +453,40 @@ paths:
             type: object
             allOf:
               - $ref: '#/parameters/User/schema'
+  /accounts:
+    get:
+      description: |
+        Returns all accounts to which the user has access - this will almost
+        always be just the user's account.
+      operationId: findAccount
+      responses:
+        200:
+          description: An array of Account objects
+          schema:
+            type: array
+            items:
+              - $ref: '#/parameters/Account/schema'
+  /accounts/{id}:
+    put:
+      description: |
+        Update an account.
+        Only `admin`-type users can update accounts, and they can only update
+        their own.
+      operationId: updateAccount
+      parameters:
+        - name: id
+          in: path
+          description: The id of the Account to be updated.
+          required: true
+          type: integer
+        - $ref: '#/parameters/Account'
+      responses:
+        200:
+          description: The updated Account.
+          schema:
+            $ref: '#/parameters/Account/schema'
+        403:
+          description: Current User cannot modify target Account.
 
 # TODO: ordesr/shipments
 # TODO: stores
@@ -683,3 +717,55 @@ parameters:
           type: string
           format: url
           description: The URL to an avatar used to idenfity this user.
+  Account:
+    name: account
+    in: body
+    schema:
+      properties:
+        id:
+          readOnly: true
+          description: The unique id.
+        email:
+          type: string
+          example: "alice@example.com"
+        name:
+          type: string
+        last_name:
+          type: string
+        company_name:
+          type: string
+        phone:
+          type: string
+        address:
+          type: object
+          properties:
+            postal_code:
+              type: string
+            address_line:
+              type: string
+            street_name:
+              type: string
+            street_number:
+              type: string
+            unit:
+              type: string
+            floor:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+        # TODO: Stores
+        token:
+          type: string
+          example: biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH
+        image_url:
+          type: string
+          format: url
+          description: The URL to an image used to idenfity this account.
+        webhook_url:
+          type: string
+          format: url
+          description: |
+            The URL where webhooks notifications are sent to. See the
+            documentation on webhooks for more details.
