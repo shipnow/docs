@@ -129,12 +129,86 @@ paths:
         - name: id
           in: path
           description: id of order to delete
+  /products:
+    get:
+      description: |
+        Returns all the products to which the user has access.
+      operationId: findProducts
+      parameters:
+        - name: external_reference
+          in: query
+          description: Filter by this external_reference.
+          required: false
+          type: string
+      responses:
+        200:
+          description: A list of zero or more products.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+    post:
+      description: |
+        Creates a new product, and returns it with its new id.
+      operationId: createProduct
+      parameters:
+        - $ref: '#/parameters/NewProduct'
+      responses:
+        200:
+          description: The newly created product
+          schema:
+            $ref: '#/definitions/Product'
+        422:
+          description: A list of validation errors.
+  /products/{id}/:
+    get:
+      description: |
+        Returns a product identified by id.
+      operationId: getProduct
+      parameters:
+        - name: id
+          in: path
+          description: The id of the product to fetch.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: A product.
+          schema:
+            $ref: '#/definitions/Product'
+        404:
+          description: Product with given id not found.
+    put:
+      description: |
+        Update an existing product.
+      operationId: updateProduct
+      parameters:
+        - name: id
+          in: path
+          description: The id of the product to be updated.
+          required: true
+          type: integer
+        - $ref: '#/parameters/Product'
+      responses:
+        200:
+          description: The updated product.
+          schema:
+            $ref: '#/parameters/Product/schema'
+    delete:
+      description: |
+        Delete a single product based on the id supplied.
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          description: The id of product to delete.
           required: true
           type: integer
           format: int64
       responses:
         204:
-          description: order deleted
+          description: Product deleted.
   /users/authentication:
     post:
       description: |
@@ -271,6 +345,57 @@ parameters:
         id:
           readOnly: true
           type: integer
+  NewProduct:
+    in: body
+    name: product
+    schema:
+      type: object
+      required:
+        - external_reference
+        - title
+        # XXX: location?
+      properties:
+        external_reference:
+          type: string
+          description: A free-form text to later find and search this product.
+        title:
+          type: string
+          description: A name for this product. This is free-form text, and is only used for display purposes.
+        price:
+          type: number
+          description: This product's price. Insurance coverage will be based on this price.
+        currency:
+          type: string
+          description: The currency for this product's price. Should be ARS, for now.
+        image_url:
+          type: string
+          format: url
+          description: A URL to an image that visually identifies this product.
+        weight:
+          type: number
+        height:
+          type: number
+        length:
+          type: number
+        width:
+          type: number
+        # location?
+        stock:
+          type: integer
+          description: The remaining stock for this product.
+        extra_data:
+          type: object
+          description: A free-form JSON field where custom data can be stored for each product.
+  Product:
+    name: product
+    in: body
+    schema:
+      allOf:
+        - $ref: '#/parameters/NewProduct/schema'
+      properties:
+        id:
+          readOnly: true
+          type: integer
   User:
     name: user
     in: body
@@ -306,3 +431,6 @@ definitions:
   NewOrder:
     allOf:
       - $ref: '#/parameters/NewOrder/schema'
+  Product:
+    allOf:
+      - $ref: '#/parameters/Product/schema'
