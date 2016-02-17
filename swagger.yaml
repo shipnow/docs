@@ -613,6 +613,37 @@ paths:
         204:
           description: Store deleted.
 
+  /shipping_services:
+    get:
+      description: |
+        Returns all shipping services.
+      operationId: findShippingServices
+      responses:
+        200:
+          description: An array of ShippingServices
+          schema:
+            type: array
+            items:
+              $ref: '#/parameters/ShippingService/schema'
+  /shipping_services/{id}:
+    get:
+      description: |
+        Returns the ShippingService identified by id.
+      operationId: getShippingService
+      parameters:
+        - name: id
+          in: path
+          description: The id of ShippingService to fetch.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: A ShippingService.
+          schema:
+            $ref: '#/parameters/ShippingService/schema'
+        404:
+          description: A ShippingService with the given id not found.
 
 
 # TODO: shipping_services
@@ -986,3 +1017,56 @@ parameters:
           readOnly: true
           description: A unique id.
           example: 12
+  ShippingService:
+    in: body
+    name: shippingService
+    schema:
+      type: object
+      properties:
+        id:
+          description: A unique id.
+          example: 1
+          type: integer
+        code:
+          description: |
+            A unique code for this shipping service. It should be more
+            readable than the id, and will usually be returned when referencing
+            shipping services.
+          type: string
+          example: motonorte
+        min_zip_code:
+          description: |
+            Indicates that this shipping service only operates in areas with
+            zipcode greater than this value.
+          type: integer
+          example: 1000
+        max_zip_code:
+          description: |
+            Indicates that this shipping service only operates in areas with
+            zipcode less than this value.
+          type: integer
+          example: 9999
+        carrier:
+          type: object
+          description: Information about the carrier that provides this shipping service.
+          properties:
+            id:
+              description: The carrier's unique id.
+              type: integer
+              example: 1
+            code:
+              description: |
+                A unique code for this carrier. It should be more readable than
+                the id, and will usually be returned when referencing carrier.
+              type: string
+              example: ups
+            name:
+              description: A friendly name for this carrier.
+              type: string
+              example: UPS
+            description:
+              description: |
+                A free-form text field that give some information about this
+                shipping carrier.
+              type: string
+              example: Does worldwide door-to-door shipping
