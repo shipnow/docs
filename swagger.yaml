@@ -128,6 +128,21 @@ info:
     We adhere quite closely to [HTTP 1.1][http1.1], with one exception: When data
     validation fails, we will return a 422 status code.
 
+    Pagination
+    ----------
+
+    By default, all endpoints will return at most the first twenty elements
+    inside the `results` array. To obtain other elements include the `page`
+    query parameter, eg:
+
+        https://api.shipnow.com.ar/orders?page=2
+
+    The link to the next and last pages can be found in the `Link` HTTP headers:
+
+       <https://api-staging.shipnow.com.ar/orders?page=20>; rel="last", <https://api-staging.shipnow.com.ar/orders?page=2>; rel="next"
+
+    Page indexes are 1-based, meaning that the first pages is one, and NOT zero.
+
     Webhooks
     --------
 
