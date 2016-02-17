@@ -300,6 +300,28 @@ paths:
       responses:
         204:
           description: Order deleted.
+  /order/{orderId}/shipments:
+    get:
+      description: |
+        Returns the shipment for this order. Older orders MAY have more than
+        one shipment if they were returned.
+      operationId: findShipments
+      parameters:
+        - name: orderId
+          in: path
+          description: The id of the order for which this shipment applies.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: An array of shipments
+          schema:
+            type: array
+            items:
+              $ref: '#/parameters/Shipment/schema'
+        404:
+          description: Order with given orderId not found.
   /products:
     get:
       description: |
@@ -666,6 +688,58 @@ parameters:
         id:
           readOnly: true
           type: integer
+  Shipment:
+    in: body
+    name: shipment
+    schema:
+      type: object
+      properties:
+        id:
+          type: integer
+        order_id:
+          type: integer
+        speed_shipping:
+          type: string
+        speed_handling:
+          type: string
+        estimated_handling:
+          type: string
+          format: date-time
+        estimated_delivery:
+          type: string
+          format: date-time
+        shipping_price:
+          type: number
+        insurance_price:
+          type: number
+        tracking_number:
+          type: string
+        external_reference:
+          type: string
+        shipped_at:
+          type: string
+          format: date-time
+        delivered_at:
+          type: string
+          format: date-time
+        prepared_at:
+          type: string
+          format: date-time
+        last_mile_at:
+          type: string
+          format: date-time
+        not_delivered_at:
+          type: string
+          format: date-time
+        carrier_code:
+          type: string
+        service_code:
+          type: string
+        type:
+          type: string
+          enum:
+            - PAS
+            - PAP
   NewProduct:
     in: body
     name: product
