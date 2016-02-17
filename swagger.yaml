@@ -284,6 +284,11 @@ paths:
             $ref: '#/parameters/User/schema'
         422:
           description: A list of validation errors.
+          examples:
+            application/json:
+              errors:
+                external_reference: Has already been taken
+                store_id: Cannot be null
   /orders/{id}:
     get:
       description: |
@@ -388,6 +393,10 @@ paths:
             $ref: '#/parameters/Product/schema'
         422:
           description: A list of validation errors.
+          examples:
+            application/json:
+              errors:
+                external_reference: Has already been taken
   /products/{id}/:
     get:
       description: |
@@ -465,6 +474,10 @@ paths:
           description: Access denied to user creation.
         422:
           description: A list of validation errors.
+          examples:
+            application/json:
+              errors:
+                email: Has already been taken
   /users/{id}/:
     get:
       description: |
@@ -598,6 +611,10 @@ paths:
             $ref: '#/parameters/Store/schema'
         422:
           description: A list of validation errors.
+          examples:
+            application/json:
+              errors:
+                store_type: Cannot be null
   /stores/{id}:
     get:
       description: |
