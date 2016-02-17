@@ -538,9 +538,83 @@ paths:
             $ref: '#/parameters/Account/schema'
         403:
           description: Current User cannot modify target Account.
+  /stores:
+    get:
+      description: |
+        Returns all stores for the current user's account.
+      operationId: findStores
+      responses:
+        200:
+          description: An array of Stores
+          schema:
+            type: array
+            items:
+              $ref: '#/parameters/Store/schema'
+    post:
+      description: |
+        Creates a new Store
+      operationId: createStore
+      parameters:
+        - $ref: '#/parameters/NewStore'
+      responses:
+        200:
+          description: The newly created Store.
+          schema:
+            $ref: '#/parameters/Store/schema'
+        422:
+          description: A list of validation errors.
+  /stores/{id}:
+    get:
+      description: |
+        Returns the Store identified by id.
+      operationId: getStore
+      parameters:
+        - name: id
+          in: path
+          description: The id of order to fetch.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: A Store.
+          schema:
+            $ref: '#/parameters/Store/schema'
+        404:
+          description: A Store with the given id not found.
+    put:
+      description: |
+        Update an existing Store.
+      operationId: updateStore
+      parameters:
+        - name: id
+          in: path
+          description: The id of the Store to be updated.
+          required: true
+          type: integer
+        - $ref: '#/parameters/Store'
+      responses:
+        200:
+          description: The updated order.
+          schema:
+            $ref: '#/parameters/Store/schema'
+    delete:
+      description: |
+        Deletes a single Store based on the id supplied.
+      operationId: deleteStore
+      parameters:
+        - name: id
+          in: path
+          description: The id of Store to delete.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Store deleted.
 
-# TODO: ordesr/shipments
-# TODO: stores
+
+
 # TODO: shipping_services
 # TODO: tracking
 
@@ -872,3 +946,43 @@ parameters:
           description: |
             The URL where webhooks notifications are sent to. See the
             documentation on webhooks for more details.
+  NewStore:
+    name: store
+    in: body
+    schema:
+      properties:
+        name:
+          type: string
+          description: A name to identify this store.
+        store_type:
+          type: string
+          enum:
+            - meli
+            - magento
+            - prestashop
+            - woocommerce
+            - shopify
+            - custom
+            - manual
+            - tiendanube
+        credentials:
+          type: object
+          description: |
+            A free-form JSON field where credentials to upstream stores are save.
+        image_url:
+          type: string
+          format: url
+          description: The URL to an image to identify this store
+          default: The image_url for the Store's store_type
+  Store:
+    in: body
+    name: store
+    schema:
+      allOf:
+        - $ref: '#/parameters/Store/schema'
+      type: object
+      properties:
+        id:
+          readOnly: true
+          description: A unique id.
+          example: 12
