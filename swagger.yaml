@@ -78,6 +78,26 @@ info:
        product, and use other day-to-day interfaces.
        Bot accounts should generally also be regular users.
 
+    Stores
+    ------
+
+    Each account can have multiple stores. Stores represent different points of
+    sales (eg: MercadoLibre, TiendaNube, eBay, retail, etc).
+
+    If you link shipnow to one of our integrated stores via the web ui, a new
+    store will be created for each one. The `store_type` field should help
+    reveal which integration that is.
+
+    A single account may also have more than one store for the same store type
+    (eg: a single account can be linked to two MercadoLibre profiles).
+
+    If your intention is to read order data from ShipNow, you generally won't
+    pay much attention to stores. If your intention is to create orders, you'll
+    probably want to use the store type "custom".
+
+    You can create as many stores as you need, and it's generally recommended
+    that you use one per application you're integrating, or per point of sales.
+
     Data
     ----
 
