@@ -979,7 +979,7 @@ parameters:
     name: store
     schema:
       allOf:
-        - $ref: '#/parameters/Store/schema'
+        - $ref: '#/parameters/NewStore/schema'
       type: object
       properties:
         id:
