@@ -266,11 +266,46 @@ paths:
           format: string
       responses:
         200:
-          description: a list of orders
+          description: An array of Orders.
           schema:
-            type: array
-            items:
-              $ref: '#/parameters/Order/schema'
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Order'
+          examples:
+            application/json:
+              results:
+                - id: 18424
+                  external_reference: 100553245
+                  comment: Stock comes in on 2016-02-28
+                  ship_to:
+                    name: John
+                    last_name: Doe
+                    phone: +54 11 5555 6666
+                    zip_code: 2085
+                    address_line: Fake Street 123 4A
+                    street_name: Fake Street
+                    street_number: 123
+                    unit: A
+                    floor: 4
+                    city: CABA
+                    state: Argentina
+                    email: johndoe@example.com
+                  shipping_option:
+                    service_code: oca_pap_estandar
+                    carrier_code: oca
+                  store_id: 2
+                  store_type: meli
+                  status: delivered
+                  items:
+                    - id: 2827
+                      external_reference: 70089453/A
+                      quantity: 2
+                      unit_price: 170.0
+                      title: Blue Shoes
+                      image_url: https://cdn.shipnow.com.ar/items/2827.png
     post:
       description: |
         Creates a new order, and returns it with its new id.
@@ -279,9 +314,9 @@ paths:
         - $ref: '#/parameters/NewOrder'
       responses:
         200:
-          description: The newly created order.
+          description: The newly created Order.
           schema:
-            $ref: '#/parameters/User/schema'
+            $ref: '#/definitions/Order'
         422:
           description: A list of validation errors.
           examples:
@@ -305,7 +340,7 @@ paths:
         200:
           description: An Order.
           schema:
-            $ref: '#/parameters/Order/schema'
+            $ref: '#/definitions/Order'
         404:
           description: Order with given id not found.
     put:
@@ -320,12 +355,16 @@ paths:
           description: The id of the order to be updated.
           required: true
           type: integer
-        - $ref: '#/parameters/Order'
+        - name: order
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
       responses:
         200:
           description: The updated order.
           schema:
-            $ref: '#/parameters/Order/schema'
+            $ref: '#/definitions/Order'
     delete:
       description: |
         Deletes a single order based on the id supplied.
@@ -357,9 +396,12 @@ paths:
         200:
           description: An array of shipments
           schema:
-            type: array
-            items:
-              $ref: '#/parameters/Shipment/schema'
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Shipment'
         404:
           description: Order with given orderId not found.
   /products:
@@ -377,20 +419,23 @@ paths:
         200:
           description: A list of zero or more products.
           schema:
-            type: array
-            items:
-              $ref: '#/parameters/Product/schema'
+            type: object
+            properties:
+              results:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Product'
     post:
       description: |
         Creates a new product, and returns it with its new id.
       operationId: createProduct
       parameters:
-        - $ref: '#/parameters/NewProduct'
+        - $ref: '#/parameters/Product'
       responses:
         200:
           description: The newly created product
           schema:
-            $ref: '#/parameters/Product/schema'
+            $ref: '#/definitions/Product'
         422:
           description: A list of validation errors.
           examples:
@@ -413,7 +458,7 @@ paths:
         200:
           description: A product.
           schema:
-            $ref: '#/parameters/Product/schema'
+            $ref: '#/definitions/Product'
         404:
           description: Product with given id not found.
     put:
@@ -426,12 +471,16 @@ paths:
           description: The id of the product to be updated.
           required: true
           type: integer
-        - $ref: '#/parameters/Product'
+        - name: product
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
       responses:
         200:
           description: The updated product.
           schema:
-            $ref: '#/parameters/Product/schema'
+            $ref: '#/definitions/Product'
     delete:
       description: |
         Delete a single product based on the id supplied.
@@ -455,9 +504,12 @@ paths:
         200:
           description: An array of User objects
           schema:
-            type: array
-            items:
-              - $ref: '#/parameters/User/schema'
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                    $ref: '#/definitions/User'
     post:
       description: |
         Creates a new user for this account.
@@ -469,7 +521,7 @@ paths:
         200:
           description: The newly created User.
           schema:
-            $ref: '#/parameters/User/schema'
+            $ref: '#/definitions/User'
         403:
           description: Access denied to user creation.
         422:
@@ -494,7 +546,7 @@ paths:
         200:
           description: A user.
           schema:
-            $ref: '#/parameters/User/schema'
+            $ref: '#/definitions/User'
         404:
           description: User with given id not found.
     put:
@@ -515,7 +567,7 @@ paths:
         200:
           description: The updated User.
           schema:
-            $ref: '#/parameters/User/schema'
+            $ref: '#/definitions/User'
         403:
           description: Current User cannot modify target User.
     delete:
@@ -549,9 +601,7 @@ paths:
         200:
           description: the user object
           schema:
-            type: object
-            allOf:
-              - $ref: '#/parameters/User/schema'
+            $ref: '#/definitions/User'
   /accounts:
     get:
       description: |
@@ -562,9 +612,12 @@ paths:
         200:
           description: An array of Account objects
           schema:
-            type: array
-            items:
-              - $ref: '#/parameters/Account/schema'
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  - $ref: '#/definitions/Account'
   /accounts/{id}:
     put:
       description: |
@@ -583,7 +636,7 @@ paths:
         200:
           description: The updated Account.
           schema:
-            $ref: '#/parameters/Account/schema'
+            $ref: '#/definitions/Account'
         403:
           description: Current User cannot modify target Account.
   /stores:
@@ -595,9 +648,12 @@ paths:
         200:
           description: An array of Stores
           schema:
-            type: array
-            items:
-              $ref: '#/parameters/Store/schema'
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Store'
     post:
       description: |
         Creates a new Store
@@ -608,7 +664,17 @@ paths:
         200:
           description: The newly created Store.
           schema:
-            $ref: '#/parameters/Store/schema'
+            $ref: '#/definitions/Store'
+          examples:
+            application/json:
+              id: 16
+              name: Example Co ML
+              store_type: meli
+              user_store_id: "784"
+              credentials:
+                access_token: APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh
+                refresh_token: TG-lY9LMGCTnyHDcDi22Zt6Lx
+              image_url: https://cnd.shipnow.com.ar/stores/meli_generic.png
         422:
           description: A list of validation errors.
           examples:
@@ -631,7 +697,7 @@ paths:
         200:
           description: A Store.
           schema:
-            $ref: '#/parameters/Store/schema'
+            $ref: '#/definitions/Store'
         404:
           description: A Store with the given id not found.
     put:
@@ -649,7 +715,7 @@ paths:
         200:
           description: The updated order.
           schema:
-            $ref: '#/parameters/Store/schema'
+            $ref: '#/definitions/Store'
     delete:
       description: |
         Deletes a single Store based on the id supplied.
@@ -674,9 +740,12 @@ paths:
         200:
           description: An array of ShippingServices
           schema:
-            type: array
-            items:
-              $ref: '#/parameters/ShippingService/schema'
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/ShippingService'
   /shipping_services/{id}:
     get:
       description: |
@@ -693,12 +762,11 @@ paths:
         200:
           description: A ShippingService.
           schema:
-            $ref: '#/parameters/ShippingService/schema'
+            $ref: '#/definitions/ShippingService'
         404:
           description: A ShippingService with the given id not found.
 
 
-# TODO: shipping_services
 # TODO: tracking
 
   /ping:
@@ -711,7 +779,6 @@ paths:
       responses:
         200:
           description: This endpoint will always return the string "pong".
-
 securityDefinitions:
   token:
     type: "apiKey"
@@ -734,7 +801,7 @@ parameters:
       properties:
         external_reference:
           type: string
-          description: A free-form text to later find and search this order.
+          description: A free-form text to later find this order.
         comment:
           type: string
         ship_to:
@@ -835,69 +902,7 @@ parameters:
                   description: Ths product's image_url.
                   type: string
         #shipments
-  Order:
-    name: order
-    in: body
-    schema:
-      allOf:
-        - $ref: '#/parameters/NewOrder/schema'
-      properties:
-        id:
-          readOnly: true
-          type: integer
-  Shipment:
-    in: body
-    name: shipment
-    schema:
-      type: object
-      properties:
-        id:
-          type: integer
-        order_id:
-          type: integer
-        speed_shipping:
-          type: string
-        speed_handling:
-          type: string
-        estimated_handling:
-          type: string
-          format: date-time
-        estimated_delivery:
-          type: string
-          format: date-time
-        shipping_price:
-          type: number
-        insurance_price:
-          type: number
-        tracking_number:
-          type: string
-        external_reference:
-          type: string
-        shipped_at:
-          type: string
-          format: date-time
-        delivered_at:
-          type: string
-          format: date-time
-        prepared_at:
-          type: string
-          format: date-time
-        last_mile_at:
-          type: string
-          format: date-time
-        not_delivered_at:
-          type: string
-          format: date-time
-        carrier_code:
-          type: string
-        service_code:
-          type: string
-        type:
-          type: string
-          enum:
-            - PAS
-            - PAP
-  NewProduct:
+  Product:
     in: body
     name: product
     schema:
@@ -939,22 +944,14 @@ parameters:
         extra_data:
           type: object
           description: A free-form JSON field where custom data can be stored for each product.
-  Product:
-    name: product
-    in: body
-    schema:
-      allOf:
-        - $ref: '#/parameters/NewProduct/schema'
-      properties:
-        id:
-          readOnly: true
-          type: integer
   User:
     name: user
     in: body
     schema:
       properties:
         id:
+          type: integer
+          readOnly: true
           description: The unique id.
         email:
           type: string
@@ -1061,64 +1058,392 @@ parameters:
     in: body
     name: store
     schema:
-      allOf:
-        - $ref: '#/parameters/NewStore/schema'
       type: object
       properties:
         id:
           readOnly: true
           description: A unique id.
           example: 12
+definitions:
+  Shipment:
+    required:
+      - id
+      - order_id
+      - speed_shipping
+      - speed_handling
+      - estimated_handling
+      - estimated_delivery
+      - shipping_price
+      - insurance_price
+      - tracking_number
+      - external_reference
+      - shipped_at
+      - delivered_at
+      - prepared_at
+      - last_mile_at
+      - not_delivered_at
+      - carrier_code
+      - service_code
+      - type
+    properties:
+      id:
+        type: integer
+      order_id:
+        type: integer
+      speed_shipping:
+        type: string
+      speed_handling:
+        type: string
+      estimated_handling:
+        type: string
+        format: date-time
+      estimated_delivery:
+        type: string
+        format: date-time
+      shipping_price:
+        type: number
+      insurance_price:
+        type: number
+      tracking_number:
+        type: string
+      external_reference:
+        type: string
+      shipped_at:
+        type: string
+        format: date-time
+      delivered_at:
+        type: string
+        format: date-time
+      prepared_at:
+        type: string
+        format: date-time
+      last_mile_at:
+        type: string
+        format: date-time
+      not_delivered_at:
+        type: string
+        format: date-time
+      carrier_code:
+        type: string
+      service_code:
+        type: string
+      type:
+        type: string
+        enum:
+          - PAS
+          - PAP
+  Order:
+    required:
+      - id
+      - external_reference
+      - ship_to
+      # - ship_from
+      # - shipping_option
+      - store_id
+      - items
+      # - shipment
+    properties:
+      store_type:
+        type: string
+        description: The store_type for this order's store.
+        readOnly: true
+      id:
+        readOnly: true
+        type: integer
+      external_reference:
+        type: string
+        description: A free-form text to later find and search this order.
+      comment:
+        type: string
+      ship_to:
+        type: object
+        required:
+          - name
+          - last_name
+          - zip_code
+          - address_line
+          - city
+          - email
+        properties:
+          name:
+            type: string
+          last_name:
+            type: string
+          phone:
+            type: string
+          zip_code:
+            type: integer
+          address_line:
+            type: string
+          street_name:
+            type: string
+          street_number:
+            type: string
+          unit:
+            type: string
+          floot:
+            type: string
+          city:
+            type: string
+          state:
+            type: string
+          email:
+            type: string
+      shipping_options:
+        type: object
+        required:
+          - service_code
+          - carrier_code
+        properties:
+          service_code:
+            type: string
+          carrier_code:
+            type: string
+      store_id:
+        type: string
+        description: The id of this order's store.
+      status:
+        type: string
+        example: "awating_payment"
+        enum:
+         - awaiting_payment
+         - on_hold
+         - cancelled
+         - awaiting_shipment
+         - filtered
+         - shipped
+         - not_delivered
+         - delivered
+         - return
+         - ready_to_pick
+         - picking_list
+         - ready_to_pack
+         - ready_to_ship
+      items:
+        type: array
+        description: The items (products) included in this order.
+        items:
+          - type: object
+            required:
+            - id
+            - quantity
+            properties:
+              id:
+                description: The id of a product. See /products.
+                type: integer
+              external_reference:
+                type: string
+                description: The product's external_reference.
+                readOnly: true
+              quantity:
+                description: The amount of this product that this order contains.
+                type: integer
+              unit_price:
+                description: This product's price (per unit).
+                readOnly: true
+                type: number
+              title:
+                description: The product's title
+                type: string
+              image_url:
+                description: Ths product's image_url.
+                type: string
+  Product:
+    required:
+      - id
+      - external_reference
+      - title
+      - stock
+      - price
+      - currency
+      - image_url
+      - dimensions
+      - extra_data
+    properties:
+      id:
+        readOnly: true
+        type: integer
+      external_reference:
+        type: string
+        description: A free-form text to later find and search this product.
+      title:
+        type: string
+        description: A name for this product. This is free-form text, and is only used for display purposes.
+      stock:
+        type: number
+        description: Remaining stock for this product
+      price:
+        type: number
+        description: This product's price. Insurance coverage will be based on this price.
+      currency:
+        type: string
+        description: The currency for this product's price. Should be ARS, for now.
+      image_url:
+        type: string
+        format: url
+        description: A URL to an image that visually identifies this product.
+      dimensions:
+        type: object
+        properties:
+          weight:
+            type: number
+          height:
+            type: number
+          length:
+            type: number
+          width:
+            type: number
+      extra_data:
+        type: object
+        description: A free-form JSON field where custom data can be stored for each product.
+  User:
+    required:
+      - email
+    properties:
+      id:
+        readOnly: true
+        description: The unique id.
+      email:
+        type: string
+        example: "alice@example.com"
+      token:
+        type: string
+        example: biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH
+        description: The API token.
+      description:
+        type: string
+        description: A free-form description for this user.
+      role:
+        type: string
+        enum:
+          - regular
+          - admin
+          - shipnow
+      # TODO: account:
+      avatar_url:
+        type: string
+        format: url
+        description: The URL to an avatar used to idenfity this user.
+  Account:
+    properties:
+      id:
+        readOnly: true
+        description: The unique id.
+      email:
+        type: string
+        example: "alice@example.com"
+      name:
+        type: string
+      last_name:
+        type: string
+      company_name:
+        type: string
+      phone:
+        type: string
+      address:
+        type: object
+        properties:
+          postal_code:
+            type: string
+          address_line:
+            type: string
+          street_name:
+            type: string
+          street_number:
+            type: string
+          unit:
+            type: string
+          floor:
+            type: string
+          city:
+            type: string
+          state:
+            type: string
+      # TODO: Stores
+      token:
+        type: string
+        example: biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH
+      image_url:
+        type: string
+        format: url
+        description: The URL to an image used to idenfity this account.
+      webhook_url:
+        type: string
+        format: url
+        description: |
+          The URL where webhooks notifications are sent to. See the
+          documentation on webhooks for more details.
+  Store:
+    properties:
+      name:
+        type: string
+        description: A name to identify this store.
+      store_type:
+        type: string
+        enum:
+          - meli
+          - magento
+          - prestashop
+          - woocommerce
+          - shopify
+          - custom
+          - manual
+          - tiendanube
+      credentials:
+        type: object
+        description: |
+          A free-form JSON field where credentials to upstream stores are save.
+      image_url:
+        type: string
+        format: url
+        description: The URL to an image to identify this store
+        default: The image_url for the Store's store_type
   ShippingService:
-    in: body
-    name: shippingService
-    schema:
-      type: object
-      properties:
-        id:
-          description: A unique id.
-          example: 1
-          type: integer
-        code:
-          description: |
-            A unique code for this shipping service. It should be more
-            readable than the id, and will usually be returned when referencing
-            shipping services.
-          type: string
-          example: motonorte
-        min_zip_code:
-          description: |
-            Indicates that this shipping service only operates in areas with
-            zipcode greater than this value.
-          type: integer
-          example: 1000
-        max_zip_code:
-          description: |
-            Indicates that this shipping service only operates in areas with
-            zipcode less than this value.
-          type: integer
-          example: 9999
-        carrier:
-          type: object
-          description: Information about the carrier that provides this shipping service.
-          properties:
-            id:
-              description: The carrier's unique id.
-              type: integer
-              example: 1
-            code:
-              description: |
-                A unique code for this carrier. It should be more readable than
-                the id, and will usually be returned when referencing carrier.
-              type: string
-              example: ups
-            name:
-              description: A friendly name for this carrier.
-              type: string
-              example: UPS
-            description:
-              description: |
-                A free-form text field that give some information about this
-                shipping carrier.
-              type: string
-              example: Does worldwide door-to-door shipping
+    properties:
+      id:
+        description: A unique id.
+        example: 1
+        type: integer
+      code:
+        description: |
+          A unique code for this shipping service. It should be more
+          readable than the id, and will usually be returned when referencing
+          shipping services.
+        type: string
+        example: motonorte
+      min_zip_code:
+        description: |
+          Indicates that this shipping service only operates in areas with
+          zipcode greater than this value.
+        type: integer
+        example: 1000
+      max_zip_code:
+        description: |
+          Indicates that this shipping service only operates in areas with
+          zipcode less than this value.
+        type: integer
+        example: 9999
+      carrier:
+        type: object
+        description: Information about the carrier that provides this shipping service.
+        properties:
+          id:
+            description: The carrier's unique id.
+            type: integer
+            example: 1
+          code:
+            description: |
+              A unique code for this carrier. It should be more readable than
+              the id, and will usually be returned when referencing carrier.
+            type: string
+            example: ups
+          name:
+            description: A friendly name for this carrier.
+            type: string
+            example: UPS
+          description:
+            description: |
+              A free-form text field that give some information about this
+              shipping carrier.
+            type: string
+            example: Does worldwide door-to-door shipping
