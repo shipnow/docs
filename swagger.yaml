@@ -58,15 +58,15 @@ info:
 
     Each client has a single account, which in turn, has multiple users. An account
     will hold all orders and products for that client, which all users of that
-    account can access (with different access levels).
+    account can access (with different roles).
 
     Each account can have as many users as they need.  Additional users can be
     created via the API or the sellers interface.
 
-    Access Levels
-    -------------
+    Roles
+    -----
 
-    Users can have three access levels:
+    Users can have three role:
 
      * ShipNow: These are internal account, that can access data for all clients,
        and are used internally when actually moving products around.
