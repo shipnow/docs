@@ -120,48 +120,44 @@
                         },
                         "examples": {
                             "application/json": {
-                                "response": {
-                                    "results": [
-                                        {
-                                            "OrderExample": {
-                                                "id": 18424,
-                                                "external_reference": 100553245,
-                                                "comment": "Stock comes in on 2016-02-28",
-                                                "ship_to": {
-                                                    "name": "John",
-                                                    "last_name": "Doe",
-                                                    "phone": "+54 11 5555 6666",
-                                                    "zip_code": 2085,
-                                                    "address_line": "Fake Street 123 4A",
-                                                    "street_name": "Fake Street",
-                                                    "street_number": 123,
-                                                    "unit": "A",
-                                                    "floor": 4,
-                                                    "city": "CABA",
-                                                    "state": "Argentina",
-                                                    "email": "johndoe@example.com"
-                                                },
-                                                "shipping_option": {
-                                                    "service_code": "oca_pap_estandar",
-                                                    "carrier_code": "oca"
-                                                },
-                                                "store_id": 2,
-                                                "store_type": "meli",
-                                                "status": "delivered",
-                                                "items": [
-                                                    {
-                                                        "id": 2827,
-                                                        "external_reference": "70089453/A",
-                                                        "quantity": 2,
-                                                        "unit_price": 170,
-                                                        "title": "Blue Shoes",
-                                                        "image_url": "https://cdn.shipnow.com.ar/items/2827.png"
-                                                    }
-                                                ]
+                                "results": [
+                                    {
+                                        "id": 18424,
+                                        "external_reference": 100553245,
+                                        "comment": "Stock comes in on 2016-02-28",
+                                        "ship_to": {
+                                            "name": "John",
+                                            "last_name": "Doe",
+                                            "phone": "+54 11 5555 6666",
+                                            "zip_code": 2085,
+                                            "address_line": "Fake Street 123 4A",
+                                            "street_name": "Fake Street",
+                                            "street_number": 123,
+                                            "unit": "A",
+                                            "floor": 4,
+                                            "city": "CABA",
+                                            "state": "Argentina",
+                                            "email": "johndoe@example.com"
+                                        },
+                                        "shipping_option": {
+                                            "service_code": "oca_pap_estandar",
+                                            "carrier_code": "oca"
+                                        },
+                                        "store_id": 2,
+                                        "store_type": "meli",
+                                        "status": "delivered",
+                                        "items": [
+                                            {
+                                                "id": 2827,
+                                                "external_reference": "70089453/A",
+                                                "quantity": 2,
+                                                "unit_price": 170,
+                                                "title": "Blue Shoes",
+                                                "image_url": "https://cdn.shipnow.com.ar/items/2827.png"
                                             }
-                                        }
-                                    ]
-                                }
+                                        ]
+                                    }
+                                ]
                             }
                         }
                     }
@@ -180,6 +176,44 @@
                         "description": "The newly created Order.",
                         "schema": {
                             "$ref": "#/definitions/Order"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 18424,
+                                "external_reference": 100553245,
+                                "comment": "Stock comes in on 2016-02-28",
+                                "ship_to": {
+                                    "name": "John",
+                                    "last_name": "Doe",
+                                    "phone": "+54 11 5555 6666",
+                                    "zip_code": 2085,
+                                    "address_line": "Fake Street 123 4A",
+                                    "street_name": "Fake Street",
+                                    "street_number": 123,
+                                    "unit": "A",
+                                    "floor": 4,
+                                    "city": "CABA",
+                                    "state": "Argentina",
+                                    "email": "johndoe@example.com"
+                                },
+                                "shipping_option": {
+                                    "service_code": "oca_pap_estandar",
+                                    "carrier_code": "oca"
+                                },
+                                "store_id": 2,
+                                "store_type": "meli",
+                                "status": "delivered",
+                                "items": [
+                                    {
+                                        "id": 2827,
+                                        "external_reference": "70089453/A",
+                                        "quantity": 2,
+                                        "unit_price": 170,
+                                        "title": "Blue Shoes",
+                                        "image_url": "https://cdn.shipnow.com.ar/items/2827.png"
+                                    }
+                                ]
+                            }
                         }
                     },
                     "422": {
@@ -215,6 +249,44 @@
                         "description": "An Order.",
                         "schema": {
                             "$ref": "#/definitions/Order"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 18424,
+                                "external_reference": 100553245,
+                                "comment": "Stock comes in on 2016-02-28",
+                                "ship_to": {
+                                    "name": "John",
+                                    "last_name": "Doe",
+                                    "phone": "+54 11 5555 6666",
+                                    "zip_code": 2085,
+                                    "address_line": "Fake Street 123 4A",
+                                    "street_name": "Fake Street",
+                                    "street_number": 123,
+                                    "unit": "A",
+                                    "floor": 4,
+                                    "city": "CABA",
+                                    "state": "Argentina",
+                                    "email": "johndoe@example.com"
+                                },
+                                "shipping_option": {
+                                    "service_code": "oca_pap_estandar",
+                                    "carrier_code": "oca"
+                                },
+                                "store_id": 2,
+                                "store_type": "meli",
+                                "status": "delivered",
+                                "items": [
+                                    {
+                                        "id": 2827,
+                                        "external_reference": "70089453/A",
+                                        "quantity": 2,
+                                        "unit_price": 170,
+                                        "title": "Blue Shoes",
+                                        "image_url": "https://cdn.shipnow.com.ar/items/2827.png"
+                                    }
+                                ]
+                            }
                         }
                     },
                     "404": {
@@ -247,6 +319,44 @@
                         "description": "The updated order.",
                         "schema": {
                             "$ref": "#/definitions/Order"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 18424,
+                                "external_reference": 100553245,
+                                "comment": "Stock comes in on 2016-02-28",
+                                "ship_to": {
+                                    "name": "John",
+                                    "last_name": "Doe",
+                                    "phone": "+54 11 5555 6666",
+                                    "zip_code": 2085,
+                                    "address_line": "Fake Street 123 4A",
+                                    "street_name": "Fake Street",
+                                    "street_number": 123,
+                                    "unit": "A",
+                                    "floor": 4,
+                                    "city": "CABA",
+                                    "state": "Argentina",
+                                    "email": "johndoe@example.com"
+                                },
+                                "shipping_option": {
+                                    "service_code": "oca_pap_estandar",
+                                    "carrier_code": "oca"
+                                },
+                                "store_id": 2,
+                                "store_type": "meli",
+                                "status": "delivered",
+                                "items": [
+                                    {
+                                        "id": 2827,
+                                        "external_reference": "70089453/A",
+                                        "quantity": 2,
+                                        "unit_price": 170,
+                                        "title": "Blue Shoes",
+                                        "image_url": "https://cdn.shipnow.com.ar/items/2827.png"
+                                    }
+                                ]
+                            }
                         }
                     }
                 }
@@ -298,6 +408,32 @@
                                     }
                                 }
                             }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "results": [
+                                    {
+                                        "id": 6662,
+                                        "order_id": 37201,
+                                        "speed_shipping": null,
+                                        "speed_handling": null,
+                                        "estimated_handling": null,
+                                        "estimated_delivery": null,
+                                        "shipping_price": 30,
+                                        "insurance_price": 5,
+                                        "tracking_number": "38007500000015676447",
+                                        "external_reference": "2107694F",
+                                        "shipped_at": "2015-12-21T03:00:00.000Z",
+                                        "delivered_at": "2015-12-15T03:00:00.000Z",
+                                        "prepared_at": null,
+                                        "last_mile_at": null,
+                                        "not_delivered_at": null,
+                                        "carrier_code": "integral",
+                                        "service_code": "integral_48",
+                                        "type": "PAP"
+                                    }
+                                ]
+                            }
                         }
                     },
                     "404": {
@@ -332,6 +468,31 @@
                                     }
                                 }
                             }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "results": [
+                                    {
+                                        "id": 12072,
+                                        "external_reference": "AC17283DFC",
+                                        "title": "Red Scarf",
+                                        "stock": 10,
+                                        "price": 13.5,
+                                        "currency": "ARS",
+                                        "image_url": "https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png",
+                                        "dimensions": {
+                                            "weight": 300,
+                                            "heigth": 20,
+                                            "length": 20,
+                                            "width": 20
+                                        },
+                                        "extra_data": {
+                                            "publication_id": "FD742"
+                                        },
+                                        "location": null
+                                    }
+                                ]
+                            }
                         }
                     }
                 }
@@ -341,12 +502,7 @@
                 "operationId": "createProduct",
                 "parameters": [
                     {
-                        "name": "product",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Product"
-                        }
+                        "$ref": "#/parameters/Product"
                     }
                 ],
                 "responses": {
@@ -354,6 +510,27 @@
                         "description": "The newly created product",
                         "schema": {
                             "$ref": "#/definitions/Product"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 12072,
+                                "external_reference": "AC17283DFC",
+                                "title": "Red Scarf",
+                                "stock": 10,
+                                "price": 13.5,
+                                "currency": "ARS",
+                                "image_url": "https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png",
+                                "dimensions": {
+                                    "weight": 300,
+                                    "heigth": 20,
+                                    "length": 20,
+                                    "width": 20
+                                },
+                                "extra_data": {
+                                    "publication_id": "FD742"
+                                },
+                                "location": null
+                            }
                         }
                     },
                     "422": {
@@ -388,6 +565,27 @@
                         "description": "A product.",
                         "schema": {
                             "$ref": "#/definitions/Product"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 12072,
+                                "external_reference": "AC17283DFC",
+                                "title": "Red Scarf",
+                                "stock": 10,
+                                "price": 13.5,
+                                "currency": "ARS",
+                                "image_url": "https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png",
+                                "dimensions": {
+                                    "weight": 300,
+                                    "heigth": 20,
+                                    "length": 20,
+                                    "width": 20
+                                },
+                                "extra_data": {
+                                    "publication_id": "FD742"
+                                },
+                                "location": null
+                            }
                         }
                     },
                     "404": {
@@ -420,6 +618,27 @@
                         "description": "The updated product.",
                         "schema": {
                             "$ref": "#/definitions/Product"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 12072,
+                                "external_reference": "AC17283DFC",
+                                "title": "Red Scarf",
+                                "stock": 10,
+                                "price": 13.5,
+                                "currency": "ARS",
+                                "image_url": "https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png",
+                                "dimensions": {
+                                    "weight": 300,
+                                    "heigth": 20,
+                                    "length": 20,
+                                    "width": 20
+                                },
+                                "extra_data": {
+                                    "publication_id": "FD742"
+                                },
+                                "location": null
+                            }
                         }
                     }
                 }
@@ -464,13 +683,17 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": 201,
-                                "email": "alice@example.com",
-                                "token": "cGwp429nYTmwdDvVtB3zFd9O7opgsz9Oq1e19dCJjfOIhOTE25",
-                                "type": null,
-                                "description": null,
-                                "role": "regular",
-                                "avatar_url": "https://cdn.shipnow.com.ar/avatars/201.png"
+                                "results": [
+                                    {
+                                        "id": 201,
+                                        "email": "alice@example.com",
+                                        "token": "cGwp429nYTmwdDvVtB3zFd9O7opgsz9Oq1e19dCJjfOIhOTE25",
+                                        "type": null,
+                                        "description": null,
+                                        "role": "regular",
+                                        "avatar_url": "https://cdn.shipnow.com.ar/avatars/201.png"
+                                    }
+                                ]
                             }
                         }
                     }
@@ -483,8 +706,18 @@
                     "200": {
                         "description": "The newly created User.",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/User"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 202,
+                                "email": "bob@example.com",
+                                "token": "l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO",
+                                "type": null,
+                                "description": null,
+                                "role": "regular",
+                                "avatar_url": "https://cdn.shipnow.com.ar/avatars/207.png"
+                            }
                         }
                     },
                     "403": {
@@ -521,8 +754,18 @@
                     "200": {
                         "description": "A user.",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/User"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 202,
+                                "email": "bob@example.com",
+                                "token": "l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO",
+                                "type": null,
+                                "description": null,
+                                "role": "regular",
+                                "avatar_url": "https://cdn.shipnow.com.ar/avatars/207.png"
+                            }
                         }
                     },
                     "404": {
@@ -549,8 +792,18 @@
                     "200": {
                         "description": "The updated User.",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/User"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 202,
+                                "email": "bob@example.com",
+                                "token": "l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO",
+                                "type": null,
+                                "description": null,
+                                "role": "regular",
+                                "avatar_url": "https://cdn.shipnow.com.ar/avatars/207.png"
+                            }
                         }
                     },
                     "403": {
@@ -594,8 +847,18 @@
                     "200": {
                         "description": "the user object",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/User"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 202,
+                                "email": "bob@example.com",
+                                "token": "l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO",
+                                "type": null,
+                                "description": null,
+                                "role": "regular",
+                                "avatar_url": "https://cdn.shipnow.com.ar/avatars/207.png"
+                            }
                         }
                     }
                 }
@@ -615,11 +878,42 @@
                                     "type": "array",
                                     "items": [
                                         {
-                                            "type": "object",
                                             "$ref": "#/definitions/Account"
                                         }
                                     ]
                                 }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "results": [
+                                    {
+                                        "id": 7,
+                                        "email": "info@example.com",
+                                        "name": "John",
+                                        "last_name": "Doe",
+                                        "company_name": "Example Company Inc",
+                                        "phone": "+54 11 1234 5678",
+                                        "address": {
+                                            "postal_code": 2000,
+                                            "address_line": "Not Fake Av 321",
+                                            "street_name": "Not Fake Av",
+                                            "street_number": 321,
+                                            "unit": "C",
+                                            "floor": "1",
+                                            "city": "CABA",
+                                            "state": "Argentina"
+                                        },
+                                        "stores": [
+                                            {
+                                                "id": 19,
+                                                "store_type": "meli",
+                                                "name": "Example Co ML",
+                                                "user_store_id": 784
+                                            }
+                                        ]
+                                    }
+                                ]
                             }
                         }
                     }
@@ -646,8 +940,35 @@
                     "200": {
                         "description": "The updated Account.",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/Account"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 7,
+                                "email": "info@example.com",
+                                "name": "John",
+                                "last_name": "Doe",
+                                "company_name": "Example Company Inc",
+                                "phone": "+54 11 1234 5678",
+                                "address": {
+                                    "postal_code": 2000,
+                                    "address_line": "Not Fake Av 321",
+                                    "street_name": "Not Fake Av",
+                                    "street_number": 321,
+                                    "unit": "C",
+                                    "floor": "1",
+                                    "city": "CABA",
+                                    "state": "Argentina"
+                                },
+                                "stores": [
+                                    {
+                                        "id": 19,
+                                        "store_type": "meli",
+                                        "name": "Example Co ML",
+                                        "user_store_id": "784"
+                                    }
+                                ]
+                            }
                         }
                     },
                     "403": {
@@ -669,10 +990,26 @@
                                 "results": {
                                     "type": "array",
                                     "items": {
-                                        "type": "object",
                                         "$ref": "#/definitions/Store"
                                     }
                                 }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "results": [
+                                    {
+                                        "id": 16,
+                                        "name": "Example Co ML",
+                                        "store_type": "meli",
+                                        "user_store_id": "784",
+                                        "credentials": {
+                                            "access_token": "APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh",
+                                            "refresh_token": "TG-lY9LMGCTnyHDcDi22Zt6Lx"
+                                        },
+                                        "image_url": "https://cnd.shipnow.com.ar/stores/meli_generic.png"
+                                    }
+                                ]
                             }
                         }
                     }
@@ -690,8 +1027,20 @@
                     "200": {
                         "description": "The newly created Store.",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/Store"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 16,
+                                "name": "Example Co ML",
+                                "store_type": "meli",
+                                "user_store_id": "784",
+                                "credentials": {
+                                    "access_token": "APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh",
+                                    "refresh_token": "TG-lY9LMGCTnyHDcDi22Zt6Lx"
+                                },
+                                "image_url": "https://cnd.shipnow.com.ar/stores/meli_generic.png"
+                            }
                         }
                     },
                     "422": {
@@ -725,8 +1074,20 @@
                     "200": {
                         "description": "A Store.",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/Store"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 16,
+                                "name": "Example Co ML",
+                                "store_type": "meli",
+                                "user_store_id": "784",
+                                "credentials": {
+                                    "access_token": "APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh",
+                                    "refresh_token": "TG-lY9LMGCTnyHDcDi22Zt6Lx"
+                                },
+                                "image_url": "https://cnd.shipnow.com.ar/stores/meli_generic.png"
+                            }
                         }
                     },
                     "404": {
@@ -753,8 +1114,20 @@
                     "200": {
                         "description": "The updated order.",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/Store"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 16,
+                                "name": "Example Co ML",
+                                "store_type": "meli",
+                                "user_store_id": "784",
+                                "credentials": {
+                                    "access_token": "APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh",
+                                    "refresh_token": "TG-lY9LMGCTnyHDcDi22Zt6Lx"
+                                },
+                                "image_url": "https://cnd.shipnow.com.ar/stores/meli_generic.png"
+                            }
                         }
                     }
                 }
@@ -796,6 +1169,26 @@
                                     }
                                 }
                             }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "results": [
+                                    {
+                                        "id": 13,
+                                        "code": "motonorte_same_day",
+                                        "description": null,
+                                        "min_zip_code": null,
+                                        "max_zip_code": null,
+                                        "post_offices": [],
+                                        "carrier": {
+                                            "id": 3,
+                                            "code": "motonorte",
+                                            "name": "Motonorte",
+                                            "description": "Envíos a CABA y GBA"
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     }
                 }
@@ -820,6 +1213,22 @@
                         "description": "A ShippingService.",
                         "schema": {
                             "$ref": "#/definitions/ShippingService"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 13,
+                                "code": "motonorte_same_day",
+                                "description": null,
+                                "min_zip_code": null,
+                                "max_zip_code": null,
+                                "post_offices": [],
+                                "carrier": {
+                                    "id": 3,
+                                    "code": "motonorte",
+                                    "name": "Motonorte",
+                                    "description": "Envíos a CABA y GBA"
+                                }
+                            }
                         }
                     },
                     "404": {
@@ -867,7 +1276,7 @@
                 "properties": {
                     "external_reference": {
                         "type": "string",
-                        "description": "A free-form text to later find and search this order."
+                        "description": "A free-form text to later find this order."
                     },
                     "comment": {
                         "type": "string"
@@ -1008,20 +1417,7 @@
                 }
             }
         },
-        "Order": {
-            "name": "order",
-            "in": "body",
-            "schema": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "readOnly": true,
-                        "type": "integer"
-                    }
-                }
-            }
-        },
-        "NewProduct": {
+        "Product": {
             "in": "body",
             "name": "product",
             "schema": {
@@ -1076,18 +1472,6 @@
                     "extra_data": {
                         "type": "object",
                         "description": "A free-form JSON field where custom data can be stored for each product."
-                    }
-                }
-            }
-        },
-        "Product": {
-            "name": "product",
-            "in": "body",
-            "schema": {
-                "properties": {
-                    "id": {
-                        "readOnly": true,
-                        "type": "integer"
                     }
                 }
             }
@@ -1250,61 +1634,6 @@
                     }
                 }
             }
-        },
-        "ShippingService": {
-            "in": "body",
-            "name": "shippingService",
-            "schema": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "description": "A unique id.",
-                        "example": 1,
-                        "type": "integer"
-                    },
-                    "code": {
-                        "description": "A unique code for this shipping service. It should be more\nreadable than the id, and will usually be returned when referencing\nshipping services.\n",
-                        "type": "string",
-                        "example": "motonorte"
-                    },
-                    "min_zip_code": {
-                        "description": "Indicates that this shipping service only operates in areas with\nzipcode greater than this value.\n",
-                        "type": "integer",
-                        "example": 1000
-                    },
-                    "max_zip_code": {
-                        "description": "Indicates that this shipping service only operates in areas with\nzipcode less than this value.\n",
-                        "type": "integer",
-                        "example": 9999
-                    },
-                    "carrier": {
-                        "type": "object",
-                        "description": "Information about the carrier that provides this shipping service.",
-                        "properties": {
-                            "id": {
-                                "description": "The carrier's unique id.",
-                                "type": "integer",
-                                "example": 1
-                            },
-                            "code": {
-                                "description": "A unique code for this carrier. It should be more readable than\nthe id, and will usually be returned when referencing carrier.\n",
-                                "type": "string",
-                                "example": "ups"
-                            },
-                            "name": {
-                                "description": "A friendly name for this carrier.",
-                                "type": "string",
-                                "example": "UPS"
-                            },
-                            "description": {
-                                "description": "A free-form text field that give some information about this\nshipping carrier.\n",
-                                "type": "string",
-                                "example": "Does worldwide door-to-door shipping"
-                            }
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -1401,14 +1730,20 @@
             "required": [
                 "id",
                 "external_reference",
-                "comment",
                 "ship_to",
                 "store_id",
-                "store_type",
-                "status",
                 "items"
             ],
             "properties": {
+                "store_type": {
+                    "type": "string",
+                    "description": "The store_type for this order's store.",
+                    "readOnly": true
+                },
+                "id": {
+                    "readOnly": true,
+                    "type": "integer"
+                },
                 "external_reference": {
                     "type": "string",
                     "description": "A free-form text to later find and search this order."
@@ -1484,11 +1819,6 @@
                     "type": "string",
                     "description": "The id of this order's store."
                 },
-                "store_type": {
-                    "type": "string",
-                    "description": "The store_type for this order's store.",
-                    "readOnly": true
-                },
                 "status": {
                     "type": "string",
                     "example": "awating_payment",
@@ -1548,10 +1878,6 @@
                             }
                         }
                     ]
-                },
-                "id": {
-                    "readOnly": true,
-                    "type": "integer"
                 }
             }
         },
