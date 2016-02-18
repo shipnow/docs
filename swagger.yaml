@@ -117,12 +117,23 @@ info:
     All models also contain `updated_at` and `created_at` fields. They are the
     last-update and creation times respectively  and cannot be manually edited.
 
-    In case of a 4XX or 5XX status code, errors MAY be included in an errors array:
+    In case of a 4XX (except 422) or 5XX status code, errors MAY be included in
+    an errors array:
 
         {
             "errors": [
                 "Access Denied"
             ]
+        }
+
+    In case of a 422 status code, validation errors will be included in an
+    errors object:
+
+        {
+            errors: {
+                "someField": "Description of someField's error",
+                "anotherField": "Cannot be blank"
+            }
         }
 
     We adhere quite closely to [HTTP 1.1][http1.1], with one exception: When data
