@@ -76,7 +76,10 @@ info:
        create other users, as well as a few more special actions.
      * Regular: These are the lower-level users, which can create/edit orders,
        product, and use other day-to-day interfaces.
-       Bot accounts should generally also be regular users.
+
+    Bots, or automated automated integrations interacting with the API should
+    generally have their own user, and it's recommended that their role is set
+    to `regular`.
 
     Stores
     ------
