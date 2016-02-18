@@ -156,7 +156,7 @@ info:
 
     The link to the next and last pages can be found in the `Link` HTTP headers:
 
-       <https://api-staging.shipnow.com.ar/orders?page=20>; rel="last", <https://api-staging.shipnow.com.ar/orders?page=2>; rel="next"
+        <https://api-staging.shipnow.com.ar/orders?page=20>; rel="last", <https://api-staging.shipnow.com.ar/orders?page=2>; rel="next"
 
     Page indexes are 1-based, meaning that the first pages is one, and NOT zero.
 
