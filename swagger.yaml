@@ -317,6 +317,37 @@ paths:
           description: The newly created Order.
           schema:
             $ref: '#/definitions/Order'
+          examples:
+            application/json:
+              id: 18424
+              external_reference: 100553245
+              comment: Stock comes in on 2016-02-28
+              ship_to:
+                name: John
+                last_name: Doe
+                phone: +54 11 5555 6666
+                zip_code: 2085
+                address_line: Fake Street 123 4A
+                street_name: Fake Street
+                street_number: 123
+                unit: A
+                floor: 4
+                city: CABA
+                state: Argentina
+                email: johndoe@example.com
+              shipping_option:
+                service_code: oca_pap_estandar
+                carrier_code: oca
+              store_id: 2
+              store_type: meli
+              status: delivered
+              items:
+                - id: 2827
+                  external_reference: 70089453/A
+                  quantity: 2
+                  unit_price: 170.0
+                  title: Blue Shoes
+                  image_url: https://cdn.shipnow.com.ar/items/2827.png
         422:
           description: A list of validation errors.
           examples:
@@ -341,6 +372,37 @@ paths:
           description: An Order.
           schema:
             $ref: '#/definitions/Order'
+          examples:
+            application/json:
+              id: 18424
+              external_reference: 100553245
+              comment: Stock comes in on 2016-02-28
+              ship_to:
+                name: John
+                last_name: Doe
+                phone: +54 11 5555 6666
+                zip_code: 2085
+                address_line: Fake Street 123 4A
+                street_name: Fake Street
+                street_number: 123
+                unit: A
+                floor: 4
+                city: CABA
+                state: Argentina
+                email: johndoe@example.com
+              shipping_option:
+                service_code: oca_pap_estandar
+                carrier_code: oca
+              store_id: 2
+              store_type: meli
+              status: delivered
+              items:
+                - id: 2827
+                  external_reference: 70089453/A
+                  quantity: 2
+                  unit_price: 170.0
+                  title: Blue Shoes
+                  image_url: https://cdn.shipnow.com.ar/items/2827.png
         404:
           description: Order with given id not found.
     put:
@@ -365,6 +427,37 @@ paths:
           description: The updated order.
           schema:
             $ref: '#/definitions/Order'
+          examples:
+            application/json:
+              id: 18424
+              external_reference: 100553245
+              comment: Stock comes in on 2016-02-28
+              ship_to:
+                name: John
+                last_name: Doe
+                phone: +54 11 5555 6666
+                zip_code: 2085
+                address_line: Fake Street 123 4A
+                street_name: Fake Street
+                street_number: 123
+                unit: A
+                floor: 4
+                city: CABA
+                state: Argentina
+                email: johndoe@example.com
+              shipping_option:
+                service_code: oca_pap_estandar
+                carrier_code: oca
+              store_id: 2
+              store_type: meli
+              status: delivered
+              items:
+                - id: 2827
+                  external_reference: 70089453/A
+                  quantity: 2
+                  unit_price: 170.0
+                  title: Blue Shoes
+                  image_url: https://cdn.shipnow.com.ar/items/2827.png
     delete:
       description: |
         Deletes a single order based on the id supplied.
@@ -402,6 +495,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/Shipment'
+          examples:
+            application/json:
+              results:
+                - id: 6662
+                  order_id: 37201
+                  speed_shipping: null
+                  speed_handling: null
+                  estimated_handling: null
+                  estimated_delivery: null
+                  shipping_price: 30.0
+                  insurance_price: 5.0
+                  tracking_number: "38007500000015676447"
+                  external_reference: 2107694F
+                  shipped_at: 2015-12-21T03:00:00.000Z
+                  delivered_at: 2015-12-15T03:00:00.000Z
+                  prepared_at: null
+                  last_mile_at: null
+                  not_delivered_at: null
+                  carrier_code: integral
+                  service_code: integral_48
+                  type: PAP
         404:
           description: Order with given orderId not found.
   /products:
@@ -425,6 +539,24 @@ paths:
                   type: array
                   items:
                     $ref: '#/definitions/Product'
+          examples:
+            application/json:
+              results:
+                - id: 12072
+                  external_reference: AC17283DFC
+                  title: Red Scarf
+                  stock: 10
+                  price: 13.50
+                  currency: ARS
+                  image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
+                  dimensions:
+                    weight: 300.0
+                    heigth: 20.0
+                    length: 20.0
+                    width: 20.0
+                  extra_data:
+                    publication_id: FD742
+                  location: null
     post:
       description: |
         Creates a new product, and returns it with its new id.
@@ -436,6 +568,23 @@ paths:
           description: The newly created product
           schema:
             $ref: '#/definitions/Product'
+          examples:
+            application/json:
+              id: 12072
+              external_reference: AC17283DFC
+              title: Red Scarf
+              stock: 10
+              price: 13.50
+              currency: ARS
+              image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
+              dimensions:
+                weight: 300.0
+                heigth: 20.0
+                length: 20.0
+                width: 20.0
+              extra_data:
+                publication_id: FD742
+              location: null
         422:
           description: A list of validation errors.
           examples:
@@ -459,6 +608,23 @@ paths:
           description: A product.
           schema:
             $ref: '#/definitions/Product'
+          examples:
+            application/json:
+              id: 12072
+              external_reference: AC17283DFC
+              title: Red Scarf
+              stock: 10
+              price: 13.50
+              currency: ARS
+              image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
+              dimensions:
+                weight: 300.0
+                heigth: 20.0
+                length: 20.0
+                width: 20.0
+              extra_data:
+                publication_id: FD742
+              location: null
         404:
           description: Product with given id not found.
     put:
@@ -481,6 +647,23 @@ paths:
           description: The updated product.
           schema:
             $ref: '#/definitions/Product'
+          examples:
+            application/json:
+              id: 12072
+              external_reference: AC17283DFC
+              title: Red Scarf
+              stock: 10
+              price: 13.50
+              currency: ARS
+              image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
+              dimensions:
+                weight: 300.0
+                heigth: 20.0
+                length: 20.0
+                width: 20.0
+              extra_data:
+                publication_id: FD742
+              location: null
     delete:
       description: |
         Delete a single product based on the id supplied.
@@ -510,6 +693,16 @@ paths:
                 type: array
                 items:
                     $ref: '#/definitions/User'
+          examples:
+            application/json:
+              results:
+                - id: 201
+                  email: alice@example.com
+                  token: cGwp429nYTmwdDvVtB3zFd9O7opgsz9Oq1e19dCJjfOIhOTE25
+                  type: null
+                  description: null
+                  role: regular
+                  avatar_url: https://cdn.shipnow.com.ar/avatars/201.png
     post:
       description: |
         Creates a new user for this account.
@@ -522,6 +715,15 @@ paths:
           description: The newly created User.
           schema:
             $ref: '#/definitions/User'
+          examples:
+            application/json:
+              id: 202
+              email: bob@example.com
+              token: l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO
+              type: null
+              description: null
+              role: regular
+              avatar_url: https://cdn.shipnow.com.ar/avatars/207.png
         403:
           description: Access denied to user creation.
         422:
@@ -547,6 +749,15 @@ paths:
           description: A user.
           schema:
             $ref: '#/definitions/User'
+          examples:
+            application/json:
+              id: 202
+              email: bob@example.com
+              token: l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO
+              type: null
+              description: null
+              role: regular
+              avatar_url: https://cdn.shipnow.com.ar/avatars/207.png
         404:
           description: User with given id not found.
     put:
@@ -568,6 +779,15 @@ paths:
           description: The updated User.
           schema:
             $ref: '#/definitions/User'
+          examples:
+            application/json:
+              id: 202
+              email: bob@example.com
+              token: l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO
+              type: null
+              description: null
+              role: regular
+              avatar_url: https://cdn.shipnow.com.ar/avatars/207.png
         403:
           description: Current User cannot modify target User.
     delete:
@@ -602,6 +822,15 @@ paths:
           description: the user object
           schema:
             $ref: '#/definitions/User'
+          examples:
+            application/json:
+              id: 202
+              email: bob@example.com
+              token: l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO
+              type: null
+              description: null
+              role: regular
+              avatar_url: https://cdn.shipnow.com.ar/avatars/207.png
   /accounts:
     get:
       description: |
@@ -618,6 +847,29 @@ paths:
                 type: array
                 items:
                   - $ref: '#/definitions/Account'
+          examples:
+            application/json:
+              results:
+                - id: 7
+                  email: info@example.com
+                  name: John
+                  last_name: Doe
+                  company_name: Example Company Inc
+                  phone: "+54 11 1234 5678"
+                  address:
+                    postal_code: 2000
+                    address_line: Not Fake Av 321
+                    street_name: Not Fake Av
+                    street_number: 321
+                    unit: C
+                    floor: "1"
+                    city: CABA
+                    state: Argentina
+                  stores:
+                    - id: 19
+                      store_type: meli
+                      name: Example Co ML
+                      user_store_id: 784
   /accounts/{id}:
     put:
       description: |
@@ -637,6 +889,28 @@ paths:
           description: The updated Account.
           schema:
             $ref: '#/definitions/Account'
+          examples:
+            application/json:
+              id: 7
+              email: info@example.com
+              name: John
+              last_name: Doe
+              company_name: Example Company Inc
+              phone: "+54 11 1234 5678"
+              address:
+                postal_code: 2000
+                address_line: Not Fake Av 321
+                street_name: Not Fake Av
+                street_number: 321
+                unit: C
+                floor: "1"
+                city: CABA
+                state: Argentina
+              stores:
+                - id: 19
+                  store_type: meli
+                  name: Example Co ML
+                  user_store_id: "784"
         403:
           description: Current User cannot modify target Account.
   /stores:
@@ -654,6 +928,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/Store'
+          examples:
+            application/json:
+              results:
+                - id: 16
+                  name: Example Co ML
+                  store_type: meli
+                  user_store_id: "784"
+                  credentials:
+                    access_token: APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh
+                    refresh_token: TG-lY9LMGCTnyHDcDi22Zt6Lx
+                  image_url: https://cnd.shipnow.com.ar/stores/meli_generic.png
     post:
       description: |
         Creates a new Store
@@ -698,6 +983,16 @@ paths:
           description: A Store.
           schema:
             $ref: '#/definitions/Store'
+          examples:
+            application/json:
+              id: 16
+              name: Example Co ML
+              store_type: meli
+              user_store_id: "784"
+              credentials:
+                access_token: APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh
+                refresh_token: TG-lY9LMGCTnyHDcDi22Zt6Lx
+              image_url: https://cnd.shipnow.com.ar/stores/meli_generic.png
         404:
           description: A Store with the given id not found.
     put:
@@ -716,6 +1011,16 @@ paths:
           description: The updated order.
           schema:
             $ref: '#/definitions/Store'
+          examples:
+            application/json:
+              id: 16
+              name: Example Co ML
+              store_type: meli
+              user_store_id: "784"
+              credentials:
+                access_token: APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh
+                refresh_token: TG-lY9LMGCTnyHDcDi22Zt6Lx
+              image_url: https://cnd.shipnow.com.ar/stores/meli_generic.png
     delete:
       description: |
         Deletes a single Store based on the id supplied.
@@ -746,6 +1051,20 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/ShippingService'
+          examples:
+            application/json:
+              results:
+                - id: 13
+                  code: motonorte_same_day
+                  description: null
+                  min_zip_code: null
+                  max_zip_code: null
+                  post_offices: []
+                  carrier:
+                    id: 3
+                    code: motonorte
+                    name: Motonorte
+                    description: Envíos a CABA y GBA
   /shipping_services/{id}:
     get:
       description: |
@@ -763,6 +1082,19 @@ paths:
           description: A ShippingService.
           schema:
             $ref: '#/definitions/ShippingService'
+          examples:
+            application/json:
+              id: 13
+              code: motonorte_same_day
+              description: null
+              min_zip_code: null
+              max_zip_code: null
+              post_offices: []
+              carrier:
+                id: 3
+                code: motonorte
+                name: Motonorte
+                description: Envíos a CABA y GBA
         404:
           description: A ShippingService with the given id not found.
 
