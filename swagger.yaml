@@ -492,7 +492,7 @@ paths:
       responses:
         204:
           description: Order deleted.
-  /order/{orderId}/shipments:
+  /orders/{orderId}/shipments:
     get:
       description: |
         Returns the shipment for this order. Older orders MAY have more than
