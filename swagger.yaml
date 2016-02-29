@@ -101,6 +101,33 @@ info:
     You can create as many stores as you need, and it's strongly recommended
     that you use one per application you're integrating, or per point of sales.
 
+    Updating orders
+    ---------------
+
+    Depending on an order's status, some fields may not be editable, eg:it's
+    impossible to change the destination address for a package that's already
+    been shipped.
+
+    The `store_id` field cannot be edited and is considered readonly after an
+    order creation.
+
+    Keep in mind that you can set an order's status to `on_hold` (unless it has
+    been shipped) if there's an exceptional scenario that requires edition of
+    otherwise non-editable fields.
+
+    The following is a brief overview of which fields can be edited for orders
+    in each status:
+
+    `awaiting_payment`, `ready_to_pick` or `on_hold`:
+    All fields may be edited.
+
+    `picking_list`:
+    The `items` field can no longer be edited at this point. All other fields
+    are still editable.
+
+    `packing_slip`, `ready_to_ship`, `shipped`, `delivered` `not_delivered` or `cancelled`:
+    Only the `comments` field is editable at this point.
+
     Data
     ----
 
