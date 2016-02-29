@@ -101,6 +101,72 @@ info:
     You can create as many stores as you need, and it's strongly recommended
     that you use one per application you're integrating, or per point of sales.
 
+    Order Statuses
+    --------------
+
+    Each order has a status indicating at which point in the delivery process
+    it's currently in. Below is a brief summary of each status, and which
+    transitions sellers may perform for each one.
+
+    ### awaiting_payment
+    This is the initial status for all orders, and indicates that the seller
+    has not yet confirmed that it has been paid. Orders in this status will not
+    be process, and will remain unaltered until the status is updated.
+
+    Valid transitions: `ready_to_pick`, `on_hold`, `cancelled`
+
+    ### ready_to_pick
+    Orders in this status are awaiting to be picked from the warehouse.
+
+    Valid transitions: `picking_list`, `on_hold`, `cancelled`
+
+    ### picking_list
+    Items for this order and in the process of being gathered around the
+    warehouse
+
+    Valid transitions: `packing_slip`, `on_hold`
+
+    ### packing_slip
+    Items for this order are being packaged and labeled for delivery
+
+    Valid transitions: `ready_to_ship`, `on_hold`
+
+    ### ready_to_ship
+    The package for this order is ready, and is awaiting delivery by the
+    courier.
+
+    Valid transitions: `shipped`, `delivered`, `on_hold`
+
+    ### shipped
+    The package has been picked up by the courier and is en route to its final
+    destination.
+
+    Valid transitions: `delivered`, `not_delivered`
+
+    ### delivered
+    The package has been delivered to the buyer successfully. Orders in this
+    status may not transition to other statuses
+
+    ### not_delivered
+    Delivery of the package failed (eg: inexistant address, rejected, etc).
+    Orders in this status may not transition to other statuses
+
+    ### on_hold
+    The order has been manually paused, and no further processing will occur
+    until it transitions out of this state. If a package exists for an order in
+    this state, it will be located and set aside.
+
+    When an order transititions into this state, manual intervention MAY be
+    required, and, in some cases, it may not be possible to action the request
+    (eg: a package may be given to the courier just as the request comes in,
+    etc).
+
+    Valid transitions: `awaiting_payment`, `ready_to_pick`
+
+    ### cancelled
+    The order has been cancelled, and will no longer be processed. Orders in
+    this status may not transition to other statuses
+
     Updating orders
     ---------------
 
