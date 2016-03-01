@@ -983,6 +983,44 @@ paths:
                       store_type: meli
                       name: Example Co ML
                       user_store_id: 784
+  /accounts/me:
+    get:
+      description: |
+        Returns the account to which the user has access
+      operationId: getOwnAccount
+      responses:
+        200:
+          description: An Account object
+          schema:
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  - $ref: '#/definitions/Account'
+          examples:
+            application/json:
+              id: 7
+              email: info@example.com
+              name: John
+              last_name: Doe
+              company_name: Example Company Inc
+              phone: "+54 11 1234 5678"
+              address:
+                postal_code: 2000
+                address_line: Not Fake Av 321
+                street_name: Not Fake Av
+                street_number: 321
+                unit: C
+                floor: "1"
+                city: CABA
+                state: Argentina
+              stores:
+                - id: 19
+                  store_type: meli
+                  name: Example Co ML
+                  user_store_id: 784
+
   /accounts/{id}:
     put:
       description: |
