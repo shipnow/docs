@@ -30,7 +30,7 @@ info:
     mechanism.
 
     Users will provide their username and password, which you will then exchange
-    for a `Token` by `POST`ing to `/user/authentication`, using HTTP Basic
+    for a `Token` by `POST`ing to `/users/authentication`, using HTTP Basic
     Authentication (as defined in [rfc2617][rfc2617]). This will return the entire
     user object, which contains the user's token:
 
