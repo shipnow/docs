@@ -1335,8 +1335,10 @@ parameters:
           properties:
             service_code:
               type: string
+              description: The code for the order's shipping_service.
             carrier_code:
               type: string
+              description: The code for the order's carrier.
         store_id:
           type: string
           description: The id of this order's store.
