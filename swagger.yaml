@@ -1321,6 +1321,12 @@ parameters:
               type: string
             email:
               type: string
+            post_office_id:
+              type: string
+              description: |
+                The id of a post office where the order is to be shipped.
+                Including this fields eliminates the need for the address_line
+                and street_* fields
         shipping_options:
           type: object
           required:
