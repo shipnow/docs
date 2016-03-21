@@ -6,8 +6,8 @@ info:
     ShipNow exposes it's information using RESTful interface. Detailed
     documentation of every endpoint is available below.
 
-    Making requests
-    ---------------
+    Requests
+    --------
 
      * Our production API is hosted at https://api.shipnow.com.ar.
      * Our testing API is hosted at https://api-staging.shipnow.com.ar.
@@ -23,8 +23,7 @@ info:
     Both APIs use HTTPS (ie: HTTP + TLS) exclusively. You MUST NOT attempt to reach
     them using raw HTTP.
 
-    Authentication
-    --------------
+    ### Authentication
 
     Authentication is not yet done via OAuth, but a simpler password-based
     mechanism.
@@ -52,6 +51,70 @@ info:
 
     You SHOULD NOT store user's username or password. You should only store the
     provided token.
+
+    Responses
+    ---------
+
+    ### Data
+
+    All data is sent and received using [JSON][json]. Request data will be
+    contained inside a `results` object:
+
+        {
+            "results": [
+               {
+                  "id": 1,
+                  "name": "sample object 1",
+                  "created_at": "2017-12-14T15:42:12.898Z"
+               }
+            ]
+        }
+
+    All models also contain `updated_at` and `created_at` fields (these are
+    ommited from most examples for readability). They are the last-update and
+    creation times respectively  and cannot be manually edited.
+
+    ### Errors
+
+    In case of a 4XX (except 422) or 5XX status code, errors MAY be included in
+    an errors array:
+
+        {
+            "errors": [
+                "Access Denied"
+            ]
+        }
+
+    In case of a 422 status code, validation errors will be included in an
+    errors object:
+
+        {
+            errors: {
+                "someField": "Description of someField's error",
+                "anotherField": "Cannot be blank"
+            }
+        }
+
+    We adhere quite closely to [HTTP 1.1][http1.1], with one exception: When data
+    validation fails, we will return a 422 status code.
+
+    All dates are use the [ISO8601][iso8601] format, and are UTC-time, unless
+    otherwise specified.
+
+    ### Pagination
+
+    By default, all endpoints will return at most the first twenty elements
+    inside the `results` array. To obtain other elements include the `page`
+    query parameter, eg:
+
+        https://api.shipnow.com.ar/orders?page=2
+
+    The link to the next and last pages can be found in the `Link` HTTP header:
+
+        <https://api-staging.shipnow.com.ar/orders?page=20>; rel="last", <https://api-staging.shipnow.com.ar/orders?page=2>; rel="next"
+
+    Page indexes are one-based, meaning that the first pages is one, and NOT
+    zero.
 
     Accounts vs Users
     -----------------
@@ -193,67 +256,6 @@ info:
 
     `packing_slip`, `ready_to_ship`, `shipped`, `delivered` `not_delivered` or `cancelled`:
     Only the `comments` field is editable at this point.
-
-    Data
-    ----
-
-    All data is sent and received using [JSON][json]. Request data will be
-    contained inside a `results` object:
-
-        {
-            "results": [
-               {
-                  "id": 1,
-                  "name": "sample object 1",
-                  "created_at": "2017-12-14T15:42:12.898Z"
-               }
-            ]
-        }
-
-    All models also contain `updated_at` and `created_at` fields (these are
-    ommited from most examples for readability). They are the last-update and
-    creation times respectively  and cannot be manually edited.
-
-    In case of a 4XX (except 422) or 5XX status code, errors MAY be included in
-    an errors array:
-
-        {
-            "errors": [
-                "Access Denied"
-            ]
-        }
-
-    In case of a 422 status code, validation errors will be included in an
-    errors object:
-
-        {
-            errors: {
-                "someField": "Description of someField's error",
-                "anotherField": "Cannot be blank"
-            }
-        }
-
-    We adhere quite closely to [HTTP 1.1][http1.1], with one exception: When data
-    validation fails, we will return a 422 status code.
-
-    All dates are use the [ISO8601][iso8601] format, and are UTC-time, unless
-    otherwise specified.
-
-    Pagination
-    ----------
-
-    By default, all endpoints will return at most the first twenty elements
-    inside the `results` array. To obtain other elements include the `page`
-    query parameter, eg:
-
-        https://api.shipnow.com.ar/orders?page=2
-
-    The link to the next and last pages can be found in the `Link` HTTP header:
-
-        <https://api-staging.shipnow.com.ar/orders?page=20>; rel="last", <https://api-staging.shipnow.com.ar/orders?page=2>; rel="next"
-
-    Page indexes are one-based, meaning that the first pages is one, and NOT
-    zero.
 
     Webhooks
     --------
