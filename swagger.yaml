@@ -261,9 +261,8 @@ info:
     You can receive notifications in your app when certain event occur. For now,
     the only available notification is order creation/update.
 
-    Notifications are delivered via webhooks, which you can configure by
-    setting the `webhook_url` to your account (see the `/account` documentation
-    below).
+    Notifications are delivered via webhooks, which are created by POSTing to
+    the /webhooks endpoint documented below.
 
     Webhook notifications will be delivered by `POST`ing data about the event
     with the following format:
@@ -277,7 +276,7 @@ info:
      * `account` is the account for which this notification applies.  This will
         only be relevant to you if your application handles multiple ShipNow
         accounts.
-     * `topic` describes the event, and is composed of `model:event`. `event`
+     * `topic` describes the event, and is composed of `model/event`. `event`
        can be either `created` or `updated`, and model can only be `order`
        (This WILL change in future, so integrations MUST NOT assume it's always
        `order`!
@@ -1187,6 +1186,20 @@ paths:
         204:
           description: Store deleted.
 
+  /webhooks:
+    post:
+      description: Create a webhook. Event notifications will be posted to it.
+      operationId: createWebhook
+      parameters:
+        - $ref: '#/parameters/NewWebhook'
+      responses:
+        200:
+          description: The newly created webhook
+          examples:
+            application/json:
+              id: 71
+              url: https://example.com/notifications
+
   /shipping_services:
     get:
       description: |
@@ -1511,12 +1524,6 @@ parameters:
           type: string
           format: url
           description: The URL to an image used to idenfity this account.
-        webhook_url:
-          type: string
-          format: url
-          description: |
-            The URL where webhooks notifications are sent to. See the
-            documentation on webhooks for more details.
   NewStore:
     name: store
     in: body
@@ -1555,6 +1562,18 @@ parameters:
           readOnly: true
           description: A unique id.
           example: 12
+  NewWebhook:
+    name: webhook
+    in: body
+    schema:
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: url
+          description: The URL to which notifications will be posted.
+
 definitions:
   Shipment:
     required:
@@ -1858,12 +1877,6 @@ definitions:
         type: string
         format: url
         description: The URL to an image used to idenfity this account.
-      webhook_url:
-        type: string
-        format: url
-        description: |
-          The URL where webhooks notifications are sent to. See the
-          documentation on webhooks for more details.
   Store:
     properties:
       name:
