@@ -841,6 +841,47 @@ paths:
       responses:
         204:
           description: Product deleted.
+  /products/{id}/merge:
+    post:
+      description: |
+        Merges this product into a second one. This method should be used when an
+        account somehow has duplicate products, and deleting is impossible due to
+        existing orders.
+      operationId: mergeProduct
+      parameters:
+        - name: id
+          in: path
+          description: The product that will be merged and subsequently deleted.
+          required: true
+          type: integer
+        - name: target
+          in: query
+          description: Target product into which this one will be merged.
+          required: true
+          type: string
+      responses:
+        200:
+          description: The resulting target product.
+          schema:
+            $ref: '#/definitions/Product'
+          examples:
+            application/json:
+              results:
+                - id: 12072
+                  external_reference: AC17283DFC
+                  title: Red Scarf
+                  stock: 10
+                  price: 13.50
+                  currency: ARS
+                  image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
+                  dimensions:
+                    weight: 300.0
+                    heigth: 20.0
+                    length: 20.0
+                    width: 20.0
+                  extra_data:
+                    publication_id: FD742
+                  location: null
   /users:
     get:
       description: |
