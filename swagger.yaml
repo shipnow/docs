@@ -171,6 +171,9 @@ info:
     it's currently in. Below is a brief summary of each status, and which
     transitions sellers may perform for each one.
 
+    Be careful not to confuse `status` with `state`. The latter refers to the
+    geopolitical subdivision, not to an order's state.
+
     ### awaiting_payment
     This is the initial status for all orders, and indicates that the seller
     has not yet confirmed that it has been paid. Orders in this status will not
