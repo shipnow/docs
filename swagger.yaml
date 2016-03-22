@@ -257,6 +257,52 @@ info:
     `packing_slip`, `ready_to_ship`, `shipped`, `delivered` `not_delivered` or `cancelled`:
     Only the `comments` field is editable at this point.
 
+    Shipping Services
+    -----------------
+
+    Shipnow works with several carriers that offer several shipping services.
+    Generally, if you don't specify a carrier/service for an order, we will
+    automatically select the best choice for new.
+
+    That said, if you need to work with a specific service/carrier, you may
+    select one. Each shipping service has a `type` field which indicates what
+    type of service this is. These are described below.
+
+    Keep in mind that when specifying a post office (either as source or
+    destination), you do not need to specify an address; we'll automatically
+    fill that in.
+
+    ### ship_pas
+
+    Door to PostOffice shipments. These require a valid origin address and a
+    valid destination `post_office_id`.
+
+    ### ship_sap
+
+    Door to PostOffice shipments. These require a valid destination address and
+    a valid origin `post_office_id`.
+
+    ### pickup
+
+    This isn't an actualy shipping service; just the packaging. Clients will
+    pick up the order (either at shipnow, or somewhere else, depending on the
+    specific service).
+
+    ### ship_pap
+
+    Door to Door shipments. These require both valid origin and destination
+    addresses.
+
+    ### ship_sas
+
+    Post Office to Post Office shipments. These require both a valid origin and
+    destination `post_office_id`.
+
+    ### marketplace
+
+    These shipping services are specific to a certain marketplace, and should
+    not be used explicitly.
+
     Webhooks
     --------
 
