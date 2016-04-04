@@ -621,20 +621,6 @@ paths:
                   unit_price: 170.0
                   title: Blue Shoes
                   image_url: https://cdn.shipnow.com.ar/items/2827.png
-    delete:
-      description: |
-        Deletes a single order based on the id supplied.
-      operationId: deleteOrder
-      parameters:
-        - name: id
-          in: path
-          description: The id of order to delete.
-          required: true
-          type: integer
-          format: int64
-      responses:
-        204:
-          description: Order deleted.
   /orders/{orderId}/shipments:
     get:
       description: |
@@ -827,20 +813,6 @@ paths:
               extra_data:
                 publication_id: FD742
               location: null
-    delete:
-      description: |
-        Delete a single product based on the id supplied.
-      operationId: deleteProduct
-      parameters:
-        - name: id
-          in: path
-          description: The id of product to delete.
-          required: true
-          type: integer
-          format: int64
-      responses:
-        204:
-          description: Product deleted.
   /products/{id}/merge:
     post:
       description: |
@@ -1263,21 +1235,6 @@ paths:
                 access_token: APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh
                 refresh_token: TG-lY9LMGCTnyHDcDi22Zt6Lx
               image_url: https://cnd.shipnow.com.ar/stores/meli_generic.png
-    delete:
-      description: |
-        Deletes a single Store based on the id supplied.
-      operationId: deleteStore
-      parameters:
-        - name: id
-          in: path
-          description: The id of Store to delete.
-          required: true
-          type: integer
-          format: int64
-      responses:
-        204:
-          description: Store deleted.
-
   /webhooks:
     post:
       description: Create a webhook. Event notifications will be posted to it.
