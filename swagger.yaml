@@ -309,8 +309,9 @@ info:
     Webhooks
     --------
 
-    You can receive notifications in your app when certain event occur. For now,
-    the only available notification is order creation/update.
+    You can receive notifications in your app when certain event occur.
+    Notifications are available for order and product creation, deletion and
+    updates.
 
     Notifications are delivered via webhooks, which are created by POSTing to
     the /webhooks endpoint documented below.
@@ -320,19 +321,23 @@ info:
 
         {
           "account": 1,
-          "topic": "order/created",
-          "resource_id": 1
+          "action": "create",
+          "resource_id": 1,
+          "resource_type": "orders"
         }
 
      * `account` is the account for which this notification applies.  This will
         only be relevant to you if your application handles multiple ShipNow
         accounts.
-     * `topic` describes the event, and is composed of `model/event`. `event`
-       can be either `created` or `updated`, and model can only be `order`
-       (This WILL change in future, so integrations MUST NOT assume it's always
-       `order`!
+     * `action` indicates what the notification is for. It van be `create`,
+       `update`, or `destroy`.
      * `resources_id` is the `id` of the model which fired this notification
        (eg: the id of the order that has been created).
+     * `resource_type` is the type of the updated resource. It can be
+       `product`, or `order`. More values may be available in future so you
+       SHOULD check for either explicitly, rather than use something like
+       `if/else`.
+     * `topic` is a deprecated field and should not be used.
 
     Contributing
     ------------
