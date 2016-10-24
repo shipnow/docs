@@ -282,7 +282,7 @@ info:
 
     ### ship_sap
 
-    Door to PostOffice shipments. These require a valid destination address and
+    PostOffice to Door shipments. These require a valid destination address and
     a valid origin `post_office_id`.
 
     ### pickup
@@ -694,8 +694,15 @@ paths:
                 - id: 12072
                   external_reference: AC17283DFC
                   title: Red Scarf
-                  stock: 10
-                  price: 13.50
+                  stock:
+                    available: 1
+                    committed: 0
+                    allocated: 1
+                    on_hand": 2
+                  price:
+                    retail: 345.0
+                    wholesale: 300.5
+                    buy: 500
                   currency: ARS
                   image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
                   dimensions:
@@ -706,6 +713,7 @@ paths:
                   extra_data:
                     publication_id: FD742
                   location: null
+
     post:
       description: |
         Creates a new product, and returns it with its new id.
@@ -722,8 +730,10 @@ paths:
               id: 12072
               external_reference: AC17283DFC
               title: Red Scarf
-              stock: 10
-              price: 13.50
+              price:
+                retail: 345.0
+                wholesale: 300.5
+                buy: 500
               currency: ARS
               image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
               dimensions:
@@ -762,8 +772,15 @@ paths:
               id: 12072
               external_reference: AC17283DFC
               title: Red Scarf
-              stock: 10
-              price: 13.50
+              stock:
+                available: 1
+                committed: 0
+                allocated: 1
+                on_hand": 2
+              price:
+                retail: 345.0
+                wholesale: 300.5
+                buy: 500
               currency: ARS
               image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
               dimensions:
@@ -801,8 +818,10 @@ paths:
               id: 12072
               external_reference: AC17283DFC
               title: Red Scarf
-              stock: 10
-              price: 13.50
+              price:
+                retail: 345.0
+                wholesale: 300.5
+                buy: 500
               currency: ARS
               image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
               dimensions:
@@ -842,8 +861,15 @@ paths:
                 - id: 12072
                   external_reference: AC17283DFC
                   title: Red Scarf
-                  stock: 10
-                  price: 13.50
+                  stock:
+                    available: 1
+                    committed: 0
+                    allocated: 1
+                    on_hand": 2
+                  price:
+                    retail: 345.0
+                    wholesale: 300.5
+                    buy: 500
                   currency: ARS
                   image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
                   dimensions:
