@@ -175,27 +175,32 @@ info:
     geopolitical subdivision, not to an order's state.
 
     ### awaiting_payment
-    This is the initial status for all orders, and indicates that the seller
-    has not yet confirmed that it has been paid. Orders in this status will not
-    be process, and will remain unaltered until the status is updated.
+    Indicates that the seller has not yet confirmed that it has been paid. 
+    Orders in this status will not be process, and will remain unaltered 
+    until the status is updated.
 
-    Valid transitions: `ready_to_pick`, `on_hold`, `cancelled`
+    Valid transitions: `new`, `on_hold`, `cancelled`
+
+    ### new
+    This is the initial status for all paid orders. Orders in this status are ready to be allocated. This status should be temporary. If we have stock for all their items, it will be updated automatically to `ready_to_pick`. If not, the order will be paused (`on_hold`).
+
+    Valid transitions: `ready_to_pick`, `on_hold`
 
     ### ready_to_pick
-    Orders in this status are awaiting to be picked from the warehouse.
+    Orders with this status are allocated and awaiting to be picked from the warehouse.
 
-    Valid transitions: `picking_list`, `on_hold`, `cancelled`
+    Valid transitions: `picking_list`, `on_hold`
 
     ### picking_list
     Items for this order and in the process of being gathered around the
-    warehouse
+    warehouse.
 
-    Valid transitions: `packing_slip`, `on_hold`
+    Valid transitions: `packing_slip`
 
     ### packing_slip
-    Items for this order are being packaged and labeled for delivery
+    Items for this order are being packaged and labeled for delivery.
 
-    Valid transitions: `ready_to_ship`, `on_hold`
+    Valid transitions: `ready_to_ship`
 
     ### ready_to_ship
     The package for this order is ready, and is awaiting delivery by the
@@ -211,14 +216,14 @@ info:
 
     ### delivered
     The package has been delivered to the buyer successfully. Orders in this
-    status may not transition to other statuses
+    status may not transition to other statuses.
 
     ### not_delivered
     Delivery of the package failed (eg: inexistant address, rejected, etc).
-    Orders in this status may not transition to other statuses
+    Orders in this status may not transition to other statuses.
 
     ### on_hold
-    The order has been manually paused, and no further processing will occur
+    The order has been paused, and no further processing will occur
     until it transitions out of this state. If a package exists for an order in
     this state, it will be located and set aside.
 
@@ -227,11 +232,11 @@ info:
     (eg: a package may be given to the courier just as the request comes in,
     etc).
 
-    Valid transitions: `awaiting_payment`, `ready_to_pick`
+    Valid transitions: `new`, `cancelled`
 
     ### cancelled
     The order has been cancelled, and will no longer be processed. Orders in
-    this status may not transition to other statuses
+    this status may not transition to other statuses.
 
     Updating orders
     ---------------
@@ -1643,11 +1648,25 @@ parameters:
     schema:
       required:
         - url
+        - topics
+        - stores
       properties:
         url:
           type: string
           format: url
           description: The URL to which notifications will be posted.
+        topics:
+          type: array
+          enum:
+            - orders/create
+            - orders/update
+            - products/create
+            - products/update
+            - products/destroy
+          description: The URL to which notifications will be posted.
+        stores:
+          type: array
+          description: List of stores that will be notified.
 
 definitions:
   Shipment:
