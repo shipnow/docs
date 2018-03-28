@@ -703,7 +703,7 @@ paths:
                     available: 1
                     committed: 0
                     allocated: 1
-                    on_hand": 2
+                    on_hand: 2
                   price:
                     retail: 345.0
                     wholesale: 300.5
@@ -781,7 +781,7 @@ paths:
                 available: 1
                 committed: 0
                 allocated: 1
-                on_hand": 2
+                on_hand: 2
               price:
                 retail: 345.0
                 wholesale: 300.5
@@ -870,7 +870,7 @@ paths:
                     available: 1
                     committed: 0
                     allocated: 1
-                    on_hand": 2
+                    on_hand: 2
                   price:
                     retail: 345.0
                     wholesale: 300.5
