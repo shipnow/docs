@@ -339,6 +339,25 @@ info:
      * `resources_id` is the `id` of the model which fired this notification
        (eg: the id of the order that has been created).
 
+    Transfers
+    ---------
+
+    Permite transferir mercaderia entre dos depósitos. Al momento de crear una transferencia se debe especificar un horario mínimo y máximo en el que se va a realizar con `requested_from` y `requested_to`.
+
+    ### Estados:
+
+     * Requested: las transferencias creadas por cuentas que no pueden administrar todos los warehouses participantes se crean en estado requested y deben ser confirmados por un administrador del warehouse ajeno.
+
+     * Confirmed: las transferencias creadas por cuentas que pueden administrar todos los warehouses participantes en la transferencia se crean en estado confirmed. En este estado se crea una outbound order si corresponde. Además se actualiza el in_coming stock de los productos.
+
+     * Received: el depósito llego al deposito de llegada. Cuando una outbound order se completa, el good in pasa a received.
+
+     * Processing: la transferencia se esta procesando.
+
+     * Completed: la transferencia se completó. En cada item se actualiza el stock si es un producto y se reanudan si es una orden.
+
+     * Cancelled: solo las transferencias que aún no fueron confirmados se pueden cancelar.
+
     Contributing
     ------------
 
@@ -458,8 +477,8 @@ paths:
                     street_number: 123
                     unit: A
                     floor: 4
-                    city: CABA
-                    state: Argentina
+                    city: Ciudad Autónoma de Buenos Aires
+                    state: Ciudad Autónoma de Buenos Aires
                     email: johndoe@example.com
                   shipping_option:
                     service_code: oca_pap_estandar
@@ -500,8 +519,8 @@ paths:
                 street_number: 123
                 unit: A
                 floor: 4
-                city: CABA
-                state: Argentina
+                city: Ciudad Autónoma de Buenos Aires
+                state: Ciudad Autónoma de Buenos Aires
                 email: johndoe@example.com
               shipping_option:
                 service_code: oca_pap_estandar
@@ -1342,6 +1361,423 @@ paths:
         404:
           description: A ShippingService with the given id not found.
 
+  /transfers:
+    get:
+      description: |
+        Devuelve todas las transferencias del usuario. Estas transferencias pueden ser tanto de warehouses propios del usuario como ajenos.
+      operationId: indexTransfers
+      responses:
+        200:
+          description: Un array de Transfers.
+          schema:
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Transfer'
+          examples:
+            application/json:
+              results:
+                - id: 8445
+                  cancelled_at:
+                  comment: 
+                  completed_at:
+                  confirmed_at: 2018-03-26T09:14:47.599Z
+                  confirmed_from: 2018-03-27T14:00:00.599Z
+                  confirmed_to: 2018-03-27T16:00:47.599Z
+                  created_at: 2018-03-26T02:36:47.599Z
+                  priority: false
+                  processing_at:
+                  received_at:
+                  requested_from: 2018-03-27T09:00:00.599Z
+                  requested_to: 2018-03-27T13:00:47.599Z
+                  status: confirmed
+                  external_reference: T00553245
+                  items:
+                    - label_type: barcode
+                      package_reference: 9ASJF0H
+                      quantity_received: 0
+                      quantity_sent: 5
+                      resource_id: 10
+                      resource_type: product
+                  outbound_order:
+                  from_warehouse:
+                    id: 2
+                    created_at: 2018-03-25T14:00:00.599Z
+                    updated_at: 2018-03-25T14:00:00.599Z
+                    name: Another Warehouse
+                    operation_from_hour: 09:00
+                    operation_to_hour: 16:00
+                    only_workdays: false
+                    warehouse_system:
+                      id: 1
+                      code: new_wms
+                      name: New WMS
+                    address:
+                      zip_code: 1428
+                      street_name: Vuelta de Obligado
+                      street_number: 2100
+                      city: Ciudad Autónoma de Buenos Aires
+                      state: Ciudad Autónoma de Buenos Aires
+                      floor:
+                      unit: Deposito J2
+                      name: Belgrano Warehouses
+                      last_name:
+                      phone:
+                      email: belgrano@warehouse.com.ar
+                      lon: -58.4492836
+                      lat: -34.55989
+                      country:
+                        name: Argentina
+                        code: AR
+                  to_warehouse:
+                    id: 1
+                    created_at: 2018-03-25T14:00:00.599Z
+                    updated_at: 2018-03-25T14:00:00.599Z
+                    name: Shipnow
+                    operation_from_hour: 09:00
+                    operation_to_hour: 17:00
+                    only_workdays: true
+                    warehouse_system:
+                      id: 2
+                      code: xp_wms
+                      name: XP WMS
+                    address:
+                      zip_code: 1427
+                      street_name: Av. de los Constituyentes
+                      street_number: 2995
+                      city: Ciudad Autónoma de Buenos Aires
+                      state: Ciudad Autónoma de Buenos Aires
+                      floor:
+                      unit: Deposito J2
+                      name: Shipnow
+                      last_name:
+                      phone:
+                      email: info@shipnow.com.ar
+                      lon: -58.475772
+                      lat: -34.592206
+                      country:
+                        name: Argentina
+                        code: AR
+    post:
+      description: |
+        Crea una nueva transferencia de mercaderia entre depósitos.
+      operationId: createTransfer
+      parameters:
+        - name: transfer
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/NewTransfer'
+      responses:
+        200:
+          description: La transferencia que fue creada.
+          schema:
+            $ref: '#/definitions/Transfer'
+          examples:
+            application/json:
+              id: 8445
+              cancelled_at:
+              comment: 
+              completed_at:
+              confirmed_at:
+              confirmed_from:
+              confirmed_to:
+              created_at: 2018-03-26T02:36:47.599Z
+              priority: false
+              processing_at:
+              received_at:
+              requested_from: 2018-03-27T09:00:00.599Z
+              requested_to: 2018-03-27T13:00:47.599Z
+              status: requested
+              external_reference: T00553245
+              items:
+                - label_type: barcode
+                  package_reference: 9ASJF0H
+                  quantity_received: 0
+                  quantity_sent: 5
+                  resource_id: 10
+                  resource_type: product
+              outbound_order:
+              from_warehouse:
+                id: 2
+                created_at: 2018-03-25T14:00:00.599Z
+                updated_at: 2018-03-25T14:00:00.599Z
+                name: Another Warehouse
+                operation_from_hour: 09:00
+                operation_to_hour: 16:00
+                only_workdays: false
+                warehouse_system:
+                  id: 1
+                  code: new_wms
+                  name: New WMS
+                address:
+                  zip_code: 1428
+                  street_name: Vuelta de Obligado
+                  street_number: 2100
+                  city: Ciudad Autónoma de Buenos Aires
+                  state: Ciudad Autónoma de Buenos Aires
+                  floor:
+                  unit: Deposito J2
+                  name: Belgrano Warehouses
+                  last_name:
+                  phone:
+                  email: belgrano@warehouse.com.ar
+                  lon: -58.4492836
+                  lat: -34.55989
+                  country:
+                    name: Argentina
+                    code: AR
+              to_warehouse:
+                id: 1
+                created_at: 2018-03-25T14:00:00.599Z
+                updated_at: 2018-03-25T14:00:00.599Z
+                name: Shipnow
+                operation_from_hour: 09:00
+                operation_to_hour: 17:00
+                only_workdays: true
+                warehouse_system:
+                  id: 2
+                  code: xp_wms
+                  name: XP WMS
+                address:
+                  zip_code: 1427
+                  street_name: Av. de los Constituyentes
+                  street_number: 2995
+                  city: Ciudad Autónoma de Buenos Aires
+                  state: Ciudad Autónoma de Buenos Aires
+                  floor:
+                  unit: Deposito J2
+                  name: Shipnow
+                  last_name:
+                  phone:
+                  email: info@shipnow.com.ar
+                  lon: -58.475772
+                  lat: -34.592206
+                  country:
+                    name: Argentina
+                    code: AR
+        422:
+          description: A list of validation errors.
+          examples:
+            application/json:
+              errors:
+                - external_reference has already been taken
+                - confirmed_from is greater than confirmed_to
+  /transfers/{id}:
+    get:
+      description: |
+        Devuelve una transferencia identificada por ID.
+      operationId: getTransfer
+      parameters:
+        - name: id
+          in: path
+          description: ID de la transferencia
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: La transferencia que tiene el ID pasado como parametro.
+          schema:
+            $ref: '#/definitions/Transfer'
+          examples:
+            application/json:
+              id: 8445
+              cancelled_at:
+              comment: 
+              completed_at:
+              confirmed_at: 2018-03-26T09:14:47.599Z
+              confirmed_from: 2018-03-27T14:00:00.599Z
+              confirmed_to: 2018-03-27T16:00:47.599Z
+              created_at: 2018-03-26T02:36:47.599Z
+              priority: false
+              processing_at:
+              received_at:
+              requested_from: 2018-03-27T09:00:00.599Z
+              requested_to: 2018-03-27T13:00:47.599Z
+              status: confirmed
+              external_reference: T00553245
+              items:
+                - label_type: barcode
+                  package_reference: 9ASJF0H
+                  quantity_received: 0
+                  quantity_sent: 5
+                  resource_id: 10
+                  resource_type: product
+              outbound_order:
+              from_warehouse:
+                id: 2
+                created_at: 2018-03-25T14:00:00.599Z
+                updated_at: 2018-03-25T14:00:00.599Z
+                name: Another Warehouse
+                operation_from_hour: 09:00
+                operation_to_hour: 16:00
+                only_workdays: false
+                warehouse_system:
+                  id: 1
+                  code: new_wms
+                  name: New WMS
+                address:
+                  zip_code: 1428
+                  street_name: Vuelta de Obligado
+                  street_number: 2100
+                  city: Ciudad Autónoma de Buenos Aires
+                  state: Ciudad Autónoma de Buenos Aires
+                  floor:
+                  unit: Deposito J2
+                  name: Belgrano Warehouses
+                  last_name:
+                  phone:
+                  email: belgrano@warehouse.com.ar
+                  lon: -58.4492836
+                  lat: -34.55989
+                  country:
+                    name: Argentina
+                    code: AR
+              to_warehouse:
+                id: 1
+                created_at: 2018-03-25T14:00:00.599Z
+                updated_at: 2018-03-25T14:00:00.599Z
+                name: Shipnow
+                operation_from_hour: 09:00
+                operation_to_hour: 17:00
+                only_workdays: true
+                warehouse_system:
+                  id: 2
+                  code: xp_wms
+                  name: XP WMS
+                address:
+                  zip_code: 1427
+                  street_name: Av. de los Constituyentes
+                  street_number: 2995
+                  city: Ciudad Autónoma de Buenos Aires
+                  state: Ciudad Autónoma de Buenos Aires
+                  floor:
+                  unit: Deposito J2
+                  name: Shipnow
+                  last_name:
+                  phone:
+                  email: info@shipnow.com.ar
+                  lon: -58.475772
+                  lat: -34.592206
+                  country:
+                    name: Argentina
+                    code: AR
+        404:
+          description: no se encontró ninguna transferencia con ese ID.
+    put:
+      description: |
+        Actualiza una transferencia ya existente.
+      operationId: updateTransfer
+      parameters:
+        - name: id
+          in: path
+          description: el ID de la transferencia que se quiere editar.
+          required: true
+          type: integer
+        - name: transfer
+          in: body
+          description: los datos de la transferencia que se quieren guardar. Dependiendo del estado de la transferencia algunos datos podrían ser no editables.
+          required: true
+          schema:
+            $ref: '#/definitions/NewTransfer'
+      responses:
+        200:
+          description: La transferencia actualizada.
+          schema:
+            $ref: '#/definitions/Transfer'
+          examples:
+            application/json:
+              id: 8445
+              cancelled_at:
+              comment: 
+              completed_at:
+              confirmed_at: 2018-03-26T09:14:47.599Z
+              confirmed_from: 2018-03-27T14:00:00.599Z
+              confirmed_to: 2018-03-27T16:00:47.599Z
+              created_at: 2018-03-26T02:36:47.599Z
+              priority: false
+              processing_at:
+              received_at:
+              requested_from: 2018-03-27T09:00:00.599Z
+              requested_to: 2018-03-27T13:00:47.599Z
+              status: confirmed
+              external_reference: T00553245
+              items:
+                - label_type: barcode
+                  package_reference: 9ASJF0H
+                  quantity_received: 0
+                  quantity_sent: 5
+                  resource_id: 10
+                  resource_type: product
+              outbound_order:
+              from_warehouse:
+                id: 2
+                created_at: 2018-03-25T14:00:00.599Z
+                updated_at: 2018-03-25T14:00:00.599Z
+                name: Another Warehouse
+                operation_from_hour: 09:00
+                operation_to_hour: 16:00
+                only_workdays: false
+                warehouse_system:
+                  id: 1
+                  code: new_wms
+                  name: New WMS
+                address:
+                  zip_code: 1428
+                  street_name: Vuelta de Obligado
+                  street_number: 2100
+                  city: Ciudad Autónoma de Buenos Aires
+                  state: Ciudad Autónoma de Buenos Aires
+                  floor:
+                  unit: Deposito J2
+                  name: Belgrano Warehouses
+                  last_name:
+                  phone:
+                  email: belgrano@warehouse.com.ar
+                  lon: -58.4492836
+                  lat: -34.55989
+                  country:
+                    name: Argentina
+                    code: AR
+              to_warehouse:
+                id: 1
+                created_at: 2018-03-25T14:00:00.599Z
+                updated_at: 2018-03-25T14:00:00.599Z
+                name: Shipnow
+                operation_from_hour: 09:00
+                operation_to_hour: 17:00
+                only_workdays: true
+                warehouse_system:
+                  id: 2
+                  code: xp_wms
+                  name: XP WMS
+                address:
+                  zip_code: 1427
+                  street_name: Av. de los Constituyentes
+                  street_number: 2995
+                  city: Ciudad Autónoma de Buenos Aires
+                  state: Ciudad Autónoma de Buenos Aires
+                  floor:
+                  unit: Deposito J2
+                  name: Shipnow
+                  last_name:
+                  phone:
+                  email: info@shipnow.com.ar
+                  lon: -58.475772
+                  lat: -34.592206
+                  country:
+                    name: Argentina
+                    code: AR
+        422:
+          description: A list of validation errors.
+          examples:
+            application/json:
+              errors:
+                - external_reference has already been taken
+                - confirmed_from is greater than confirmed_to
 
 # TODO: tracking
 
@@ -2045,3 +2481,282 @@ definitions:
               shipping carrier.
             type: string
             example: Does worldwide door-to-door shipping
+  WarehouseSystem:
+    properties:
+      id:
+        description: Un ID único.
+        type: integer
+        example: 1
+      name:
+        description: Nombre del WMS.
+        type: string
+        example: WMS 2.0
+      code:
+        description: Código único del WMS.
+        type: string
+        example: wms_2_0
+  Address:
+    properties:
+      zip_code:
+        type: string
+      street_name:
+        type: string
+        example: Rivadavia
+      street_number:
+        type: string
+        example: 2700
+      city:
+        type: string
+        example: Rosario
+      state:
+        type: string
+        example: Santa Fe
+      floor:
+        type: string
+        example: Piso 2A
+      unit:
+        type: string
+        example: Unidad 3
+      name:
+        type: string
+        example: Jose
+      last_name:
+        type: string
+        example: Perez
+      phone:
+        type: string
+        example: +541178458928
+      email:
+        type: string
+        format: email
+        example: jose@perez.com.ar
+      lon:
+        type: string
+        example: -58.475772
+      lat:
+        type: string
+        example: -34.592206
+      country:
+        type: object
+        properties:
+          name:
+            type: string
+            example: Argentina
+          code:
+            type: string
+            example: AR
+  Warehouse:
+    properties:
+      id:
+        description: Un ID único.
+        example: 1
+        type: integer
+      created_at:
+        description: Fecha de creación del depósito.
+        type: string
+        format: date-time
+        example: 2018-03-25T14:00:00.599Z
+      name:
+        description: Nombre que identifica al depósito.
+        example: Showroom Palermo
+        type: string
+      operation_from_hour:
+        description: Horario donde el depósito comienza a operar.
+        type: string
+        pattern: '^\d{2}:\d{2}$'
+        example: 09:00
+      operation_to_hour:
+        description: Horario donde el depósito terminar de operar.
+        type: string
+        pattern: '^\d{2}:\d{2}$'
+        example: 09:00
+      only_workdays:
+        description: Especifica si el depósito no trabaja los feriados y fines de semana.
+        type: boolean
+        example: true
+      warehouse_system:
+        description: WMS con que cuenta el déposito.
+        $ref: '#/definitions/WarehouseSystem'
+      address:
+        description: Dirección del depósito.
+        $ref: '#/definitions/Address'
+  TransferItem:
+    properties:
+      label_type:
+        description: Forma en la que va a estar etiquetado el item.
+        type: string
+        enum:
+          - barcode
+          - rotulado
+      package_reference:
+        description: Referencia del item.
+        type: string
+        example: 9ASJF0H
+      quantity_received:
+        description: Cantidad de unidades recibidas del item.
+        type: integer
+      quantity_sent:
+        description: Cantidad de unidades enviadas del item.
+        type: integer
+      resource_id:
+        description: ID del recurso del item.
+        type: integer
+        example: 234645
+      resource_type:
+        description: Tipo del recurso del item.
+        type: string
+        enum:
+          - product
+          - order
+  Transfer:
+    properties:
+      id:
+        description: Un ID único.
+        example: 1
+        type: integer
+        readOnly: true
+      cancelled_at:
+        description: Fecha en la que se cancelo la transferencia si corresponde.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+        readOnly: true
+      comment:
+        description: Notas sobre la transferencia.
+        type: string
+        example: Ingresa por puerta norte.
+      completed_at:
+        description: Fecha en la que se completo la transferencia.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+        readOnly: true
+      confirmed_at:
+        description: Fecha en la que se confirmo la transferencia.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+        readOnly: true
+      confirmed_from:
+        description: Fecha desde la cual se va a realizar la transferencia.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+      confirmed_to:
+        description: Fecha hasta la cual se va a realizar la transferencia.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+      created_at:
+        description: Fecha en la que se creo la transferencia.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+        readOnly: true
+      priority:
+        description: Permite señalar que la transferencia va a tener una prioridad por encima del resto.
+        type: boolean
+        example: true
+      processing_at:
+        description: Fecha en la que se proceso la transferencia.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+        readOnly: true
+      received_at:
+        description: Fecha en la que el depósito de llegada recibío la transferencia.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+        readOnly: true
+      requested_from:
+        description: Fecha solicitada desde la cual se va a realizar la transferencia.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+      requested_to:
+        description: Fecha solicitada hasta la cual se va a realizar la transferencia.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+      status:
+        description: Estado de la transferencia.
+        type: string
+        enum:
+          - requested
+          - confirmed
+          - received
+          - processing
+          - completed
+          - cancelled
+      items:
+        description: Items de la transferencia
+        type: array
+        items:
+          $ref: '#/definitions/TransferItem'
+      outbound_order:
+        description: Pedido de salida de la mercadería. Cuando se confirma una transferencia que parte de un depósito que cuenta con WMS se creara una pedido de salida para que se pueda preparar y empaquetar. Este pedido incluira todos los productos de la transferencia.
+        $ref: '#/definitions/Order'
+      from_warehouse:
+        description: Depósito de partida de la mercadería.
+        $ref: '#/definitions/Warehouse'
+      to_warehouse:
+        description: Depósito de llegada de la mercadería.
+        $ref: '#/definitions/Warehouse'
+  NewTransfer:
+    properties:
+      comment:
+        description: Notas sobre la transferencia.
+        type: string
+        example: Ingresa por puerta norte.
+      confirmed_from:
+        description: Fecha desde la cual se va a realizar la transferencia. Solo se puede editar si el estado es confirmed.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+      confirmed_to:
+        description: Fecha hasta la cual se va a realizar la transferencia. Solo se puede editar si el estado es confirmed.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+      priority:
+        description: Permite señalar que la transferencia va a tener una prioridad por encima del resto.
+        type: boolean
+        example: true
+      requested_from:
+        description: Fecha solicitada desde la cual se va a realizar la transferencia. Solo se puede editar si el estado es requested.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+      requested_to:
+        description: Fecha solicitada hasta la cual se va a realizar la transferencia. Solo se puede editar si el estado es requested.
+        type: string
+        format: date-time
+        example: 2018-04-06T09:00:00.000Z
+      status:
+        description: Estado de la transferencia.
+        type: string
+        enum:
+          - requested
+          - confirmed
+          - received
+          - processing
+          - completed
+          - cancelled
+      items:
+        description: Items de la transferencia
+        type: array
+      from_warehouse_id:
+        description: ID del depósito de partida de la mercadería.
+        type: integer
+        example: 1
+      to_warehouse_id:
+        description: ID del depósito de llegada de la mercadería.
+        type: integer
+        example: 1
+    required:
+      - requested_from
+      - requested_to
+      - items
+      - from_warehouse_id
+      - to_warehouse_id
