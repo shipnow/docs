@@ -310,6 +310,13 @@ info:
 
     These shipping services are specific to a certain marketplace, and should
     not be used explicitly.
+    
+    Post Offices
+    ------------
+    
+    As Shipnow works with differents carriers, some of them provide us the possibility 
+    of using their post offices so clients can picking up their package.
+     Shipnow can deliver orders to Oca, Garbarino and Andreani post offices.
 
     Webhooks
     --------
@@ -342,21 +349,27 @@ info:
     Transfers
     ---------
 
-    Permite transferir mercaderia entre dos depósitos. Al momento de crear una transferencia se debe especificar un horario mínimo y máximo en el que se va a realizar con `requested_from` y `requested_to`.
+    It allows to transfer merchandise between two deposits. When creating a transfer, it must be specified a minimum and maximum timetable in which it will be carried out with `requested_from` and `resquested_to`.
 
-    ### Estados:
+    ### Transfer Statuses
 
-     * Requested: las transferencias creadas por cuentas que no pueden administrar todos los warehouses participantes se crean en estado requested y deben ser confirmados por un administrador del warehouse ajeno.
+    ### requested
+    Transfers created by accounts that can not manage all participating warehouses are created in the `requested` state and must be confirmed by a third-party warehouse administrator.
 
-     * Confirmed: las transferencias creadas por cuentas que pueden administrar todos los warehouses participantes en la transferencia se crean en estado confirmed. En este estado se crea una outbound order si corresponde. Además se actualiza el in_coming stock de los productos.
+    ### confirmed
+    Transfers created by accounts that can manage all the warehouses participating in the transfer are created in the `confirmed` state. In this state an outbound order is created if applicable. In addition, the in_coming stock of the products is updated.
 
-     * Received: el depósito llego al deposito de llegada. Cuando una outbound order se completa, el good in pasa a received.
+    ### received
+    Transfer arrived at the arrival deposit. When an outbound order is completed, the good in goes to received.
 
-     * Processing: la transferencia se esta procesando.
+    ### processing
+    Transfer is `processing`.
 
-     * Completed: la transferencia se completó. En cada item se actualiza el stock si es un producto y se reanudan si es una orden.
+    ### completed
+    Transfer was `completed`. In each item the stock is updated if it´s a product and it´s resumed if it´s an order.
 
-     * Cancelled: solo las transferencias que aún no fueron confirmados se pueden cancelar.
+    ### cancelled
+    Only transfers that have not yet been confirmed can be `cancelled`.
 
     Contributing
     ------------
@@ -1361,6 +1374,119 @@ paths:
         404:
           description: A ShippingService with the given id not found.
 
+  /post_offices:
+    get:
+      description: |
+        Returns all the available post offices.
+      operationId: findPostOffices
+      responses:
+        200:
+          description: An array of PostOffices.
+          schema:
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/PostOffice'
+          examples:
+            application/json:
+              results:
+                - id: 751
+                  external_reference:
+                  external_id: 2
+                  description: Belgrano
+                  pickup_point: true
+                  drop_off_point: false
+                  address: 
+                    zip_code: 1428
+                    street_name: Av. Cabildo
+                    street_number: 2027
+                    city: Buenos Aires
+                    state: Ciudad de Buenos Aires
+                    floor:
+                    unit:
+                    name:
+                    last_name:
+                    full_name:
+                    phone:
+                    email:
+                    lon: -58.45601655
+                    lat: -34.5626933599
+                    doc_type:
+                    doc_number:
+                    line:
+                    address_line: Av. Cabildo 2027
+                    country: 
+                      name: Argentina
+                      code: AR
+                  carrier: 
+                    code: garbarino
+                    description: Envíos a todo el país. Puerta a Puerta y Puerta a Sucursal
+                    flexible_dispatching: false
+                    id: 18
+                    image_url: http://res.cloudinary.com/hsyqpasuw/image/upload/v1523894997/garbarino-square_peoqq2.png
+                    name: Garbarino
+                    tracking_url:
+                    
+  /post_offices/{id}:
+    get:
+      description: |
+        Returns the PostOffice identified by id.
+      operationId: getPostOffice
+      parameters:
+        - name: id
+          in: path
+          description: The id of the PostOffice to fetch.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: A PostOffice
+          schema:
+            $ref: '#/definitions/PostOffice'
+          examples:
+            application/json:
+            results:
+              - id: 751
+                external_reference:
+                external_id: 2
+                description: Belgrano
+                pickup_point: true
+                drop_off_point: false
+                address: 
+                  zip_code: 1428
+                  street_name: Av. Cabildo
+                  street_number: 2027
+                  city: Buenos Aires
+                  state: Ciudad de Buenos Aires
+                  floor:
+                  unit:
+                  name:
+                  last_name:
+                  full_name:
+                  phone:
+                  email:
+                  lon: -58.45601655
+                  lat: -34.5626933599
+                  doc_type:
+                  doc_number:
+                  line:
+                  address_line: Av. Cabildo 2027
+                  country: 
+                    name: Argentina
+                    code: AR
+                carrier: 
+                  code: garbarino
+                  description: Envíos a todo el país. Puerta a Puerta y Puerta a Sucursal
+                  flexible_dispatching: false
+                  id: 18
+                  image_url: http://res.cloudinary.com/hsyqpasuw/image/upload/v1523894997/garbarino-square_peoqq2.png
+                  name: Garbarino
+                  tracking_url:
+        404:
+          description: A PostOffice with the given id not found.
   /transfers:
     get:
       description: |
@@ -2481,6 +2607,68 @@ definitions:
               shipping carrier.
             type: string
             example: Does worldwide door-to-door shipping
+  PostOffice:
+    properties:
+      id: 
+        description: An unique ID.
+        type: integer
+        example: 1
+      external_reference: 
+        description: An external reference
+        type: string
+        example: FL1
+      external_id: 
+        description: An unique external ID
+        type: integer
+        example: 141
+      description: 
+        description: Comments about the post office
+        type: string
+        example: CI FLORES
+      pickup_point:
+        description: Is a pickup point?
+        type: boolean
+        example: true
+      drop_off_point: 
+        description: Is a drop off point?
+        type: boolean
+        example: false
+      address:
+        description: Address of the post office
+        $ref: '#/definitions/Address'
+      carrier:
+        description: Carrier to which the post office belongs
+        $ref: '#/definitions/Carrier'
+  Carrier:
+    properties:
+      code:
+        description: An unique code for carrier
+        type: string
+        example: oca
+      description:
+        description: Comments about the carrier
+        type: string
+        example: Envíos a todo el país. Puerta a Puerta y Sucursal
+      flexible_dispatching:
+        description: flexible dispatching?
+        type: boolean
+        example: false
+      id:
+        description: An unique ID.
+        type: integer
+        example: 1
+      image_url:
+        description: Url for the carrier avatar
+        type: string
+        example: https://d32gfon7gpwon2.cloudfront.net/carriers/oca-ar.svg
+      name:
+        description: Name of carrier.
+        type: string
+        example: Oca
+      tracking_url:
+        description: Url for package tracking.
+        type: string
+        example: https://www1.oca.com.ar/OEPTrackingWeb/detalleenviore.asp?numero=
   WarehouseSystem:
     properties:
       id:
@@ -2548,34 +2736,34 @@ definitions:
   Warehouse:
     properties:
       id:
-        description: Un ID único.
+        description: A unique ID.
         example: 1
         type: integer
       created_at:
-        description: Fecha de creación del depósito.
+        description: Date of creation of the deposit.
         type: string
         format: date-time
         example: 2018-03-25T14:00:00.599Z
       name:
-        description: Nombre que identifica al depósito.
+        description: Name that identifies the deposit.
         example: Showroom Palermo
         type: string
       operation_from_hour:
-        description: Horario donde el depósito comienza a operar.
+        description: Hour when the deposit begins to operate.
         type: string
         pattern: '^\d{2}:\d{2}$'
         example: 09:00
       operation_to_hour:
-        description: Horario donde el depósito terminar de operar.
+        description: Hour when the deposit finishes to operate.
         type: string
         pattern: '^\d{2}:\d{2}$'
         example: 09:00
       only_workdays:
-        description: Especifica si el depósito no trabaja los feriados y fines de semana.
+        description: Specifies if the deposit does not work on holidays and weekends.
         type: boolean
         example: true
       warehouse_system:
-        description: WMS con que cuenta el déposito.
+        description: WMS that has de deposit.
         $ref: '#/definitions/WarehouseSystem'
       address:
         description: Dirección del depósito.
@@ -2583,27 +2771,27 @@ definitions:
   TransferItem:
     properties:
       label_type:
-        description: Forma en la que va a estar etiquetado el item.
+        description: Form in which the item will be labeled.
         type: string
         enum:
           - barcode
           - rotulado
       package_reference:
-        description: Referencia del item.
+        description: Item reference.
         type: string
         example: 9ASJF0H
       quantity_received:
-        description: Cantidad de unidades recibidas del item.
+        description: Number of item units received.
         type: integer
       quantity_sent:
-        description: Cantidad de unidades enviadas del item.
+        description: Number of item units sent.
         type: integer
       resource_id:
-        description: ID del recurso del item.
+        description: ID of the item resource.
         type: integer
         example: 234645
       resource_type:
-        description: Tipo del recurso del item.
+        description: Type of the item resource.
         type: string
         enum:
           - product
@@ -2611,76 +2799,76 @@ definitions:
   Transfer:
     properties:
       id:
-        description: Un ID único.
+        description: A unique ID.
         example: 1
         type: integer
         readOnly: true
       cancelled_at:
-        description: Fecha en la que se cancelo la transferencia si corresponde.
+        description: Date on which the transfer was canceled.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
         readOnly: true
       comment:
-        description: Notas sobre la transferencia.
+        description: Notes about the transfer.
         type: string
         example: Ingresa por puerta norte.
       completed_at:
-        description: Fecha en la que se completo la transferencia.
+        description: Date on which the transfer was completed.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
         readOnly: true
       confirmed_at:
-        description: Fecha en la que se confirmo la transferencia.
+        description: Date on which the transfer was confirmed.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
         readOnly: true
       confirmed_from:
-        description: Fecha desde la cual se va a realizar la transferencia.
+        description: Date from which the transfer will be made.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
       confirmed_to:
-        description: Fecha hasta la cual se va a realizar la transferencia.
+        description: Date until which the transfer will be made.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
       created_at:
-        description: Fecha en la que se creo la transferencia.
+        description: Date in which the transfer was created.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
         readOnly: true
       priority:
-        description: Permite señalar que la transferencia va a tener una prioridad por encima del resto.
+        description: Allows to point out that the transfer will have a priority over the rest.
         type: boolean
         example: true
       processing_at:
-        description: Fecha en la que se proceso la transferencia.
+        description: Date on which the transfer is processed.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
         readOnly: true
       received_at:
-        description: Fecha en la que el depósito de llegada recibío la transferencia.
+        description: Date on which the arrival deposit received the transfer.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
         readOnly: true
       requested_from:
-        description: Fecha solicitada desde la cual se va a realizar la transferencia.
+        description: Date requested from which the transfer will be made.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
       requested_to:
-        description: Fecha solicitada hasta la cual se va a realizar la transferencia.
+        description: Date requested until which the transfer will be made.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
       status:
-        description: Estado de la transferencia.
+        description: Transfer status.
         type: string
         enum:
           - requested
@@ -2690,51 +2878,51 @@ definitions:
           - completed
           - cancelled
       items:
-        description: Items de la transferencia
+        description: Transfer's items
         type: array
         items:
           $ref: '#/definitions/TransferItem'
       outbound_order:
-        description: Pedido de salida de la mercadería. Cuando se confirma una transferencia que parte de un depósito que cuenta con WMS se creara una pedido de salida para que se pueda preparar y empaquetar. Este pedido incluira todos los productos de la transferencia.
+        description: Order of departure of the merchandise. When a transfer from a warehouse that has WMS is confirmed, an exit order will be created so that it can be prepared and packaged. This order will include all the products of the transfer.
         $ref: '#/definitions/Order'
       from_warehouse:
-        description: Depósito de partida de la mercadería.
+        description: Warehouse of departure of the merchandise.
         $ref: '#/definitions/Warehouse'
       to_warehouse:
-        description: Depósito de llegada de la mercadería.
+        description: Deposit of arrival of the merchandise.
         $ref: '#/definitions/Warehouse'
   NewTransfer:
     properties:
       comment:
-        description: Notas sobre la transferencia.
+        description: Notes on the transfer.
         type: string
-        example: Ingresa por puerta norte.
+        example: Enter by north gate.
       confirmed_from:
-        description: Fecha desde la cual se va a realizar la transferencia. Solo se puede editar si el estado es confirmed.
+        description: Date from which the transfer will be made. It can only be edited if the status is confirmed.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
       confirmed_to:
-        description: Fecha hasta la cual se va a realizar la transferencia. Solo se puede editar si el estado es confirmed.
+        description: Date until which the transfer will be made. It can only be edited if the status is confirmed.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
       priority:
-        description: Permite señalar que la transferencia va a tener una prioridad por encima del resto.
+        description: Allows to point out that the transfer will have a priority over the rest.
         type: boolean
         example: true
       requested_from:
-        description: Fecha solicitada desde la cual se va a realizar la transferencia. Solo se puede editar si el estado es requested.
+        description: Date requested from which the transfer will be made. It can only be edited if the status is requested.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
       requested_to:
-        description: Fecha solicitada hasta la cual se va a realizar la transferencia. Solo se puede editar si el estado es requested.
+        description: Date requested until which the transfer will be made. It can only be edited if the status is requested.
         type: string
         format: date-time
         example: 2018-04-06T09:00:00.000Z
       status:
-        description: Estado de la transferencia.
+        description: Transfer's status.
         type: string
         enum:
           - requested
@@ -2744,14 +2932,14 @@ definitions:
           - completed
           - cancelled
       items:
-        description: Items de la transferencia
+        description: Transfer's items
         type: array
       from_warehouse_id:
-        description: ID del depósito de partida de la mercadería.
+        description: ID of the departure deposit of the merchandise.
         type: integer
         example: 1
       to_warehouse_id:
-        description: ID del depósito de llegada de la mercadería.
+        description: ID of the arrival deposit of the merchandise.
         type: integer
         example: 1
     required:
