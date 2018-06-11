@@ -477,35 +477,134 @@ paths:
           examples:
             application/json:
               results:
-                - id: 18424
+                  id: 18424
+                  created_at: 2018-06-07T10:00:15.734-03:00
+                  updated_at: 2018-06-07T10:00:15.734-03:00
                   external_reference: 100553245
+                  external_reference_user:
                   comment: Stock comes in on 2016-02-28
-                  ship_to:
-                    name: John
-                    last_name: Doe
-                    phone: +54 11 5555 6666
-                    zip_code: 2085
-                    address_line: Fake Street 123 4A
-                    street_name: Fake Street
-                    street_number: 123
-                    unit: A
-                    floor: 4
-                    city: Ciudad Autónoma de Buenos Aires
-                    state: Ciudad Autónoma de Buenos Aires
-                    email: johndoe@example.com
+                  status: awaiting_payment
+                  last_status:
+                  main_order_id:
+                  archived: false
+                  timestamps:
+                    created_at: 2018-06-07T10:00:15.734-03:00
+                    updated_at: 2018-06-07T10:00:15.734-03:00
+                    ready_to_pick_at:
+                    packing_slip_at:
+                    picking_list_at:
+                    ready_to_ship_at:
+                    shipped_at: 
+                    delivered_at: 
+                    not_delivered_at: 
+                    on_hold_at:
+                  weight: 0
+                  uid: BjXAhBl3nrZsyGF1BXyJ5Q
+                  package_type: 0.0
+                  estimated_delivery: 2018-06-13T18:00:00.000-03:00
+                  minimum_delivery: 2018-06-08T09:00:00.000-03:00
+                  maximum_delivery: 2018-06-13T18:00:00.000-03:00
+                  ship_from_warehouse_id: 1
+                  ship_to_warehouse_id:
+                  type: regular
+                  warnings:
+                  seller_id: 850
+                  seller_name: Tricera Mochila
+                  seller_logo: 
+                  pvx_account: true
+                  store_type: tiendanube
+                  cross_docking: false
+                  payment:
+                    interest: 0
+                    shipping: 0
                   shipping_option:
-                    service_code: oca_pap_estandar
-                    carrier_code: oca
-                  store_id: 2
-                  store_type: meli
-                  status: delivered
+                    service_code: mailexpress_estandar
+                    carrier_code: mailexpress
+                    category: economic
+                    price: 197
+                    service_type: ship_pap
+                  store:
+                    id: 1575
+                    created_at: 2018-05-31T20:51:26.357-03:00
+                    updated_at: 2018-05-31T20:51:39.661-03:00
+                    name: TN - Tricera
+                    url: http://triceratops.mitiendanube.com
+                    image_url: https://d26lpennugtm8s.cloudfront.net/stores/055/480/themes/common/logo-584049565-1527722282-c2abf2fcaa0e06649cace7951b0214981527722282.png?0
+                    active: true
+                    seller_id: 850
+                    store_type: tiendanube
+                  return:
+                  pickup_order:
+                  ship_to:
+                    zip_code: 3600
+                    street_name:
+                    street_number: 
+                    city: Santa Rosa
+                    state: La Pampa
+                    floor: 
+                    unit: 
+                    name: Marcelo Breno
+                    last_name: 
+                    full_name: Marcelo Breno
+                    phone: 0295415543942
+                    email: chelo.mb3@gmail.com
+                    lon:
+                    lat:
+                    doc_type:
+                    doc_number:
+                    line: Mariano Pascual 167
+                    address_line: Mariano Pascual 167
+                    country:
+                        name: Argentina
+                        code: AR
+                    post_office_id:
+                    warehouse_id:
+                  ship_from:
+                    zip_code: 1427
+                    street_name: Av. Constituyentes
+                    street_number: 2995
+                    city: Ciudad de Buenos Aires
+                    state: Ciudad de Buenos Aires
+                    floor: 
+                    unit: Deposito J2
+                    name: Tricera Mochilas
+                    last_name: SRL
+                    full_name: Tricera Mochilas Srl
+                    phone: 35292697
+                    email: info@shipnow.com.ar
+                    lon: -58.475772
+                    lat: -34.592206
+                    doc_type:
+                    doc_number:
+                    line: Av. Constituyentes 2995 Deposito J2
+                    address_line: Av. Constituyentes 2995 Deposito J2
+                    country:
+                        name: Argentina
+                        code: AR
+                    post_office_id:
+                    warehouse_id: 1
                   items:
-                    - id: 2827
-                      external_reference: 70089453/A
-                      quantity: 2
-                      unit_price: 170.0
-                      title: Blue Shoes
-                      image_url: https://cdn.shipnow.com.ar/items/2827.png
+                    quantity: 1,
+                    status: 
+                    extra_data:
+                    unit_price: 1999.0
+                    discount: 0.0
+                    cross_docking: false
+                    id: 602942
+                    external_reference: TC00109
+                    title: ECO II KNIT -
+                    image_url: /images/original/missing.png
+                    thumbnail_url: /images/thumb/missing.png
+                    archived: false
+                    picking_preference: warehouse
+                    stock: 
+                      on_hand: 0,
+                      available: 0,
+                      allocated: 0,
+                      committed: 1
+                    dimensions:
+                      weight: 0
+                    
     post:
       description: |
         Creates a new order, and returns it with its new id.
@@ -520,34 +619,132 @@ paths:
           examples:
             application/json:
               id: 18424
+              created_at: 2018-06-07T10:00:15.734-03:00
+              updated_at: 2018-06-07T10:00:15.734-03:00
               external_reference: 100553245
+              external_reference_user:
               comment: Stock comes in on 2016-02-28
-              ship_to:
-                name: John
-                last_name: Doe
-                phone: +54 11 5555 6666
-                zip_code: 2085
-                address_line: Fake Street 123 4A
-                street_name: Fake Street
-                street_number: 123
-                unit: A
-                floor: 4
-                city: Ciudad Autónoma de Buenos Aires
-                state: Ciudad Autónoma de Buenos Aires
-                email: johndoe@example.com
+              status: awaiting_payment
+              last_status:
+              main_order_id:
+              archived: false
+              timestamps:
+                created_at: 2018-06-07T10:00:15.734-03:00
+                updated_at: 2018-06-07T10:00:15.734-03:00
+                ready_to_pick_at:
+                packing_slip_at:
+                picking_list_at:
+                ready_to_ship_at:
+                shipped_at: 
+                delivered_at: 
+                not_delivered_at: 
+                on_hold_at:
+              weight: 0
+              uid: BjXAhBl3nrZsyGF1BXyJ5Q
+              package_type: 0.0
+              estimated_delivery: 2018-06-13T18:00:00.000-03:00
+              minimum_delivery: 2018-06-08T09:00:00.000-03:00
+              maximum_delivery: 2018-06-13T18:00:00.000-03:00
+              ship_from_warehouse_id: 1
+              ship_to_warehouse_id:
+              type: regular
+              warnings:
+              seller_id: 850
+              seller_name: Tricera Mochila
+              seller_logo: 
+              pvx_account: true
+              store_type: tiendanube
+              cross_docking: false
+              payment:
+                interest: 0
+                shipping: 0
               shipping_option:
-                service_code: oca_pap_estandar
-                carrier_code: oca
-              store_id: 2
-              store_type: meli
-              status: delivered
+                service_code: mailexpress_estandar
+                carrier_code: mailexpress
+                category: economic
+                price: 197
+                service_type: ship_pap
+              store:
+                id: 1575
+                created_at: 2018-05-31T20:51:26.357-03:00
+                updated_at: 2018-05-31T20:51:39.661-03:00
+                name: TN - Tricera
+                url: http://triceratops.mitiendanube.com
+                image_url: https://d26lpennugtm8s.cloudfront.net/stores/055/480/themes/common/logo-584049565-1527722282-c2abf2fcaa0e06649cace7951b0214981527722282.png?0
+                active: true
+                seller_id: 850
+                store_type: tiendanube
+              return:
+              pickup_order:
+              ship_to:
+                zip_code: 3600
+                street_name:
+                street_number: 
+                city: Santa Rosa
+                state: La Pampa
+                floor: 
+                unit: 
+                name: Marcelo Breno
+                last_name: 
+                full_name: Marcelo Breno
+                phone: 0295415543942
+                email: chelo.mb3@gmail.com
+                lon:
+                lat:
+                doc_type:
+                doc_number:
+                line: Mariano Pascual 167
+                address_line: Mariano Pascual 167
+                country:
+                  name: Argentina
+                  code: AR
+                post_office_id:
+                arehouse_id:
+              ship_from:
+                zip_code: 1427
+                street_name: Av. Constituyentes
+                street_number: 2995
+                city: Ciudad de Buenos Aires
+                state: Ciudad de Buenos Aires
+                floor: 
+                unit: Deposito J2
+                name: Tricera Mochilas
+                last_name: SRL
+                full_name: Tricera Mochilas Srl
+                phone: 35292697
+                email: info@shipnow.com.ar
+                lon: -58.475772
+                lat: -34.592206
+                doc_type:
+                doc_number:
+                line: Av. Constituyentes 2995 Deposito J2
+                address_line: Av. Constituyentes 2995 Deposito J2
+                country:
+                  name: Argentina
+                  code: AR
+                post_office_id:
+                warehouse_id: 1
               items:
-                - id: 2827
-                  external_reference: 70089453/A
-                  quantity: 2
-                  unit_price: 170.0
-                  title: Blue Shoes
-                  image_url: https://cdn.shipnow.com.ar/items/2827.png
+                quantity: 1,
+                status: 
+                extra_data:
+                unit_price: 1999.0
+                discount: 0.0
+                cross_docking: false
+                id: 602942
+                external_reference: TC00109
+                title: ECO II KNIT -
+                image_url: /images/original/missing.png
+                thumbnail_url: /images/thumb/missing.png
+                archived: false
+                picking_preference: warehouse
+                stock: 
+                  on_hand: 0,
+                  available: 0,
+                  allocated: 0,
+                  committed: 1
+                dimensions:
+                  weight: 0
         422:
           description: A list of validation errors.
           examples:
@@ -575,34 +772,133 @@ paths:
           examples:
             application/json:
               id: 18424
+              created_at: 2018-06-07T10:00:15.734-03:00
+              updated_at: 2018-06-07T10:00:15.734-03:00
               external_reference: 100553245
+              external_reference_user:
               comment: Stock comes in on 2016-02-28
-              ship_to:
-                name: John
-                last_name: Doe
-                phone: +54 11 5555 6666
-                zip_code: 2085
-                address_line: Fake Street 123 4A
-                street_name: Fake Street
-                street_number: 123
-                unit: A
-                floor: 4
-                city: CABA
-                state: Argentina
-                email: johndoe@example.com
+              status: awaiting_payment
+              last_status:
+              main_order_id:
+              archived: false
+              timestamps:
+                created_at: 2018-06-07T10:00:15.734-03:00
+                updated_at: 2018-06-07T10:00:15.734-03:00
+                ready_to_pick_at:
+                packing_slip_at:
+                picking_list_at:
+                ready_to_ship_at:
+                shipped_at: 
+                delivered_at: 
+                not_delivered_at: 
+                on_hold_at:
+              weight: 0
+              uid: BjXAhBl3nrZsyGF1BXyJ5Q
+              package_type: 0.0
+              estimated_delivery: 2018-06-13T18:00:00.000-03:00
+              minimum_delivery: 2018-06-08T09:00:00.000-03:00
+              maximum_delivery: 2018-06-13T18:00:00.000-03:00
+              ship_from_warehouse_id: 1
+              ship_to_warehouse_id:
+              type: regular
+              warnings:
+              seller_id: 850
+              seller_name: Tricera Mochila
+              seller_logo: 
+              pvx_account: true
+              store_type: tiendanube
+              cross_docking: false
+              payment:
+                interest: 0
+                shipping: 0
               shipping_option:
-                service_code: oca_pap_estandar
-                carrier_code: oca
-              store_id: 2
-              store_type: meli
-              status: delivered
+                service_code: mailexpress_estandar
+                carrier_code: mailexpress
+                category: economic
+                price: 197
+                service_type: ship_pap
+              store:
+                id: 1575
+                created_at: 2018-05-31T20:51:26.357-03:00
+                updated_at: 2018-05-31T20:51:39.661-03:00
+                name: TN - Tricera
+                url: http://triceratops.mitiendanube.com
+                image_url: https://d26lpennugtm8s.cloudfront.net/stores/055/480/themes/common/logo-584049565-1527722282-c2abf2fcaa0e06649cace7951b0214981527722282.png?0
+                active: true
+                seller_id: 850
+                store_type: tiendanube
+              return:
+              pickup_order:
+              ship_to:
+                zip_code: 3600
+                street_name:
+                street_number: 
+                city: Santa Rosa
+                state: La Pampa
+                floor: 
+                unit: 
+                name: Marcelo Breno
+                last_name: 
+                full_name: Marcelo Breno
+                phone: 0295415543942
+                email: chelo.mb3@gmail.com
+                lon:
+                lat:
+                doc_type:
+                doc_number:
+                line: Mariano Pascual 167
+                address_line: Mariano Pascual 167
+                country:
+                  name: Argentina
+                  code: AR
+                post_office_id:
+                arehouse_id:
+              ship_from:
+                zip_code: 1427
+                street_name: Av. Constituyentes
+                street_number: 2995
+                city: Ciudad de Buenos Aires
+                state: Ciudad de Buenos Aires
+                floor: 
+                unit: Deposito J2
+                name: Tricera Mochilas
+                last_name: SRL
+                full_name: Tricera Mochilas Srl
+                phone: 35292697
+                email: info@shipnow.com.ar
+                lon: -58.475772
+                lat: -34.592206
+                doc_type:
+                doc_number:
+                line: Av. Constituyentes 2995 Deposito J2
+                address_line: Av. Constituyentes 2995 Deposito J2
+                country:
+                  name: Argentina
+                  code: AR
+                post_office_id:
+                warehouse_id: 1
               items:
-                - id: 2827
-                  external_reference: 70089453/A
-                  quantity: 2
-                  unit_price: 170.0
-                  title: Blue Shoes
-                  image_url: https://cdn.shipnow.com.ar/items/2827.png
+                quantity: 1,
+                status: 
+                extra_data:
+                unit_price: 1999.0
+                discount: 0.0
+                cross_docking: false
+                id: 602942
+                external_reference: TC00109
+                title: ECO II KNIT -
+                image_url: /images/original/missing.png
+                thumbnail_url: /images/thumb/missing.png
+                archived: false
+                picking_preference: warehouse
+                stock: 
+                  on_hand: 0,
+                  available: 0,
+                  allocated: 0,
+                  committed: 1
+                dimensions:
+                  weight: 0
+
         404:
           description: Order with given id not found.
     put:
@@ -630,34 +926,133 @@ paths:
           examples:
             application/json:
               id: 18424
+              created_at: 2018-06-07T10:00:15.734-03:00
+              updated_at: 2018-06-07T10:00:15.734-03:00
               external_reference: 100553245
+              external_reference_user:
               comment: Stock comes in on 2016-02-28
-              ship_to:
-                name: John
-                last_name: Doe
-                phone: +54 11 5555 6666
-                zip_code: 2085
-                address_line: Fake Street 123 4A
-                street_name: Fake Street
-                street_number: 123
-                unit: A
-                floor: 4
-                city: CABA
-                state: Argentina
-                email: johndoe@example.com
+              status: awaiting_payment
+              last_status:
+              main_order_id:
+              archived: false
+              timestamps:
+                created_at: 2018-06-07T10:00:15.734-03:00
+                updated_at: 2018-06-07T10:00:15.734-03:00
+                ready_to_pick_at:
+                packing_slip_at:
+                picking_list_at:
+                ready_to_ship_at:
+                shipped_at: 
+                delivered_at: 
+                not_delivered_at: 
+                on_hold_at:
+              weight: 0
+              uid: BjXAhBl3nrZsyGF1BXyJ5Q
+              package_type: 0.0
+              estimated_delivery: 2018-06-13T18:00:00.000-03:00
+              minimum_delivery: 2018-06-08T09:00:00.000-03:00
+              maximum_delivery: 2018-06-13T18:00:00.000-03:00
+              ship_from_warehouse_id: 1
+              ship_to_warehouse_id:
+              type: regular
+              warnings:
+              seller_id: 850
+              seller_name: Tricera Mochila
+              seller_logo: 
+              pvx_account: true
+              store_type: tiendanube
+              cross_docking: false
+              payment:
+                interest: 0
+                shipping: 0
               shipping_option:
-                service_code: oca_pap_estandar
-                carrier_code: oca
-              store_id: 2
-              store_type: meli
-              status: delivered
+                service_code: mailexpress_estandar
+                carrier_code: mailexpress
+                category: economic
+                price: 197
+                service_type: ship_pap
+              store:
+                id: 1575
+                created_at: 2018-05-31T20:51:26.357-03:00
+                updated_at: 2018-05-31T20:51:39.661-03:00
+                name: TN - Tricera
+                url: http://triceratops.mitiendanube.com
+                image_url: https://d26lpennugtm8s.cloudfront.net/stores/055/480/themes/common/logo-584049565-1527722282-c2abf2fcaa0e06649cace7951b0214981527722282.png?0
+                active: true
+                seller_id: 850
+                store_type: tiendanube
+              return:
+              pickup_order:
+              ship_to:
+                zip_code: 3600
+                street_name:
+                street_number: 
+                city: Santa Rosa
+                state: La Pampa
+                floor: 
+                unit: 
+                name: Marcelo Breno
+                last_name: 
+                full_name: Marcelo Breno
+                phone: 0295415543942
+                email: chelo.mb3@gmail.com
+                lon:
+                lat:
+                doc_type:
+                doc_number:
+                line: Mariano Pascual 167
+                address_line: Mariano Pascual 167
+                country:
+                  name: Argentina
+                  code: AR
+                post_office_id:
+                arehouse_id:
+              ship_from:
+                zip_code: 1427
+                street_name: Av. Constituyentes
+                street_number: 2995
+                city: Ciudad de Buenos Aires
+                state: Ciudad de Buenos Aires
+                floor: 
+                unit: Deposito J2
+                name: Tricera Mochilas
+                last_name: SRL
+                full_name: Tricera Mochilas Srl
+                phone: 35292697
+                email: info@shipnow.com.ar
+                lon: -58.475772
+                lat: -34.592206
+                doc_type:
+                doc_number:
+                line: Av. Constituyentes 2995 Deposito J2
+                address_line: Av. Constituyentes 2995 Deposito J2
+                country:
+                  name: Argentina
+                  code: AR
+                post_office_id:
+                warehouse_id: 1
               items:
-                - id: 2827
-                  external_reference: 70089453/A
-                  quantity: 2
-                  unit_price: 170.0
-                  title: Blue Shoes
-                  image_url: https://cdn.shipnow.com.ar/items/2827.png
+                quantity: 1,
+                status: 
+                extra_data:
+                unit_price: 1999.0
+                discount: 0.0
+                cross_docking: false
+                id: 602942
+                external_reference: TC00109
+                title: ECO II KNIT -
+                image_url: /images/original/missing.png
+                thumbnail_url: /images/thumb/missing.png
+                archived: false
+                picking_preference: warehouse
+                stock: 
+                  on_hand: 0,
+                  available: 0,
+                  allocated: 0,
+                  committed: 1
+                dimensions:
+                  weight: 0
+
   /orders/{orderId}/shipments:
     get:
       description: |
@@ -684,24 +1079,35 @@ paths:
           examples:
             application/json:
               results:
-                - id: 6662
-                  order_id: 37201
-                  speed_shipping: null
-                  speed_handling: null
-                  estimated_handling: null
-                  estimated_delivery: null
-                  shipping_price: 30.0
-                  insurance_price: 5.0
-                  tracking_number: "38007500000015676447"
-                  external_reference: 2107694F
-                  shipped_at: 2015-12-21T03:00:00.000Z
-                  delivered_at: 2015-12-15T03:00:00.000Z
-                  prepared_at: null
-                  last_mile_at: null
-                  not_delivered_at: null
-                  carrier_code: integral
-                  service_code: integral_48
-                  type: PAP
+                id: 6662
+                order_id: 37201
+                created_at: 2018-06-07T09:55:55.085-03:00
+                delivered_at:
+                dispatch_id:
+                external_reference: 27592747623
+                insurance_price:
+                in_post_office_at:
+                last_update_carrier_at:
+                not_delivered_at:
+                out_for_delivery_at:
+                post_office_from_id:
+                post_office_to_id:
+                shipped_at:
+                shipping_price: 0.0
+                status: ready_to_ship
+                status_updated_at:
+                tracking_number: 27592747623
+                condition: on_time
+                type: PAP
+                carrier:
+                  code: me
+                  description: MercadoEnvios (solo válido para MercadoLibre)
+                  flexible_dispatching: false
+                  id: 5
+                  image_url: https://d32gfon7gpwon2.cloudfront.net/carriers/mercadoenvios-logo.png"
+                  name: MercadoEnvios
+                  tracking_url: https://myaccount.mercadolibre.com.ar/sales/list
+        
         404:
           description: Order with given orderId not found.
   /products:
