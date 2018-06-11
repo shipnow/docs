@@ -1134,28 +1134,43 @@ paths:
           examples:
             application/json:
               results:
-                - id: 12072
-                  external_reference: AC17283DFC
-                  title: Red Scarf
-                  stock:
-                    available: 1
+                id: 111021,
+                created_at: 2016-10-24T14:17:04.486-03:00
+                updated_at: 2017-01-27T15:02:46.668-03:00
+                external_reference: 1210101204002
+                title: Remera Colie  - Negro
+                currency:
+                extra_data: 
+                archived: false
+                picking_preference: warehouse
+                freezed_external_reference: false
+                seller_id: 143
+                seller_name: Benito
+                type: item
+                publications: 0
+                orders: 1
+                stock:
+                    available: 0
                     committed: 0
-                    allocated: 1
-                    on_hand: 2
-                  price:
-                    retail: 345.0
-                    wholesale: 300.5
-                    buy: 500
-                  currency: ARS
-                  image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
-                  dimensions:
-                    weight: 300.0
-                    heigth: 20.0
-                    length: 20.0
-                    width: 20.0
-                  extra_data:
-                    publication_id: FD742
-                  location: null
+                    allocated: 0
+                    on_hand: 0
+                dimensions:
+                  weight: 0
+                  height: 0
+                  length: 0
+                  width: 0
+                declared_dimensions:
+                  weight: 0
+                  height: 0
+                  length: 0
+                  width: 0
+                price:
+                  retail": 4150.0
+                  wholesale:
+                  buy:
+                image_url: /system/products/images/000/111/021/original/216351.jpg?1485540164
+                thumbnail_url: /system/products/images/000/111/021/thumb/216351.jpg?1485540164
+                related_products:
 
     post:
       description: |
@@ -1170,23 +1185,43 @@ paths:
             $ref: '#/definitions/Product'
           examples:
             application/json:
-              id: 12072
-              external_reference: AC17283DFC
-              title: Red Scarf
-              price:
-                retail: 345.0
-                wholesale: 300.5
-                buy: 500
-              currency: ARS
-              image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
+              id: 111021,
+              created_at: 2018-05-24T12:17:04.486-03:00
+              updated_at: 
+              external_reference: 121015691002
+              title: Remera - Rojo
+              currency: ARG
+              extra_data: 
+              archived: false
+              picking_preference: warehouse
+              freezed_external_reference: false
+              seller_id: 143
+              seller_name: Benito
+              type: item
+              publications: 0
+              orders:
+              stock:
+                  available: 1
+                  committed: 0
+                  allocated: 0
+                  on_hand: 0
               dimensions:
-                weight: 300.0
-                heigth: 20.0
-                length: 20.0
-                width: 20.0
-              extra_data:
-                publication_id: FD742
-              location: null
+                weight: 0
+                height: 0
+                length: 0
+                width: 0
+              declared_dimensions:
+                weight: 0
+                height: 0
+                length: 0
+                width: 0
+              price:
+                retail": 1150.0
+                wholesale:
+                buy:
+              image_url:
+              thumbnail_url:
+              related_products:
         422:
           description: A list of validation errors.
           examples:
@@ -1212,28 +1247,43 @@ paths:
             $ref: '#/definitions/Product'
           examples:
             application/json:
-              id: 12072
-              external_reference: AC17283DFC
-              title: Red Scarf
+              id: 111021,
+              created_at: 2016-10-24T14:17:04.486-03:00
+              updated_at: 2017-01-27T15:02:46.668-03:00
+              external_reference: 1210101204002
+              title: Remera Colie  - Negro
+              currency:
+              extra_data: 
+              archived: false
+              picking_preference: warehouse
+              freezed_external_reference: false
+              seller_id: 143
+              seller_name: Benito
+              type: item
+              publications: 0
+              orders: 1
               stock:
-                available: 1
-                committed: 0
-                allocated: 1
-                on_hand: 2
-              price:
-                retail: 345.0
-                wholesale: 300.5
-                buy: 500
-              currency: ARS
-              image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
+                  available: 0
+                  committed: 0
+                  allocated: 0
+                  on_hand: 0
               dimensions:
-                weight: 300.0
-                heigth: 20.0
-                length: 20.0
-                width: 20.0
-              extra_data:
-                publication_id: FD742
-              location: null
+                weight: 0
+                height: 0
+                length: 0
+                width: 0
+              declared_dimensions:
+                weight: 0
+                height: 0
+                length: 0
+                width: 0
+              price:
+                retail": 4150.0
+                wholesale:
+                buy:
+              image_url: /system/products/images/000/111/021/original/216351.jpg?1485540164
+              thumbnail_url: /system/products/images/000/111/021/thumb/216351.jpg?1485540164
+              related_products:
         404:
           description: Product with given id not found.
     put:
@@ -1301,28 +1351,43 @@ paths:
           examples:
             application/json:
               results:
-                - id: 12072
-                  external_reference: AC17283DFC
-                  title: Red Scarf
-                  stock:
-                    available: 1
+                id: 111021,
+                created_at: 2016-10-24T14:17:04.486-03:00
+                updated_at: 2017-01-27T15:02:46.668-03:00
+                external_reference: 1210101204002
+                title: Remera Colie  - Negro
+                currency:
+                extra_data: 
+                archived: false
+                picking_preference: warehouse
+                freezed_external_reference: false
+                seller_id: 143
+                seller_name: Benito
+                type: item
+                publications: 0
+                orders: 1
+                stock:
+                    available: 0
                     committed: 0
-                    allocated: 1
-                    on_hand: 2
-                  price:
-                    retail: 345.0
-                    wholesale: 300.5
-                    buy: 500
-                  currency: ARS
-                  image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
-                  dimensions:
-                    weight: 300.0
-                    heigth: 20.0
-                    length: 20.0
-                    width: 20.0
-                  extra_data:
-                    publication_id: FD742
-                  location: null
+                    allocated: 0
+                    on_hand: 0
+                dimensions:
+                  weight: 0
+                  height: 0
+                  length: 0
+                  width: 0
+                declared_dimensions:
+                  weight: 0
+                  height: 0
+                  length: 0
+                  width: 0
+                price:
+                  retail": 4150.0
+                  wholesale:
+                  buy:
+                image_url: /system/products/images/000/111/021/original/216351.jpg?1485540164
+                thumbnail_url: /system/products/images/000/111/021/thumb/216351.jpg?1485540164
+                related_products:
   /users:
     get:
       description: |
@@ -1341,13 +1406,18 @@ paths:
           examples:
             application/json:
               results:
-                - id: 201
-                  email: alice@example.com
-                  token: cGwp429nYTmwdDvVtB3zFd9O7opgsz9Oq1e19dCJjfOIhOTE25
-                  type: null
-                  description: null
-                  role: regular
-                  avatar_url: https://cdn.shipnow.com.ar/avatars/201.png
+                id: 883
+                email: rebeldenimbrand@gmail.com
+                token: 8JQGj1v355sVSDm4LjJGYQdcO6fIPN4v16XSuxpyVmyRe9d9Eg
+                type: human
+                description: Paz Spelzini
+                role: admin
+                avatar_url:
+                created_at: 2018-04-18T15:22:16.779-03:00
+                account:
+                  $ref: '#/definitions/Account'
+                warehouse:
+                  $ref: '#/definitions/Warehouse'
     post:
       description: |
         Creates a new user for this account.
@@ -1362,13 +1432,18 @@ paths:
             $ref: '#/definitions/User'
           examples:
             application/json:
-              id: 202
-              email: bob@example.com
-              token: l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO
-              type: null
-              description: null
-              role: regular
-              avatar_url: https://cdn.shipnow.com.ar/avatars/207.png
+              id: 883
+              email: rebeldenimbrand@gmail.com
+              token: ab01ut67CPsVSDm4LjJGYQdcO6fIPN4v16XSuxpyVmyRe9d9Eg
+              type: human
+              description: Bob Spelzini
+              role: admin
+              avatar_url:
+              created_at: 2018-04-18T15:22:16.779-03:00
+              account:
+                $ref: '#/definitions/Account'
+              warehouses:
+                $ref: '#/definitions/Warehouse'
         403:
           description: Access denied to user creation.
         422:
@@ -1396,13 +1471,18 @@ paths:
             $ref: '#/definitions/User'
           examples:
             application/json:
-              id: 202
-              email: bob@example.com
-              token: l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO
-              type: null
-              description: null
-              role: regular
-              avatar_url: https://cdn.shipnow.com.ar/avatars/207.png
+              id: 883
+              email: rebeldenimbrand@gmail.com
+              token: 8JQGj1v355sVSDm4LpEh28JcO6fIPN4v16XSuxpyVmyRe9d9Eg
+              type: human
+              description: Paz Spelzini
+              role: admin
+              avatar_url:
+              created_at: 2018-04-18T15:22:16.779-03:00
+              account:
+                $ref: '#/definitions/Account'
+              warehouses:
+                $ref: '#/definitions/Warehouse'
         404:
           description: User with given id not found.
     put:
@@ -1426,13 +1506,18 @@ paths:
             $ref: '#/definitions/User'
           examples:
             application/json:
-              id: 202
-              email: bob@example.com
-              token: l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO
-              type: null
-              description: null
-              role: regular
-              avatar_url: https://cdn.shipnow.com.ar/avatars/207.png
+              id: 883
+              email: rebeldenimbrand@gmail.com
+              token: 8JQGj1v355sVSDm4LpEh28JcO6fIPN4v16XSuxpyVmyRe9d9Eg
+              type: human
+              description: Paz Spelzini
+              role: admin
+              avatar_url:
+              created_at: 2018-04-18T15:22:16.779-03:00
+              account:
+                $ref: '#/definitions/Account'
+              warehouses:
+                $ref: '#/definitions/Warehouse'
         403:
           description: Current User cannot modify target User.
     delete:
@@ -1495,26 +1580,36 @@ paths:
           examples:
             application/json:
               results:
-                - id: 7
-                  email: info@example.com
-                  name: John
-                  last_name: Doe
-                  company_name: Example Company Inc
-                  phone: "+54 11 1234 5678"
-                  address:
-                    postal_code: 2000
-                    address_line: Not Fake Av 321
-                    street_name: Not Fake Av
-                    street_number: 321
-                    unit: C
-                    floor: "1"
-                    city: CABA
-                    state: Argentina
-                  stores:
-                    - id: 19
-                      store_type: meli
-                      name: Example Co ML
-                      user_store_id: 784
+                id: 1
+                created_at: 2015-12-11T17:24:44.451-03:00
+                updated_at: 2018-02-06T17:30:23.770-03:00
+                email": info@shipnow.com.ar
+                name": SHIP NOW
+                last_name: S.R.L
+                company_name: Shipnow
+                phone: 44445555
+                token: XWhhZnl8e1PoEJqQYLjwEA
+                image_url: https://res.cloudinary.com/hsyqpasuw/image/upload/v1490107237/tnjdd9fk84a5esj010au.png
+                current_plan": personal
+                pickup_orders_pickup_price: 70.0
+                active: true
+                url:
+                fiscal_category:
+                business_name: 
+                doc_number:
+                doc_type:
+                dnd: false
+                picking_preference: warehouse
+                current_tariff:
+                  $ref: '#/definitions/Tariff'
+                address:
+                  $ref: '#/definitions/Address'
+                stores:
+                  $ref: '#/definitions/Store'
+                warehouses:
+                  $ref: '#/definitions/Warehouse'
+                available_warehouses:
+                  $ref: '#/definitions/Warehouse'
   /accounts/me:
     get:
       description: |
@@ -1532,26 +1627,36 @@ paths:
                   - $ref: '#/definitions/Account'
           examples:
             application/json:
-              id: 7
-              email: info@example.com
-              name: John
-              last_name: Doe
-              company_name: Example Company Inc
-              phone: "+54 11 1234 5678"
+              id: 1
+              created_at: 2015-12-11T17:24:44.451-03:00
+              updated_at: 2018-02-06T17:30:23.770-03:00
+              email: info@shipnow.com.ar
+              name: SHIP NOW
+              last_name: S.R.L
+              company_name: Shipnow
+              phone: 44445555
+              token: XWhhZnl8e1PoEJqQYLjwEA
+              image_url: https://res.cloudinary.com/hsyqpasuw/image/upload/v1490107237/tnjdd9fk84a5esj010au.png
+              current_plan": personal
+              pickup_orders_pickup_price: 70.0
+              active: true
+              url:
+              fiscal_category:
+              business_name: 
+              doc_number:
+              doc_type:
+              dnd: false
+              picking_preference: warehouse
+              current_tariff:
+                $ref: '#/definitions/Tariff'
               address:
-                postal_code: 2000
-                address_line: Not Fake Av 321
-                street_name: Not Fake Av
-                street_number: 321
-                unit: C
-                floor: "1"
-                city: CABA
-                state: Argentina
+                $ref: '#/definitions/Address'
               stores:
-                - id: 19
-                  store_type: meli
-                  name: Example Co ML
-                  user_store_id: 784
+                $ref: '#/definitions/Store'
+              warehouses:
+                $ref: '#/definitions/Warehouse'
+              available_warehouses:
+                $ref: '#/definitions/Warehouse'
 
   /accounts/{id}:
     put:
@@ -1574,26 +1679,36 @@ paths:
             $ref: '#/definitions/Account'
           examples:
             application/json:
-              id: 7
-              email: info@example.com
-              name: John
-              last_name: Doe
-              company_name: Example Company Inc
-              phone: "+54 11 1234 5678"
+              id: 1
+              created_at: 2015-12-11T17:24:44.451-03:00
+              updated_at: 2018-02-06T17:30:23.770-03:00
+              email": info@shipnow.com.ar
+              name": SHIP NOW
+              last_name: S.R.L
+              company_name: Shipnow
+              phone: 44445555
+              token: XWhhZnl8e1PoEJqQYLjwEA
+              image_url: https://res.cloudinary.com/hsyqpasuw/image/upload/v1490107237/tnjdd9fk84a5esj010au.png
+              current_plan": personal
+              pickup_orders_pickup_price: 70.0
+              active: true
+              url:
+              fiscal_category:
+              business_name: 
+              doc_number:
+              doc_type:
+              dnd: false
+              picking_preference: warehouse
+              current_tariff:
+                $ref: '#/definitions/Tariff'
               address:
-                postal_code: 2000
-                address_line: Not Fake Av 321
-                street_name: Not Fake Av
-                street_number: 321
-                unit: C
-                floor: "1"
-                city: CABA
-                state: Argentina
+                $ref: '#/definitions/Address'
               stores:
-                - id: 19
-                  store_type: meli
-                  name: Example Co ML
-                  user_store_id: "784"
+                $ref: '#/definitions/Store'
+              warehouses:
+                $ref: '#/definitions/Warehouse'
+              available_warehouses:
+                $ref: '#/definitions/Warehouse'
         403:
           description: Current User cannot modify target Account.
   /stores:
@@ -1614,14 +1729,15 @@ paths:
           examples:
             application/json:
               results:
-                - id: 16
-                  name: Example Co ML
-                  store_type: meli
-                  user_store_id: "784"
-                  credentials:
-                    access_token: APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh
-                    refresh_token: TG-lY9LMGCTnyHDcDi22Zt6Lx
-                  image_url: https://cnd.shipnow.com.ar/stores/meli_generic.png
+                id: 1609
+                created_at: 2018-06-07T08:50:45.866-03:00
+                updated_at: 2018-06-07T08:50:57.362-03:00
+                name: example name
+                url: http://example.mitiendanube.com
+                image_url: https://example.cloudfront.net/stores/281/738/themes/common/logo-1663896327-1525213633-1bcabd7f45c69ec942f0ef5fda8f1ee01525213649.jpg?0
+                active: true
+                seller_id: 950
+                store_type: tiendanube
     post:
       description: |
         Creates a new Store
@@ -1635,14 +1751,15 @@ paths:
             $ref: '#/definitions/Store'
           examples:
             application/json:
-              id: 16
-              name: Example Co ML
-              store_type: meli
-              user_store_id: "784"
-              credentials:
-                access_token: APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh
-                refresh_token: TG-lY9LMGCTnyHDcDi22Zt6Lx
-              image_url: https://cnd.shipnow.com.ar/stores/meli_generic.png
+              id: 16010
+              created_at: 2018-06-07T08:50:45.866-03:00
+              updated_at:
+              name: example name
+              url: http://example.mitiendanube.com
+              image_url: https://example.cloudfront.net/stores/281/738/themes/common/logo-1663896327-1525213633-1bcabd7f45c69ec942f0ef5fda8f1ee01525213649.jpg?0
+              active: true
+              seller_id: 950
+              store_type: tiendanube
         422:
           description: A list of validation errors.
           examples:
@@ -1668,14 +1785,15 @@ paths:
             $ref: '#/definitions/Store'
           examples:
             application/json:
-              id: 16
-              name: Example Co ML
-              store_type: meli
-              user_store_id: "784"
-              credentials:
-                access_token: APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh
-                refresh_token: TG-lY9LMGCTnyHDcDi22Zt6Lx
-              image_url: https://cnd.shipnow.com.ar/stores/meli_generic.png
+              id: 1609
+              created_at: 2018-06-07T08:50:45.866-03:00
+              updated_at: 2018-06-07T08:50:57.362-03:00
+              name: example name
+              url: http://example.mitiendanube.com
+              image_url: https://example.cloudfront.net/stores/281/738/themes/common/logo-1663896327-1525213633-1bcabd7f45c69ec942f0ef5fda8f1ee01525213649.jpg?0
+              active: true
+              seller_id: 950
+              store_type: tiendanube
         404:
           description: A Store with the given id not found.
     put:
@@ -1696,14 +1814,15 @@ paths:
             $ref: '#/definitions/Store'
           examples:
             application/json:
-              id: 16
-              name: Example Co ML
-              store_type: meli
-              user_store_id: "784"
-              credentials:
-                access_token: APP_USR-XbAyBlrgMG1FsSTHHQ8UQtV1Varnswhh
-                refresh_token: TG-lY9LMGCTnyHDcDi22Zt6Lx
-              image_url: https://cnd.shipnow.com.ar/stores/meli_generic.png
+              id: 16010
+              created_at: 2018-06-07T08:50:45.866-03:00
+              updated_at: 2018-06-11T15:04:05.904-03:00
+              name: new example name
+              url: http://example.mitiendanube.com
+              image_url: https://example.cloudfront.net/stores/281/738/themes/common/logo-1663896327-1525213633-1bcabd7f45c69ec942f0ef5fda8f1ee01525213649.jpg?0
+              active: true
+              seller_id: 950
+              store_type: tiendanube
   /webhooks:
     post:
       description: Create a webhook. Event notifications will be posted to it.
@@ -3354,3 +3473,27 @@ definitions:
       - items
       - from_warehouse_id
       - to_warehouse_id
+  Tariff:
+    properties:
+      id:
+        type: integer
+      description:
+        type: string
+      details:
+        type: object
+        properties:
+          name:
+            type: string
+          order_min:
+            type: integer
+          order_max:
+            type: integer
+          price_detail:
+            type: object
+            properties:
+              item_number_min:
+                type: integer
+              item_number_max:
+                type: integer
+              price:
+                type: integer
