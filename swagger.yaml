@@ -1924,27 +1924,7 @@ paths:
                   pickup_point: true
                   drop_off_point: false
                   address: 
-                    zip_code: 1428
-                    street_name: Av. Cabildo
-                    street_number: 2027
-                    city: Buenos Aires
-                    state: Ciudad de Buenos Aires
-                    floor:
-                    unit:
-                    name:
-                    last_name:
-                    full_name:
-                    phone:
-                    email:
-                    lon: -58.45601655
-                    lat: -34.5626933599
-                    doc_type:
-                    doc_number:
-                    line:
-                    address_line: Av. Cabildo 2027
-                    country: 
-                      name: Argentina
-                      code: AR
+                   $ref: '#/definitions/Address'
                   carrier: 
                     code: garbarino
                     description: Envíos a todo el país. Puerta a Puerta y Puerta a Sucursal
@@ -1981,27 +1961,7 @@ paths:
                 pickup_point: true
                 drop_off_point: false
                 address: 
-                  zip_code: 1428
-                  street_name: Av. Cabildo
-                  street_number: 2027
-                  city: Buenos Aires
-                  state: Ciudad de Buenos Aires
-                  floor:
-                  unit:
-                  name:
-                  last_name:
-                  full_name:
-                  phone:
-                  email:
-                  lon: -58.45601655
-                  lat: -34.5626933599
-                  doc_type:
-                  doc_number:
-                  line:
-                  address_line: Av. Cabildo 2027
-                  country: 
-                    name: Argentina
-                    code: AR
+                  $ref: '#/definitions/Address' 
                 carrier: 
                   code: garbarino
                   description: Envíos a todo el país. Puerta a Puerta y Puerta a Sucursal
@@ -2834,65 +2794,20 @@ definitions:
       - items
       # - shipment
     properties:
-      store_type:
-        type: string
-        description: The store_type for this order's store.
-        readOnly: true
       id:
         readOnly: true
         type: integer
+      created_at:
+        type: string
+        description: date and hour of creation
+      updated_at:
+        type: string
+        description: date and hour of update
       external_reference:
         type: string
-        description: A free-form text to later find and search this order.
+        description: A free-form text to later find and search this order
       comment:
         type: string
-      ship_to:
-        type: object
-        required:
-          - name
-          - last_name
-          - zip_code
-          - address_line
-          - city
-          - email
-        properties:
-          name:
-            type: string
-          last_name:
-            type: string
-          phone:
-            type: string
-          zip_code:
-            type: integer
-          address_line:
-            type: string
-          street_name:
-            type: string
-          street_number:
-            type: string
-          unit:
-            type: string
-          floot:
-            type: string
-          city:
-            type: string
-          state:
-            type: string
-          email:
-            type: string
-      shipping_options:
-        type: object
-        required:
-          - service_code
-          - carrier_code
-        properties:
-          service_code:
-            type: string
-          carrier_code:
-            type: string
-      store_id:
-        type: string
-        description: The id of this order's store.
       status:
         type: string
         example: "awating_payment"
@@ -2910,6 +2825,263 @@ definitions:
          - picking_list
          - ready_to_pack
          - ready_to_ship
+      last_status:
+        type: string
+        example: "awating_payment"
+        enum:
+         - awaiting_payment
+         - on_hold
+         - cancelled
+         - awaiting_shipment
+         - filtered
+         - shipped
+         - not_delivered
+         - delivered
+         - return
+         - ready_to_pick
+         - picking_list
+         - ready_to_pack
+         - ready_to_ship
+      main_order_id:
+        type: integer
+      archived:
+        type: boolean
+      timestamps:
+        type: object
+        properties:
+          created_at:
+            type: string
+            description: date and hour of order creation
+          updated_at:
+            type: string
+            description: date and hour of order update
+          ready_to_pick_at:
+            type: string
+            description: date and hour when order pases to ready_to_pick state
+          packing_slip_at:
+            type: string
+            description: date and hour when order pases to packing_slip state
+          picking_list_at:
+            type: string
+            description: date and hour when order pases to picking_list state
+          ready_to_ship_at:
+            type: string
+            description: date and hour when order pases to ready_to_ship state
+          shipped_at:
+            type: string
+            description: date and hour when order is shipped
+          delivered_at:
+            type: string
+            description: date and hour when order is delivered
+          not_delivered_at:
+            type: string
+            description: date and hour when order was not delivered
+          on_hold_at:
+            type: string
+            description: date and hour if order was on hold
+      weight:
+        type: number
+        description: order total weigth
+      uid:
+        type: string
+        description: unique id for identification
+      package_type:
+        type: string
+      estimated_delivery:
+        type: string
+        description: estimated delivery date
+      minimum_delivery:
+        type: string
+        description: minimun date for delivery
+      maximum_delivery:
+        type: string
+        description: maximum date for delivery
+      ship_from_warehouse_id:
+        type: integer
+        description: id of the warehouse from which the order was sent
+      ship_to_warehouse_id:
+        type: integer
+        description: id of the warehouse to which the order is sent
+      type:
+        type: string
+      warnings:
+        type: array
+        description: list of warnings the order has
+      seller_id:
+        type: string
+      seller_name:
+        type: string
+      seller_logo:
+        type: string
+      pvx_account: 
+        type: boolean
+      store_type:
+        type: string
+      cross_docking:
+        type: boolean
+        description: the order is for cross docking?
+      payment:
+        type: object
+        properties:
+          interest:
+            type: integer
+          shipping:
+            type: integer
+      shipping_option:
+        type: object
+        properties:
+          service_code:
+            type: string
+            description: shipping service of the order
+          carrier_code:
+            type: string
+            description: carrier service of the order
+          category:
+            type: string
+          price: 
+            type: integer
+          service_type:
+            type: string
+      store:
+        type: object
+        properties:
+          id:
+            type: integer
+          created_at:
+            type: string
+          updated_ar:
+            type: string
+          name:
+            type: string
+          url:
+            type: string
+          image_url:
+            type: string
+          active:
+            type: boolean
+            description: is the store active?
+          seller_id:
+            type: integer
+          store_type:
+            type: string
+      return:
+        type: string
+      pickup_order:
+        type: string
+      ship_to:
+        type: object
+        required:
+          - name
+          - last_name
+          - zip_code
+          - address_line
+          - city
+          - email
+        properties:
+          zip_code:
+            type: string
+          street_name:
+            type: string
+          street_number:
+            type: string
+          city:
+            type: string
+          state:
+            type: string
+          floor:
+            type: string
+          unit:
+            type: string
+          name:
+            type: string
+          last_name:
+            type: string
+          full_name:
+            type: string
+          phone:
+            type: string
+          email:
+            type: string
+          lon:
+            type: number
+          lat:
+            type: number
+          doc_type:
+            type: string
+          doc_number:
+            type: string
+          line:
+            type: string
+          address_line:
+            type: string
+          country:
+            type: object
+            properties:
+              name:
+                type: string
+              code:
+                type: string
+          post_office_id:
+            type: integer
+          warehouse_id:
+            type: integer
+      ship_from:
+        type: object
+        required:
+          - name
+          - last_name
+          - zip_code
+          - address_line
+          - city
+          - email
+        properties:
+          zip_code:
+            type: string
+          street_name:
+            type: string
+          street_number:
+            type: string
+          city:
+            type: string
+          state:
+            type: string
+          floor:
+            type: string
+          unit:
+            type: string
+          name:
+            type: string
+          last_name:
+            type: string
+          full_name:
+            type: string
+          phone:
+            type: string
+          email:
+            type: string
+          lon:
+            type: number
+          lat:
+            type: number
+          doc_type:
+            type: string
+          doc_number:
+            type: string
+          line:
+            type: string
+          address_line:
+            type: string
+          country:
+            type: object
+            properties:
+              name:
+                type: string
+              code:
+                type: string
+          post_office_id:
+            type: integer
+          warehouse_id:
+            type: integer
       items:
         type: array
         description: The items (products) included in this order.
@@ -2919,26 +3091,47 @@ definitions:
             - id
             - quantity
             properties:
+              quantity:
+                type: integer
+              status:
+                type: string
+              extra_data:
+                type: string
+              discount:
+                type: string
+              cross_docking:
+                type: boolean
               id:
-                description: The id of a product. See /products.
                 type: integer
               external_reference:
                 type: string
-                description: The product's external_reference.
-                readOnly: true
-              quantity:
-                description: The amount of this product that this order contains.
-                type: integer
-              unit_price:
-                description: This product's price (per unit).
-                readOnly: true
-                type: number
               title:
-                description: The product's title
                 type: string
               image_url:
-                description: Ths product's image_url.
                 type: string
+              thumbnail_url:
+                type: string
+              archived:
+                type: boolean
+              picking_preference:
+                type: string
+              stock:
+                type: object
+                properties:
+                  on_hand:
+                    type: integer
+                  available:
+                    type: integer
+                  allocated:
+                    type: integer
+                  committed:
+                    type: integer
+              dimensions:
+                type: object
+                properties:
+                  weight:
+                    type: integer
+            
   Product:
     required:
       - id
@@ -2954,39 +3147,94 @@ definitions:
       id:
         readOnly: true
         type: integer
+      created_at:
+        type: string
+      updated_at:
+        type: string
       external_reference:
         type: string
         description: A free-form text to later find and search this product.
       title:
         type: string
         description: A name for this product. This is free-form text, and is only used for display purposes.
-      stock:
-        type: number
-        description: Remaining stock for this product
-      price:
-        type: number
-        description: This product's price. Insurance coverage will be based on this price.
       currency:
         type: string
         description: The currency for this product's price. Should be ARS, for now.
+      extra_data:
+        type: object
+        description: A free-form JSON field where custom data can be stored for each product.
+      archived:
+        type: boolean
+      picking_preference:
+        type: string
+      freezed_external_reference:
+        type: boolean
+      seller_id:
+        type: integer
+      seller_name:
+        type: string
+      type:
+        type: string
+      publications:
+        type: integer
+      orders:
+        type: integer
+      stock:
+        type: object
+        description: Remaining stock for this product
+        properties:
+          available:
+            type: integer
+          committed:
+            type: integer
+          allocated:
+            type: integer
+          on_hand:
+            type: integer
+      dimensions:
+        type: object
+        description: product dimensions
+        properties:
+          weight:
+            type: integer
+          height:
+            type: integer
+          length:
+            type: integer
+          width:
+            type: integer
+      declared_dimensions:
+        type: object
+        description: product declared dimensions
+        properties:
+          weight:
+            type: integer
+          height:
+            type: integer
+          length:
+            type: integer
+          width:
+            type: integer
+      price:
+        type: object
+        description: This product's price. Insurance coverage will be based on this price.
+        properties:
+          retail:
+            type: string
+          wholesale:
+            type: string
+          buy:
+            type: string
       image_url:
         type: string
         format: url
         description: A URL to an image that visually identifies this product.
-      dimensions:
-        type: object
-        properties:
-          weight:
-            type: number
-          height:
-            type: number
-          length:
-            type: number
-          width:
-            type: number
-      extra_data:
-        type: object
-        description: A free-form JSON field where custom data can be stored for each product.
+      thumbnail_url:
+        type: string
+        format: url
+        description: A URL to an image that visually identifies this product.
+      related_products:
+        type: string
   User:
     required:
       - email
@@ -3001,6 +3249,12 @@ definitions:
         type: string
         example: biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH
         description: The API token.
+      type: 
+        type: string
+        description: type of user
+        enum:
+          - api
+          - human
       description:
         type: string
         description: A free-form description for this user.
@@ -3015,11 +3269,22 @@ definitions:
         type: string
         format: url
         description: The URL to an avatar used to idenfity this user.
+      created_at:
+        type: string
+        description: Date and hour of user creation
+      account:
+        $ref: '#/definitions/Account'
   Account:
     properties:
       id:
         readOnly: true
         description: The unique id.
+      created_at:
+        type: string
+        description: Date and hour of account creation
+      updated_at:
+        type: string
+        description: Date and hour of account update
       email:
         type: string
         example: "alice@example.com"
@@ -3031,25 +3296,6 @@ definitions:
         type: string
       phone:
         type: string
-      address:
-        type: object
-        properties:
-          postal_code:
-            type: string
-          address_line:
-            type: string
-          street_name:
-            type: string
-          street_number:
-            type: string
-          unit:
-            type: string
-          floor:
-            type: string
-          city:
-            type: string
-          state:
-            type: string
       # TODO: Stores
       token:
         type: string
@@ -3058,11 +3304,66 @@ definitions:
         type: string
         format: url
         description: The URL to an image used to idenfity this account.
+      current_plan:
+        type: string
+      pickup_orders_pickup_price:
+        type: string
+        description: price of pick and pack for the account
+      active:
+        type: boolean
+        description: is an active account?
+      url:
+        type: string
+        description: account url
+      fiscal_category:
+        type: string
+      business_name:
+        type: string
+      doc_number:
+        type: string
+      doc_type:
+        type: string
+      dnd: 
+        type: boolean
+      picking_preference:
+        type: string
+      current_tariff:
+        type: object
+        $ref: '#/definitions/Tariff'
+      adrress:
+        type: object
+        $ref: '#/definitions/Address'
+      stores:
+        type: object
+        $ref: '#/definitions/Store'
+      warehouses:
+        type: array
+        properties:
+          warehous:
+            type: object
+            $ref: '#/definitions/Warehouse'
   Store:
     properties:
+      id:
+        type: integer
+      created_at:
+        type: string
+      updated_at:
+        type: string
       name:
         type: string
         description: A name to identify this store.
+      url:
+        type: string
+      image_url:
+        type: string
+        format: url
+        description: The URL to an image to identify this store
+        default: The image_url for the Store's store_type
+      active:
+        type: boolean
+      seller_id:
+        type: string
       store_type:
         type: string
         enum:
@@ -3078,11 +3379,7 @@ definitions:
         type: object
         description: |
           A free-form JSON field where credentials to upstream stores are save.
-      image_url:
-        type: string
-        format: url
-        description: The URL to an image to identify this store
-        default: The image_url for the Store's store_type
+      
   ShippingService:
     properties:
       id:
@@ -3096,42 +3393,41 @@ definitions:
           shipping services.
         type: string
         example: motonorte
-      min_zip_code:
-        description: |
-          Indicates that this shipping service only operates in areas with
-          zipcode greater than this value.
+      description:
+        type: string
+      accepted_delay:
         type: integer
-        example: 1000
-      max_zip_code:
-        description: |
-          Indicates that this shipping service only operates in areas with
-          zipcode less than this value.
-        type: integer
-        example: 9999
+      type:
+        type: string
+      category:
+        type: string
       carrier:
         type: object
-        description: Information about the carrier that provides this shipping service.
         properties:
-          id:
-            description: The carrier's unique id.
-            type: integer
-            example: 1
           code:
             description: |
               A unique code for this carrier. It should be more readable than
               the id, and will usually be returned when referencing carrier.
             type: string
             example: ups
-          name:
-            description: A friendly name for this carrier.
-            type: string
-            example: UPS
           description:
             description: |
               A free-form text field that give some information about this
               shipping carrier.
             type: string
             example: Does worldwide door-to-door shipping
+          flexible_dispatching:
+            type: boolean
+          id:
+            description: The carrier's unique id.
+            type: integer
+            example: 1
+          name:
+            description: A friendly name for this carrier.
+            type: string
+            example: UPS
+          tracking_url:
+            type: string
   PostOffice:
     properties:
       id: 
