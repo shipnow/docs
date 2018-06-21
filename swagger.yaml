@@ -311,6 +311,22 @@ info:
     These shipping services are specific to a certain marketplace, and should
     not be used explicitly.
     
+    Shipping Princing
+    -----------------
+    The shipping price of an order will depend on the account id, the zip_code from where the order is sent,
+    the zip_code to where the order is sent, and the weight and volume of the package.
+    
+    ### Pre-calculate price
+    If you want to know an approximate price before creating an order, there is two options. 
+    If shipping service is by default you can make a `GET` request to 
+    `/shipping_services/default?weight={weight}&to_zip_code={to_zip_code}&from_zip_code={from_zip_code}`
+    specifying the total weight of the order, the zip code where it will be send to, and the zip code where it will be send from.
+      
+    If the order will be send to a post office of Garbarino, Andreani or Oca, you can make a `GET` request to
+    `/pickup_points?zip_code={to_zip_code}&service_type=ship_pas&weight={weight}&carrier_code={carrier?code}` specifying the total weight 
+    of the order, the zip code where the order will be send to and the carrier code of the post office you want to send the order,
+    Garbarino, Andreani or Oca.
+          
     Post Offices
     ------------
     
@@ -1975,7 +1991,7 @@ paths:
   /transfers:
     get:
       description: |
-        Devuelve todas las transferencias del usuario. Estas transferencias pueden ser tanto de warehouses propios del usuario como ajenos.
+        Returns all user transfers. These transfers can be from warehouses owned by the user or by others.
       operationId: indexTransfers
       responses:
         200:
@@ -2073,7 +2089,7 @@ paths:
                         code: AR
     post:
       description: |
-        Crea una nueva transferencia de mercaderia entre depósitos.
+        Create a new merchandise transfer between deposits.
       operationId: createTransfer
       parameters:
         - name: transfer
@@ -2179,7 +2195,7 @@ paths:
   /transfers/{id}:
     get:
       description: |
-        Devuelve una transferencia identificada por ID.
+        Returns a transfer identified by ID.
       operationId: getTransfer
       parameters:
         - name: id
@@ -2280,7 +2296,7 @@ paths:
           description: no se encontró ninguna transferencia con ese ID.
     put:
       description: |
-        Actualiza una transferencia ya existente.
+        Update an existing transfer.
       operationId: updateTransfer
       parameters:
         - name: id
@@ -2467,7 +2483,7 @@ parameters:
                 The id of a post office where the order is to be shipped.
                 Including this fields eliminates the need for the address_line
                 and street_* fields
-        shipping_options:
+        shipping_option:
           type: object
           required:
             - service_code
