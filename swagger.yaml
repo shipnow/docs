@@ -311,7 +311,7 @@ info:
     These shipping services are specific to a certain marketplace, and should
     not be used explicitly.
     
-    Shipping Princing
+    Shipping Pricing
     -----------------
     The shipping price of an order will depend on the account id, the zip_code from where the order is sent,
     the zip_code to where the order is sent, and the weight and volume of the package.
@@ -767,7 +767,6 @@ paths:
             application/json:
               errors:
                 external_reference: Has already been taken
-                store_id: Cannot be null
   /orders/{id}:
     get:
       description: |
@@ -2806,7 +2805,7 @@ definitions:
       - ship_to
       # - ship_from
       # - shipping_option
-      - store_id
+      # - store_id
       - items
       # - shipment
     properties:
