@@ -9,8 +9,8 @@ info:
     Requests
     --------
 
-     * Our production API is hosted at https://api.shipnow.com.ar.
-     * Our testing API is hosted at https://api-staging.shipnow.com.ar.
+     * Our production API is hosted at https://api.shipnow.com.ar. If you want to 
+    try it, feel free to create a test user directly.
 
     If you need to test your clients, feel free to pollute the testing API with
     test data, though keep in mind that it will be cleared every few hours.
@@ -347,20 +347,21 @@ info:
     with the following format:
 
         {
-          "account": 1,
+          "action": "create",
           "topic": "order/created",
-          "resource_id": 1
+          "resource_id": 1,
+          "resource_type": "orders"
         }
 
-     * `account` is the account for which this notification applies.  This will
-        only be relevant to you if your application handles multiple ShipNow
-        accounts.
+     * `action` is the action for which this notification applies.
      * `topic` describes the event, and is composed of `model/event`. `event`
        can be either `created` or `updated`, and model can only be `order`
        (This WILL change in future, so integrations MUST NOT assume it's always
        `order`!
-     * `resources_id` is the `id` of the model which fired this notification
+     * `resource_id` is the `id` of the model which fired this notification
        (eg: the id of the order that has been created).
+     * `resource_type` is the `type` of the model which fired this notification
+       (eg: the id of the `order/created` that has been `orders`).
 
     Transfers
     ---------
@@ -408,7 +409,7 @@ info:
     name: ShipNow API Team
     email: developers@shipnow.com.ar
     url: https://www.shipnow.com.ar
-host: api-staging.shipnow.com.ar
+host: api.shipnow.com.ar
 basePath: /
 schemes:
   - https
@@ -2710,25 +2711,60 @@ parameters:
     schema:
       required:
         - url
-        - topics
-        - stores
       properties:
         url:
           type: string
           format: url
           description: The URL to which notifications will be posted.
-        topics:
-          type: array
-          enum:
-            - orders/create
-            - orders/update
-            - products/create
-            - products/update
-            - products/destroy
-          description: The URL to which notifications will be posted.
-        stores:
-          type: array
-          description: List of stores that will be notified.
+        filters:
+          type: object
+          properties:
+            stores_id:
+              type: array
+              description: List of store_id that will be notified. If is `null`, all the account's stores will be notified.
+            topics:
+              type: array
+              description: List of topics that will be notified. If is null, all the topics will be notified.
+              enum:
+                - accounts/update
+                - accounts/create
+                - carriers/update
+                - carriers/create
+                - charge_types/create
+                - charge_types/update
+                - dispatch_documents/create
+                - dispatch_documents/update
+                - invoices/create
+                - invoices/update
+                - orders/update
+                - orders/create
+                - pickups/create
+                - pickups/update
+                - publications/update
+                - publications/destroy
+                - products/update
+                - products/create
+                - products/destroy
+                - shipping_services/update
+                - shipping_services/create
+                - shipments/create
+                - shipments/update
+                - stores/create
+                - stores/update
+                - transfers/create
+                - transfers/update
+                - variants/update
+                - variants/create
+                - variants/destroy
+                - warehouses/create
+                - warehouses/update
+        # token:
+          # type: string
+          # description: Security token. It'll be attached to each request that we make to `url`.
+        active:
+          type: boolean
+          description: Webhook status.
+
 
 definitions:
   Shipment:
