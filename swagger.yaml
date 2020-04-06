@@ -36,7 +36,7 @@ info:
         {
             "id": 1,
             "email": "hugo@barrera.io",
-            "token": "VXyuYdTflB9NY1KUMfcddDcAJeye4vfAv7cZg8m7qDNmhuZ3V6",
+            "token": "1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5",
             "type": "human",
             "description": "Hugo",
             "role": "admin",
@@ -47,7 +47,7 @@ info:
     This token should be included in every request header to operate on behalf of
     the user, inside the `Authorization` header, as follows:
 
-        Token token=gNGQNzZ2muAdRKZT3miNccnwYxSrZ6zl2t1B6l6tcHpUw00pok
+        Token token=1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5
 
     You SHOULD NOT store user's username or password. You should only store the
     provided token.
@@ -120,29 +120,24 @@ info:
     -----------------
 
     Each client has a single account, which in turn, has multiple users. An account
-    will hold all orders and products for that client, which all users of that
+    will hold all orders and variants for that client, which all users of that
     account can access (with different roles).
 
     Each account can have as many users as they need.  Additional users can be
     created via the API or the sellers interface.
 
-    Roles
-    -----
+    Roles and permissions
+    ---------------------
 
-    Users can have one of three roles:
-
-     * ShipNow: These are internal account, that can access data for all clients,
-       and are used internally when actually moving products around.
-       You will generally never see these user types unless you're deploying
-       the ShipNow app for your own warehouse.
-     * Administrator: These are the top-level users for each account, and can
+    Users can have one of two roles:
+     * Manager: These are the top-level users for each account, and can
        create other users, as well as a few more special actions.
      * Regular: These are the lower-level users, which can create/edit orders,
-       product, and use other day-to-day interfaces.
+       variants, and use other day-to-day interfaces.
 
     Bots, or automated automated integrations interacting with the API should
-    generally have their own user, and it's recommended that their role is set
-    to `regular`.
+    generally have their own user. It's recommended that their role is set
+    to `regular` and its permissions are as limited as possible.
 
     Stores
     ------
@@ -366,7 +361,7 @@ info:
     Transfers
     ---------
 
-    It allows to transfer merchandise between two deposits. When creating a transfer, it must be specified a minimum and maximum timetable in which it will be carried out with `requested_from` and `resquested_to`.
+    It allows to transfer variants and orders between two deposits. When creating a transfer, it must be specified a minimum and maximum timetable in which it will be carried out with `requested_from` and `resquested_to`.
 
     ### Transfer Statuses
 
@@ -374,7 +369,7 @@ info:
     Transfers created by accounts that can not manage all participating warehouses are created in the `requested` state and must be confirmed by a third-party warehouse administrator.
 
     ### confirmed
-    Transfers created by accounts that can manage all the warehouses participating in the transfer are created in the `confirmed` state. In this state an outbound order is created if applicable. In addition, the in_coming stock of the products is updated.
+    Transfers created by accounts that can manage all the warehouses participating in the transfer are created in the `confirmed` state. In this state an outbound order is created if applicable. In addition, the in_coming stock of the variants is updated.
 
     ### received
     Transfer arrived at the arrival deposit. When an outbound order is completed, the good in goes to received.
@@ -383,7 +378,7 @@ info:
     Transfer is `processing`.
 
     ### completed
-    Transfer was `completed`. In each item the stock is updated if it´s a product and it´s resumed if it´s an order.
+    Transfer was `completed`. In each item the stock is updated if it´s a variant and it´s resumed if it´s an order.
 
     ### cancelled
     Only transfers that have not yet been confirmed can be `cancelled`.
@@ -471,7 +466,7 @@ paths:
           format: int32
         - name: sku
           in: query
-          description: filter orders with the product with this sku
+          description: filter orders with the variant with this sku
           required: false
           type: string
           format: string
@@ -1126,11 +1121,11 @@ paths:
         
         404:
           description: Order with given orderId not found.
-  /products:
+  /variants:
     get:
       description: |
-        Returns all the products to which the user has access.
-      operationId: findProducts
+        Returns all the variants to which the user has access.
+      operationId: findVariants
       parameters:
         - name: external_reference
           in: query
@@ -1139,14 +1134,14 @@ paths:
           type: string
       responses:
         200:
-          description: A list of zero or more products.
+          description: A list of zero or more variants.
           schema:
             type: object
             properties:
               results:
                   type: array
                   items:
-                    $ref: '#/definitions/Product'
+                    $ref: '#/definitions/Variant'
           examples:
             application/json:
               results:
@@ -1184,21 +1179,21 @@ paths:
                   retail": 4150.0
                   wholesale:
                   buy:
-                image_url: /system/products/images/000/111/021/original/216351.jpg?1485540164
-                thumbnail_url: /system/products/images/000/111/021/thumb/216351.jpg?1485540164
-                related_products:
+                image_url: /system/variants/images/000/111/021/original/216351.jpg?1485540164
+                thumbnail_url: /system/variants/images/000/111/021/thumb/216351.jpg?1485540164
+                related_variants:
 
     post:
       description: |
-        Creates a new product, and returns it with its new id.
-      operationId: createProduct
+        Creates a new variant and returns it with its new id.
+      operationId: createVariant
       parameters:
-        - $ref: '#/parameters/Product'
+        - $ref: '#/parameters/Variant'
       responses:
         200:
-          description: The newly created product
+          description: The newly created variant
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/definitions/Variant'
           examples:
             application/json:
               id: 111021,
@@ -1207,7 +1202,6 @@ paths:
               external_reference: 121015691002
               title: Remera - Rojo
               currency: ARG
-              extra_data: 
               archived: false
               picking_preference: warehouse
               freezed_external_reference: false
@@ -1237,30 +1231,30 @@ paths:
                 buy:
               image_url:
               thumbnail_url:
-              related_products:
+              related_variants:
         422:
           description: A list of validation errors.
           examples:
             application/json:
               errors:
                 external_reference: Has already been taken
-  /products/{id}/:
+  /variants/{id}/:
     get:
       description: |
-        Returns a product identified by id.
-      operationId: getProduct
+        Returns a variant identified by id.
+      operationId: getVariant
       parameters:
         - name: id
           in: path
-          description: The id of the product to fetch.
+          description: The id of the variant to fetch.
           required: true
           type: integer
           format: int64
       responses:
         200:
-          description: A product.
+          description: A variant.
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/definitions/Variant'
           examples:
             application/json:
               id: 111021,
@@ -1269,7 +1263,6 @@ paths:
               external_reference: 1210101204002
               title: Remera Colie  - Negro
               currency:
-              extra_data: 
               archived: false
               picking_preference: warehouse
               freezed_external_reference: false
@@ -1297,31 +1290,31 @@ paths:
                 retail": 4150.0
                 wholesale:
                 buy:
-              image_url: /system/products/images/000/111/021/original/216351.jpg?1485540164
-              thumbnail_url: /system/products/images/000/111/021/thumb/216351.jpg?1485540164
-              related_products:
+              image_url: /system/variants/images/000/111/021/original/216351.jpg?1485540164
+              thumbnail_url: /system/variants/images/000/111/021/thumb/216351.jpg?1485540164
+              related_variants:
         404:
-          description: Product with given id not found.
+          description: Variant with given id not found.
     put:
       description: |
-        Update an existing product.
-      operationId: updateProduct
+        Update an existing variant.
+      operationId: updateVariant
       parameters:
         - name: id
           in: path
-          description: The id of the product to be updated.
+          description: The id of the variant to be updated.
           required: true
           type: integer
-        - name: product
+        - name: variant
           in: body
           required: true
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/definitions/Variant'
       responses:
         200:
-          description: The updated product.
+          description: The updated variant.
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/definitions/Variant'
           examples:
             application/json:
               id: 12072
@@ -1332,78 +1325,12 @@ paths:
                 wholesale: 300.5
                 buy: 500
               currency: ARS
-              image_url: https://cdn.shipnow.com.ar/products/TRpXu9O7Ej.png
+              image_url: https://cdn.shipnow.com.ar/variants/TRpXu9O7Ej.png
               dimensions:
                 weight: 300.0
                 heigth: 20.0
                 length: 20.0
                 width: 20.0
-              extra_data:
-                publication_id: FD742
-              location: null
-  /products/{id}/merge:
-    post:
-      description: |
-        Merges this product into a second one. This method should be used when an
-        account somehow has duplicate products, and deleting is impossible due to
-        existing orders.
-      operationId: mergeProduct
-      parameters:
-        - name: id
-          in: path
-          description: The product that will be merged and subsequently deleted.
-          required: true
-          type: integer
-        - name: target
-          in: query
-          description: Target product into which this one will be merged.
-          required: true
-          type: string
-      responses:
-        200:
-          description: The resulting target product.
-          schema:
-            $ref: '#/definitions/Product'
-          examples:
-            application/json:
-              results:
-                id: 111021,
-                created_at: 2016-10-24T14:17:04.486-03:00
-                updated_at: 2017-01-27T15:02:46.668-03:00
-                external_reference: 1210101204002
-                title: Remera Colie  - Negro
-                currency:
-                extra_data: 
-                archived: false
-                picking_preference: warehouse
-                freezed_external_reference: false
-                seller_id: 143
-                seller_name: Benito
-                type: item
-                publications: 0
-                orders: 1
-                stock:
-                    available: 0
-                    committed: 0
-                    allocated: 0
-                    on_hand: 0
-                dimensions:
-                  weight: 0
-                  height: 0
-                  length: 0
-                  width: 0
-                declared_dimensions:
-                  weight: 0
-                  height: 0
-                  length: 0
-                  width: 0
-                price:
-                  retail": 4150.0
-                  wholesale:
-                  buy:
-                image_url: /system/products/images/000/111/021/original/216351.jpg?1485540164
-                thumbnail_url: /system/products/images/000/111/021/thumb/216351.jpg?1485540164
-                related_products:
   /users:
     get:
       description: |
@@ -1422,52 +1349,18 @@ paths:
           examples:
             application/json:
               results:
-                id: 883
-                email: rebeldenimbrand@gmail.com
-                token: 8JQGj1v355sVSDm4LjJGYQdcO6fIPN4v16XSuxpyVmyRe9d9Eg
-                type: human
-                description: Paz Spelzini
-                role: admin
-                avatar_url:
+                id: 1000
+                active: true
+                admin: false
+                avatar_url: https://cdn.shipnow.com.ar/avatars/1000.png
                 created_at: 2018-04-18T15:22:16.779-03:00
+                email: john@doe.com
+                last_name: Doe
+                name: John
+                role: manager
+                type: human
                 account:
                   $ref: '#/definitions/Account'
-                warehouse:
-                  $ref: '#/definitions/Warehouse'
-    post:
-      description: |
-        Creates a new user for this account.
-
-        Note that the calling user requires `admin` priviledges for this call
-        to work (ie: `user.type` must be equal to `admin`)
-      operationId: createUser
-      responses:
-        200:
-          description: The newly created User.
-          schema:
-            $ref: '#/definitions/User'
-          examples:
-            application/json:
-              id: 883
-              email: rebeldenimbrand@gmail.com
-              token: ab01ut67CPsVSDm4LjJGYQdcO6fIPN4v16XSuxpyVmyRe9d9Eg
-              type: human
-              description: Bob Spelzini
-              role: admin
-              avatar_url:
-              created_at: 2018-04-18T15:22:16.779-03:00
-              account:
-                $ref: '#/definitions/Account'
-              warehouses:
-                $ref: '#/definitions/Warehouse'
-        403:
-          description: Access denied to user creation.
-        422:
-          description: A list of validation errors.
-          examples:
-            application/json:
-              errors:
-                email: Has already been taken
   /users/{id}/:
     get:
       description: |
@@ -1487,18 +1380,18 @@ paths:
             $ref: '#/definitions/User'
           examples:
             application/json:
-              id: 883
-              email: rebeldenimbrand@gmail.com
-              token: 8JQGj1v355sVSDm4LpEh28JcO6fIPN4v16XSuxpyVmyRe9d9Eg
-              type: human
-              description: Paz Spelzini
-              role: admin
-              avatar_url:
+              id: 1000
+              active: true
+              admin: false
+              avatar_url: https://cdn.shipnow.com.ar/avatars/1000.png
               created_at: 2018-04-18T15:22:16.779-03:00
+              email: john@doe.com
+              last_name: Doe
+              name: John
+              role: manager
+              type: human
               account:
                 $ref: '#/definitions/Account'
-              warehouses:
-                $ref: '#/definitions/Warehouse'
         404:
           description: User with given id not found.
     put:
@@ -1522,38 +1415,20 @@ paths:
             $ref: '#/definitions/User'
           examples:
             application/json:
-              id: 883
-              email: rebeldenimbrand@gmail.com
-              token: 8JQGj1v355sVSDm4LpEh28JcO6fIPN4v16XSuxpyVmyRe9d9Eg
-              type: human
-              description: Paz Spelzini
-              role: admin
-              avatar_url:
+              id: 1000
+              active: true
+              admin: false
+              avatar_url: https://cdn.shipnow.com.ar/avatars/1000.png
               created_at: 2018-04-18T15:22:16.779-03:00
+              email: john@doe.com
+              last_name: Doe
+              name: John
+              role: manager
+              type: human
               account:
                 $ref: '#/definitions/Account'
-              warehouses:
-                $ref: '#/definitions/Warehouse'
         403:
           description: Current User cannot modify target User.
-    delete:
-      description: |
-        Delete a single User based on the id supplied.
-
-        Only users of type `admin` can call this endpoint.
-      operationId: deleteUser
-      parameters:
-        - name: id
-          in: path
-          description: The id of User to delete.
-          required: true
-          type: integer
-          format: int64
-      responses:
-        204:
-          description: User deleted.
-        403:
-          description: Current User cannot delete target User.
   /users/authentication:
     post:
       description: |
@@ -1570,13 +1445,17 @@ paths:
             $ref: '#/definitions/User'
           examples:
             application/json:
-              id: 202
-              email: bob@example.com
-              token: l352aggWKHXAKDxnvqFbMDdS0od1BfxUKXhfIU0vDO9XiipBQO
-              type: null
-              description: null
-              role: regular
-              avatar_url: https://cdn.shipnow.com.ar/avatars/207.png
+              id: 1000
+              active: true
+              admin: false
+              avatar_url: https://cdn.shipnow.com.ar/avatars/1000.png
+              created_at: 2018-04-18T15:22:16.779-03:00
+              email: john@doe.com
+              last_name: Doe
+              name: John
+              role: manager
+              token: 1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5
+              type: human
   /accounts:
     get:
       description: |
@@ -1596,19 +1475,17 @@ paths:
           examples:
             application/json:
               results:
-                id: 1
-                created_at: 2015-12-11T17:24:44.451-03:00
-                updated_at: 2018-02-06T17:30:23.770-03:00
-                email": info@shipnow.com.ar
-                name": SHIP NOW
-                last_name: S.R.L
-                company_name: Shipnow
-                phone: 44445555
-                token: XWhhZnl8e1PoEJqQYLjwEA
-                image_url: https://res.cloudinary.com/hsyqpasuw/image/upload/v1490107237/tnjdd9fk84a5esj010au.png
-                current_plan": personal
-                pickup_orders_pickup_price: 70.0
+                id: 1000
                 active: true
+                created_at: 2018-02-06T17:30:23.770-03:00
+                updated_at: 2018-02-06T17:30:23.770-03:00
+                email": john@doe.com.ar
+                name": John
+                last_name: Doe
+                company_name: Company Inc
+                phone: 44445555
+                image_url: https://cdn.shipnow.com.ar/accounts/1000.jpg
+                current_plan: personal
                 url:
                 fiscal_category:
                 business_name: 
@@ -1643,19 +1520,17 @@ paths:
                   - $ref: '#/definitions/Account'
           examples:
             application/json:
-              id: 1
-              created_at: 2015-12-11T17:24:44.451-03:00
-              updated_at: 2018-02-06T17:30:23.770-03:00
-              email: info@shipnow.com.ar
-              name: SHIP NOW
-              last_name: S.R.L
-              company_name: Shipnow
-              phone: 44445555
-              token: XWhhZnl8e1PoEJqQYLjwEA
-              image_url: https://res.cloudinary.com/hsyqpasuw/image/upload/v1490107237/tnjdd9fk84a5esj010au.png
-              current_plan": personal
-              pickup_orders_pickup_price: 70.0
+              id: 1000
               active: true
+              created_at: 2018-02-06T17:30:23.770-03:00
+              updated_at: 2018-02-06T17:30:23.770-03:00
+              email": john@doe.com.ar
+              name": John
+              last_name: Doe
+              company_name: Company Inc
+              phone: 44445555
+              image_url: https://cdn.shipnow.com.ar/accounts/1000.jpg
+              current_plan: personal
               url:
               fiscal_category:
               business_name: 
@@ -1695,19 +1570,17 @@ paths:
             $ref: '#/definitions/Account'
           examples:
             application/json:
-              id: 1
-              created_at: 2015-12-11T17:24:44.451-03:00
-              updated_at: 2018-02-06T17:30:23.770-03:00
-              email": info@shipnow.com.ar
-              name": SHIP NOW
-              last_name: S.R.L
-              company_name: Shipnow
-              phone: 44445555
-              token: XWhhZnl8e1PoEJqQYLjwEA
-              image_url: https://res.cloudinary.com/hsyqpasuw/image/upload/v1490107237/tnjdd9fk84a5esj010au.png
-              current_plan": personal
-              pickup_orders_pickup_price: 70.0
+              id: 1000
               active: true
+              created_at: 2018-02-06T17:30:23.770-03:00
+              updated_at: 2018-02-06T17:30:23.770-03:00
+              email": john@doe.com.ar
+              name": John
+              last_name: Doe
+              company_name: Company Inc
+              phone: 44445555
+              image_url: https://cdn.shipnow.com.ar/accounts/1000.jpg
+              current_plan: personal
               url:
               fiscal_category:
               business_name: 
@@ -1745,14 +1618,14 @@ paths:
           examples:
             application/json:
               results:
-                id: 1609
+                id: 1000
                 created_at: 2018-06-07T08:50:45.866-03:00
                 updated_at: 2018-06-07T08:50:57.362-03:00
-                name: example name
+                name: Example Name
                 url: http://example.mitiendanube.com
-                image_url: https://example.cloudfront.net/stores/281/738/themes/common/logo-1663896327-1525213633-1bcabd7f45c69ec942f0ef5fda8f1ee01525213649.jpg?0
+                image_url: https://cdn.shipnow.com.ar/stores/1000.jpg
                 active: true
-                seller_id: 950
+                seller_id: 100
                 store_type: tiendanube
     post:
       description: |
@@ -1767,14 +1640,14 @@ paths:
             $ref: '#/definitions/Store'
           examples:
             application/json:
-              id: 16010
+              id: 1000
               created_at: 2018-06-07T08:50:45.866-03:00
-              updated_at:
-              name: example name
+              updated_at: 2018-06-07T08:50:57.362-03:00
+              name: Example Name
               url: http://example.mitiendanube.com
-              image_url: https://example.cloudfront.net/stores/281/738/themes/common/logo-1663896327-1525213633-1bcabd7f45c69ec942f0ef5fda8f1ee01525213649.jpg?0
+              image_url: https://cdn.shipnow.com.ar/stores/1000.jpg
               active: true
-              seller_id: 950
+              seller_id: 100
               store_type: tiendanube
         422:
           description: A list of validation errors.
@@ -1801,14 +1674,14 @@ paths:
             $ref: '#/definitions/Store'
           examples:
             application/json:
-              id: 1609
+              id: 1000
               created_at: 2018-06-07T08:50:45.866-03:00
               updated_at: 2018-06-07T08:50:57.362-03:00
-              name: example name
+              name: Example Name
               url: http://example.mitiendanube.com
-              image_url: https://example.cloudfront.net/stores/281/738/themes/common/logo-1663896327-1525213633-1bcabd7f45c69ec942f0ef5fda8f1ee01525213649.jpg?0
+              image_url: https://cdn.shipnow.com.ar/stores/1000.jpg
               active: true
-              seller_id: 950
+              seller_id: 100
               store_type: tiendanube
         404:
           description: A Store with the given id not found.
@@ -1830,14 +1703,14 @@ paths:
             $ref: '#/definitions/Store'
           examples:
             application/json:
-              id: 16010
+              id: 1000
               created_at: 2018-06-07T08:50:45.866-03:00
-              updated_at: 2018-06-11T15:04:05.904-03:00
-              name: new example name
+              updated_at: 2018-06-07T08:50:57.362-03:00
+              name: Example Name
               url: http://example.mitiendanube.com
-              image_url: https://example.cloudfront.net/stores/281/738/themes/common/logo-1663896327-1525213633-1bcabd7f45c69ec942f0ef5fda8f1ee01525213649.jpg?0
+              image_url: https://cdn.shipnow.com.ar/stores/1000.jpg
               active: true
-              seller_id: 950
+              seller_id: 100
               store_type: tiendanube
   /webhooks:
     post:
@@ -2521,7 +2394,7 @@ parameters:
            - ready_to_ship
         items:
           type: array
-          description: The items (products) included in this order.
+          description: The items (variants) included in this order.
           items:
             - type: object
               required:
@@ -2529,29 +2402,29 @@ parameters:
               - quantity
               properties:
                 id:
-                  description: The id of a product. See /products.
+                  description: The id of a variants. See /variants.
                   type: integer
                 external_reference:
                   type: string
-                  description: The product's external_reference.
+                  description: The variant's external_reference.
                   readOnly: true
                 quantity:
-                  description: The amount of this product that this order contains.
+                  description: The amount of this variant that this order contains.
                   type: integer
                 unit_price:
-                  description: This product's price (per unit).
+                  description: This variant's price (per unit).
                   readOnly: true
                   type: number
                 title:
-                  description: The product's title
+                  description: The variant's title
                   type: string
                 image_url:
-                  description: Ths product's image_url.
+                  description: Ths variant's image_url.
                   type: string
         #shipments
-  Product:
+  Variant:
     in: body
-    name: product
+    name: variant
     schema:
       type: object
       required:
@@ -2560,23 +2433,23 @@ parameters:
       properties:
         external_reference:
           type: string
-          description: A free-form text to later find and search this product.
+          description: A free-form text to later find and search this variant.
         title:
           type: string
-          description: A name for this product. This is free-form text, and is only used for display purposes.
+          description: A name for this variant. This is free-form text, and is only used for display purposes.
         stock:
           type: number
-          description: Remaining stock for this product
+          description: Remaining stock for this variant
         price:
           type: number
-          description: This product's price. Insurance coverage will be based on this price.
+          description: This variant's price. Insurance coverage will be based on this price.
         currency:
           type: string
-          description: The currency for this product's price. Should be ARS, for now.
+          description: The currency for this variant's price. Should be ARS, for now.
         image_url:
           type: string
           format: url
-          description: A URL to an image that visually identifies this product.
+          description: A URL to an image that visually identifies this variant.
         dimensions:
           type: object
           properties:
@@ -2588,9 +2461,6 @@ parameters:
               type: number
             width:
               type: number
-        extra_data:
-          type: object
-          description: A free-form JSON field where custom data can be stored for each product.
   User:
     name: user
     in: body
@@ -2605,7 +2475,7 @@ parameters:
           example: "alice@example.com"
         token:
           type: string
-          example: biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH
+          example: 1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5
           description: The API token.
         description:
           type: string
@@ -2662,7 +2532,7 @@ parameters:
         # TODO: Stores
         token:
           type: string
-          example: biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH
+          example: 1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5
         image_url:
           type: string
           format: url
@@ -3135,7 +3005,7 @@ definitions:
             type: integer
       items:
         type: array
-        description: The items (products) included in this order.
+        description: The items (variants) included in this order.
         items:
           - type: object
             required:
@@ -3183,7 +3053,7 @@ definitions:
                   weight:
                     type: integer
             
-  Product:
+  Variant:
     required:
       - id
       - external_reference
@@ -3193,7 +3063,6 @@ definitions:
       - currency
       - image_url
       - dimensions
-      - extra_data
     properties:
       id:
         readOnly: true
@@ -3204,16 +3073,13 @@ definitions:
         type: string
       external_reference:
         type: string
-        description: A free-form text to later find and search this product.
+        description: A free-form text to later find and search this variant.
       title:
         type: string
-        description: A name for this product. This is free-form text, and is only used for display purposes.
+        description: A name for this variant. This is free-form text, and is only used for display purposes.
       currency:
         type: string
-        description: The currency for this product's price. Should be ARS, for now.
-      extra_data:
-        type: object
-        description: A free-form JSON field where custom data can be stored for each product.
+        description: The currency for this variant's price. Should be ARS, for now.
       archived:
         type: boolean
       picking_preference:
@@ -3232,7 +3098,7 @@ definitions:
         type: integer
       stock:
         type: object
-        description: Remaining stock for this product
+        description: Remaining stock for this variant
         properties:
           available:
             type: integer
@@ -3244,7 +3110,7 @@ definitions:
             type: integer
       dimensions:
         type: object
-        description: product dimensions
+        description: Variant dimensions
         properties:
           weight:
             type: integer
@@ -3256,7 +3122,7 @@ definitions:
             type: integer
       declared_dimensions:
         type: object
-        description: product declared dimensions
+        description: Variant declared dimensions
         properties:
           weight:
             type: integer
@@ -3268,7 +3134,7 @@ definitions:
             type: integer
       price:
         type: object
-        description: This product's price. Insurance coverage will be based on this price.
+        description: This variant's price. Insurance coverage will be based on this price.
         properties:
           retail:
             type: string
@@ -3279,12 +3145,12 @@ definitions:
       image_url:
         type: string
         format: url
-        description: A URL to an image that visually identifies this product.
+        description: A URL to an image that visually identifies this variant.
       thumbnail_url:
         type: string
         format: url
-        description: A URL to an image that visually identifies this product.
-      related_products:
+        description: A URL to an image that visually identifies this variant.
+      related_variants:
         type: string
   User:
     required:
@@ -3298,7 +3164,7 @@ definitions:
         example: "alice@example.com"
       token:
         type: string
-        example: biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH
+        example: 1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5
         description: The API token.
       type: 
         type: string
@@ -3350,7 +3216,7 @@ definitions:
       # TODO: Stores
       token:
         type: string
-        example: biijDg4Jo0S0P3vdGmTLICUnOExFFqJzLJ5QSTzRfLTYvVZgjH
+        example: 1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5
       image_url:
         type: string
         format: url
@@ -3755,7 +3621,7 @@ definitions:
         items:
           $ref: '#/definitions/TransferItem'
       outbound_order:
-        description: Order of departure of the merchandise. When a transfer from a warehouse that has WMS is confirmed, an exit order will be created so that it can be prepared and packaged. This order will include all the products of the transfer.
+        description: Order of departure of the merchandise. When a transfer from a warehouse that has WMS is confirmed, an exit order will be created so that it can be prepared and packaged. This order will include all the variants of the transfer.
         $ref: '#/definitions/Order'
       from_warehouse:
         description: Warehouse of departure of the merchandise.
