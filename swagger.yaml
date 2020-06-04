@@ -378,6 +378,31 @@ info:
 
     ### cancelled
     Only transfers that have not yet been confirmed can be `cancelled`.
+    
+    Check Ins
+    ---------
+    Check ins represents the receipt of an order in a warehouse.
+    This receipt may be due to an undelivered shipment, a return
+    or because the order will be available for pickup by a buyer.
+    
+    An order can only have one associated check in.
+    
+    ### Check Ins Statuses
+    
+    *  `created`: the order is being sent to the warehouse.
+    Only un this status the scheduled_action is editable.
+    *  `received`: the order has been received in the warehouse. The quality process will start soon.
+    *  `processing`: the order is in the quality process.
+    *  `completed`: the order check in is completed.
+    
+    ### Check Ins Actions
+    
+    A check in can have one associated action (the `scheduled_action`) that will be executed after
+    quality process is completed successfully. Possible actions are as follows:
+    *  `stock`: the items will be re-entered into stock.
+    *  `resend`: the items will be resend to the buyer through a new order.
+    *  `return`: the items will be returned to seller through a goods in.
+    *  `pickup`: the order will be available in the warehouse for pickup by a buyer.
 
     Contributing
     ------------
@@ -424,24 +449,18 @@ paths:
           description: filter by status
           required: false
           type: string
-        - name: date_from
+        - name: created_at_from
           in: query
           description: exclude orders created before this date
           required: false
           type: string
           format: date
-        - name: date_to
+        - name: created_at_to
           in: query
           description: exclude orders created after this date
           required: false
           type: string
           format: date
-        - name: status_detail
-          in: query
-          description: filter by status_detail
-          required: false
-          type: string
-          format: string
         - name: external_reference
           in: query
           description: find order with this external_reference
@@ -515,11 +534,9 @@ paths:
                   ship_from_warehouse_id: 1
                   ship_to_warehouse_id:
                   type: regular
-                  warnings:
-                  seller_id: 850
+                  seller_id: 100
                   seller_name: Tricera Mochila
-                  seller_logo: 
-                  pvx_account: true
+                  seller_logo:
                   store_type: tiendanube
                   cross_docking: false
                   payment:
@@ -532,17 +549,16 @@ paths:
                     price: 197
                     service_type: ship_pap
                   store:
-                    id: 1575
+                    id: 1000
                     created_at: 2018-05-31T20:51:26.357-03:00
                     updated_at: 2018-05-31T20:51:39.661-03:00
                     name: TN - Tricera
                     url: http://triceratops.mitiendanube.com
                     image_url: https://d26lpennugtm8s.cloudfront.net/stores/055/480/themes/common/logo-584049565-1527722282-c2abf2fcaa0e06649cace7951b0214981527722282.png?0
                     active: true
-                    seller_id: 850
+                    seller_id: 100
                     store_type: tiendanube
-                  return:
-                  pickup_order:
+                  check_in:
                   ship_to:
                     zip_code: 3600
                     street_name:
@@ -551,11 +567,11 @@ paths:
                     state: La Pampa
                     floor: 
                     unit: 
-                    name: Marcelo Breno
-                    last_name: 
-                    full_name: Marcelo Breno
-                    phone: 0295415543942
-                    email: chelo.mb3@gmail.com
+                    name: John
+                    last_name: Doe
+                    full_name: John Doe
+                    phone: +541112345678
+                    email: test@test.com
                     lon:
                     lat:
                     doc_type:
@@ -578,7 +594,7 @@ paths:
                     name: Tricera Mochilas
                     last_name: SRL
                     full_name: Tricera Mochilas Srl
-                    phone: 35292697
+                    phone: +541112345678
                     email: info@shipnow.com.ar
                     lon: -58.475772
                     lat: -34.592206
@@ -598,7 +614,7 @@ paths:
                     unit_price: 1999.0
                     discount: 0.0
                     cross_docking: false
-                    id: 602942
+                    id: 200000
                     external_reference: TC00109
                     title: ECO II KNIT -
                     image_url: /images/original/missing.png
@@ -656,11 +672,9 @@ paths:
               ship_from_warehouse_id: 1
               ship_to_warehouse_id:
               type: regular
-              warnings:
-              seller_id: 850
+              seller_id: 100
               seller_name: Tricera Mochila
-              seller_logo: 
-              pvx_account: true
+              seller_logo:
               store_type: tiendanube
               cross_docking: false
               payment:
@@ -673,17 +687,16 @@ paths:
                 price: 197
                 service_type: ship_pap
               store:
-                id: 1575
+                id: 1000
                 created_at: 2018-05-31T20:51:26.357-03:00
                 updated_at: 2018-05-31T20:51:39.661-03:00
                 name: TN - Tricera
                 url: http://triceratops.mitiendanube.com
                 image_url: https://d26lpennugtm8s.cloudfront.net/stores/055/480/themes/common/logo-584049565-1527722282-c2abf2fcaa0e06649cace7951b0214981527722282.png?0
                 active: true
-                seller_id: 850
+                seller_id: 100
                 store_type: tiendanube
-              return:
-              pickup_order:
+              check_in:
               ship_to:
                 zip_code: 3600
                 street_name:
@@ -692,11 +705,11 @@ paths:
                 state: La Pampa
                 floor: 
                 unit: 
-                name: Marcelo Breno
-                last_name: 
-                full_name: Marcelo Breno
-                phone: 0295415543942
-                email: chelo.mb3@gmail.com
+                name: John
+                last_name: Doe
+                full_name: John Doe
+                phone: +541112345678
+                email: test@test.com
                 lon:
                 lat:
                 doc_type:
@@ -719,7 +732,7 @@ paths:
                 name: Tricera Mochilas
                 last_name: SRL
                 full_name: Tricera Mochilas Srl
-                phone: 35292697
+                phone: +541112345678
                 email: info@shipnow.com.ar
                 lon: -58.475772
                 lat: -34.592206
@@ -739,7 +752,7 @@ paths:
                 unit_price: 1999.0
                 discount: 0.0
                 cross_docking: false
-                id: 602942
+                id: 200000
                 external_reference: TC00109
                 title: ECO II KNIT -
                 image_url: /images/original/missing.png
@@ -808,11 +821,9 @@ paths:
               ship_from_warehouse_id: 1
               ship_to_warehouse_id:
               type: regular
-              warnings:
-              seller_id: 850
+              seller_id: 100
               seller_name: Tricera Mochila
-              seller_logo: 
-              pvx_account: true
+              seller_logo:
               store_type: tiendanube
               cross_docking: false
               payment:
@@ -825,17 +836,16 @@ paths:
                 price: 197
                 service_type: ship_pap
               store:
-                id: 1575
+                id: 1000
                 created_at: 2018-05-31T20:51:26.357-03:00
                 updated_at: 2018-05-31T20:51:39.661-03:00
                 name: TN - Tricera
                 url: http://triceratops.mitiendanube.com
                 image_url: https://d26lpennugtm8s.cloudfront.net/stores/055/480/themes/common/logo-584049565-1527722282-c2abf2fcaa0e06649cace7951b0214981527722282.png?0
                 active: true
-                seller_id: 850
+                seller_id: 100
                 store_type: tiendanube
-              return:
-              pickup_order:
+              check_in:
               ship_to:
                 zip_code: 3600
                 street_name:
@@ -844,11 +854,11 @@ paths:
                 state: La Pampa
                 floor: 
                 unit: 
-                name: Marcelo Breno
-                last_name: 
-                full_name: Marcelo Breno
-                phone: 0295415543942
-                email: chelo.mb3@gmail.com
+                name: John
+                last_name: Doe
+                full_name: John Doe
+                phone: +541112345678
+                email: test@test.com
                 lon:
                 lat:
                 doc_type:
@@ -871,7 +881,7 @@ paths:
                 name: Tricera Mochilas
                 last_name: SRL
                 full_name: Tricera Mochilas Srl
-                phone: 35292697
+                phone: +541112345678
                 email: info@shipnow.com.ar
                 lon: -58.475772
                 lat: -34.592206
@@ -891,7 +901,7 @@ paths:
                 unit_price: 1999.0
                 discount: 0.0
                 cross_docking: false
-                id: 602942
+                id: 200000
                 external_reference: TC00109
                 title: ECO II KNIT -
                 image_url: /images/original/missing.png
@@ -962,11 +972,9 @@ paths:
               ship_from_warehouse_id: 1
               ship_to_warehouse_id:
               type: regular
-              warnings:
-              seller_id: 850
+              seller_id: 100
               seller_name: Tricera Mochila
               seller_logo: 
-              pvx_account: true
               store_type: tiendanube
               cross_docking: false
               payment:
@@ -979,17 +987,16 @@ paths:
                 price: 197
                 service_type: ship_pap
               store:
-                id: 1575
+                id: 1000
                 created_at: 2018-05-31T20:51:26.357-03:00
                 updated_at: 2018-05-31T20:51:39.661-03:00
                 name: TN - Tricera
                 url: http://triceratops.mitiendanube.com
                 image_url: https://d26lpennugtm8s.cloudfront.net/stores/055/480/themes/common/logo-584049565-1527722282-c2abf2fcaa0e06649cace7951b0214981527722282.png?0
                 active: true
-                seller_id: 850
+                seller_id: 100
                 store_type: tiendanube
-              return:
-              pickup_order:
+              check_in:
               ship_to:
                 zip_code: 3600
                 street_name:
@@ -998,11 +1005,11 @@ paths:
                 state: La Pampa
                 floor: 
                 unit: 
-                name: Marcelo Breno
-                last_name: 
-                full_name: Marcelo Breno
-                phone: 0295415543942
-                email: chelo.mb3@gmail.com
+                name: John
+                last_name: Doe
+                full_name: John Doe
+                phone: +541112345678
+                email: test@test.com
                 lon:
                 lat:
                 doc_type:
@@ -1025,7 +1032,7 @@ paths:
                 name: Tricera Mochilas
                 last_name: SRL
                 full_name: Tricera Mochilas Srl
-                phone: 35292697
+                phone: +541112345678
                 email: info@shipnow.com.ar
                 lon: -58.475772
                 lat: -34.592206
@@ -1045,7 +1052,7 @@ paths:
                 unit_price: 1999.0
                 discount: 0.0
                 cross_docking: false
-                id: 602942
+                id: 200000
                 external_reference: TC00109
                 title: ECO II KNIT -
                 image_url: /images/original/missing.png
@@ -1090,7 +1097,6 @@ paths:
                 order_id: 37201
                 created_at: 2018-06-07T09:55:55.085-03:00
                 delivered_at:
-                dispatch_id:
                 external_reference: 27592747623
                 insurance_price:
                 in_post_office_at:
@@ -2480,8 +2486,7 @@ parameters:
           type: string
           enum:
             - regular
-            - admin
-            - shipnow
+            - manager
         # TODO: account:
         avatar_url:
           type: string
@@ -2637,69 +2642,54 @@ definitions:
     required:
       - id
       - order_id
-      - speed_shipping
-      - speed_handling
-      - estimated_handling
-      - estimated_delivery
-      - shipping_price
-      - insurance_price
       - tracking_number
       - external_reference
       - shipped_at
       - delivered_at
-      - prepared_at
-      - last_mile_at
       - not_delivered_at
-      - carrier_code
-      - service_code
-      - type
     properties:
       id:
+        readOnly: true
         type: integer
       order_id:
+        readOnly: true
         type: integer
-      speed_shipping:
-        type: string
-      speed_handling:
-        type: string
-      estimated_handling:
-        type: string
-        format: date-time
-      estimated_delivery:
-        type: string
-        format: date-time
-      shipping_price:
-        type: number
-      insurance_price:
-        type: number
       tracking_number:
         type: string
       external_reference:
         type: string
+      status:
+        type: string
+        enum:
+          - ready_to_ship
+          - dispatched
+          - shipped
+          - in_post_office
+          - out_for_delivery
+          - on_hold
+          - not_delivered
+          - delivered
+          - returned
+      dispatched_at:
+        readOnly: true
+        type: string
+        format: date-time
       shipped_at:
+        readOnly: true
+        type: string
+        format: date-time
+      in_post_office_at:
+        readOnly: true
         type: string
         format: date-time
       delivered_at:
-        type: string
-        format: date-time
-      prepared_at:
-        type: string
-        format: date-time
-      last_mile_at:
+        readOnly: true
         type: string
         format: date-time
       not_delivered_at:
+        readOnly: true
         type: string
         format: date-time
-      carrier_code:
-        type: string
-      service_code:
-        type: string
-      type:
-        type: string
-        enum:
-          - PAS
-          - PAP
   Order:
     required:
       - id
@@ -2723,8 +2713,6 @@ definitions:
       external_reference:
         type: string
         description: A free-form text to later find and search this order
-      comment:
-        type: string
       status:
         type: string
         example: "awating_payment"
@@ -2821,17 +2809,12 @@ definitions:
         description: id of the warehouse to which the order is sent
       type:
         type: string
-      warnings:
-        type: array
-        description: list of warnings the order has
       seller_id:
         type: string
       seller_name:
         type: string
       seller_logo:
         type: string
-      pvx_account: 
-        type: boolean
       store_type:
         type: string
       cross_docking:
@@ -2881,10 +2864,9 @@ definitions:
             type: integer
           store_type:
             type: string
-      return:
-        type: string
-      pickup_order:
-        type: string
+      check_in:
+        type: object
+        $ref: '#/definitions/CheckIn'
       ship_to:
         type: object
         required:
@@ -3048,7 +3030,57 @@ definitions:
                 properties:
                   weight:
                     type: integer
-            
+  CheckIn:
+    properties:
+      id:
+        readOnly: true
+        type: integer
+      created_at:
+        readOnly: true
+        type: string
+        format: date-time
+      updated_at:
+        readOnly: true
+        type: string
+        format: date-time
+      order_id:
+        readOnly: true
+        type: integer
+        description: ID of the order to be received.
+      warehouse_id:
+        readOnly: true
+        type: integer
+        description: ID of the warehouse that will receive the order.
+      status:
+        type: string
+        description: Check in status.
+        enum:
+          - created
+          - received
+          - processing
+          - completed
+      quality:
+        type: boolean
+        description: Indicates if the order approved the quality process.
+      scheduled_action:
+        type: string
+        description: It is the action that will be carried out after processing the order in the warehouse.
+      received_at:
+        readOnly: true
+        type: string
+        format: date-time
+        description: It is the date the order was received.
+      processing_at:
+        readOnly: true
+        type: string
+        format: date-time
+        description: It is the date the order was processed.
+      completed_at:
+        readOnly: true
+        type: string
+        format: date-time
+        description: It is the date the associated action was completed.
+    
   Variant:
     required:
       - id
@@ -3219,9 +3251,6 @@ definitions:
         description: The URL to an image used to idenfity this account.
       current_plan:
         type: string
-      pickup_orders_pickup_price:
-        type: string
-        description: price of pick and pack for the account
       active:
         type: boolean
         description: is an active account?
@@ -3410,7 +3439,7 @@ definitions:
         type: integer
         example: 1
       name:
-        description: Nombre del WMS.
+        description: WMS name.
         type: string
         example: WMS 2.0
       code:
