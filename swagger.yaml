@@ -2326,6 +2326,7 @@ parameters:
             - zip_code
             - address_line
             - city
+            - state
             - email
           properties:
             name:
