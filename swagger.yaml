@@ -2640,6 +2640,7 @@ parameters:
 
 definitions:
   Shipment:
+    type: object
     required:
       - id
       - order_id
@@ -2692,6 +2693,7 @@ definitions:
         type: string
         format: date-time
   Order:
+    type: object
     required:
       - id
       - external_reference
@@ -3032,6 +3034,7 @@ definitions:
                   weight:
                     type: integer
   CheckIn:
+    type: object
     properties:
       id:
         readOnly: true
@@ -3083,6 +3086,7 @@ definitions:
         description: It is the date the associated action was completed.
     
   Variant:
+    type: object
     required:
       - id
       - external_reference
@@ -3182,6 +3186,7 @@ definitions:
       related_variants:
         type: string
   User:
+    type: object
     required:
       - email
     properties:
@@ -3221,6 +3226,7 @@ definitions:
       account:
         $ref: '#/definitions/Account'
   Account:
+    type: object
     properties:
       id:
         readOnly: true
@@ -3286,6 +3292,7 @@ definitions:
             type: object
             $ref: '#/definitions/Warehouse'
   Store:
+    type: object
     properties:
       id:
         type: integer
@@ -3324,6 +3331,7 @@ definitions:
           A free-form JSON field where credentials to upstream stores are save.
       
   ShippingService:
+    type: object
     properties:
       id:
         description: A unique id.
@@ -3372,6 +3380,7 @@ definitions:
           tracking_url:
             type: string
   PostOffice:
+    type: object
     properties:
       id: 
         description: An unique ID.
@@ -3404,6 +3413,7 @@ definitions:
         description: Carrier to which the post office belongs
         $ref: '#/definitions/Carrier'
   Carrier:
+    type: object
     properties:
       code:
         description: An unique code for carrier
@@ -3434,6 +3444,7 @@ definitions:
         type: string
         example: https://www1.oca.com.ar/OEPTrackingWeb/detalleenviore.asp?numero=
   WarehouseSystem:
+    type: object
     properties:
       id:
         description: Un ID único.
@@ -3448,6 +3459,7 @@ definitions:
         type: string
         example: wms_2_0
   Address:
+    type: object
     properties:
       zip_code:
         type: string
@@ -3498,6 +3510,7 @@ definitions:
             type: string
             example: AR
   Warehouse:
+    type: object
     properties:
       id:
         description: A unique ID.
@@ -3533,6 +3546,7 @@ definitions:
         description: Dirección del depósito.
         $ref: '#/definitions/Address'
   TransferItem:
+    type: object
     properties:
       label_type:
         description: Form in which the item will be labeled.
@@ -3561,6 +3575,7 @@ definitions:
           - product
           - order
   Transfer:
+    type: object
     properties:
       id:
         description: A unique ID.
@@ -3656,6 +3671,7 @@ definitions:
         description: Deposit of arrival of the merchandise.
         $ref: '#/definitions/Warehouse'
   NewTransfer:
+    type: object
     properties:
       comment:
         description: Notes on the transfer.
@@ -3713,6 +3729,7 @@ definitions:
       - from_warehouse_id
       - to_warehouse_id
   Tariff:
+    type: object
     properties:
       id:
         type: integer
