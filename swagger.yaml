@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: 1.0.0
+  version: 1.1.0
   title: Shipnow API
   description: |
     ShipNow exposes it's information using RESTful interface. Detailed
@@ -312,15 +312,23 @@ info:
     the zip_code to where the order is sent, and the weight and volume of the package.
     
     ### Pre-calculate price
-    If you want to know an approximate price before creating an order, there is two options. 
-    If shipping service is by default you can make a `GET` request to 
-    `/shipping_services/default?weight={weight}&to_zip_code={to_zip_code}&from_zip_code={from_zip_code}`
-    specifying the total weight of the order, the zip code where it will be send to, and the zip code where it will be send from.
-      
-    If the order will be send to a post office of Garbarino, Andreani or Oca, you can make a `GET` request to
-    `/pickup_points?zip_code={to_zip_code}&service_type=ship_pas&weight={weight}&carrier_code={carrier?code}` specifying the total weight 
-    of the order, the zip code where the order will be send to and the carrier code of the post office you want to send the order,
-    Garbarino, Andreani or Oca.
+    If you want to know an approximate price before creating an order, you can make a `GET` request to 
+    `/shipping_options?weight={weight}&to_zip_code={zip_code}&types={types}`
+    specifying the total weight of the order the zip code where it will be send to and the type of the shipping
+    being `ship_pap`, `ship_pas` or both (separate by a comma in that case `ship_pap,ship_pas`)
+    
+    The response has in the result field a list with the three closest branches of each post office that ships to that zip code. 
+
+    Every element of the list has the following attributes:
+    * `minimum_delivery` (string datetime)
+    * `maximum_delivery` (string datetime)
+    * `price` (float) The pre-calculated price
+    * `ship_from_type` (string) ('Account', DeliveryZone', PostOffice' or 'Warehouse')
+    * `ship_from` (object) May be anyone of the four types
+    * `ship_to_type` (string) ('Account', DeliveryZone', PostOffice' or 'Warehouse')
+    * `ship_to` (object) May be anyone of the four types
+    * `shipping_contract` (object) The contract generated to this shipping
+    * `shipping_service` (object) The service of this shipping
           
     Post Offices
     ------------
