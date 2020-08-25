@@ -3279,7 +3279,7 @@ definitions:
       current_tariff:
         type: object
         $ref: '#/definitions/Tariff'
-      adrress:
+      address:
         type: object
         $ref: '#/definitions/Address'
       stores:
