@@ -465,24 +465,24 @@ paths:
       parameters:
         - name: status
           in: query
-          description: filter by status
+          description: Filter by status.
           required: false
           type: string
         - name: created_at_from
           in: query
-          description: exclude orders created before this date
+          description: Exclude orders created before this date.
           required: false
           type: string
           format: date
         - name: created_at_to
           in: query
-          description: exclude orders created after this date
+          description: Exclude orders created after this date.
           required: false
           type: string
           format: date
         - name: external_reference
           in: query
-          description: find order with this external_reference
+          description: Find order with this external_reference.
           required: false
           type: string
           format: string
@@ -1881,7 +1881,7 @@ paths:
                   name: Garbarino
                   tracking_url:
         404:
-          description: A PostOffice with the given id not found.
+          description: A PostOffice with the given id was not found.
   /transfers:
     get:
       description: |
@@ -1889,7 +1889,7 @@ paths:
       operationId: indexTransfers
       responses:
         200:
-          description: Un array de Transfers.
+          description: An array of Transfers.
           schema:
             type: object
             properties:
@@ -1993,7 +1993,7 @@ paths:
             $ref: '#/definitions/NewTransfer'
       responses:
         200:
-          description: La transferencia que fue creada.
+          description: The new transfer.
           schema:
             $ref: '#/definitions/Transfer'
           examples:
@@ -2094,13 +2094,13 @@ paths:
       parameters:
         - name: id
           in: path
-          description: ID de la transferencia
+          description: ID of the transfer
           required: true
           type: integer
           format: int64
       responses:
         200:
-          description: La transferencia que tiene el ID pasado como parametro.
+          description: The transfer that has the ID passed.
           schema:
             $ref: '#/definitions/Transfer'
           examples:
@@ -2187,7 +2187,7 @@ paths:
                     name: Argentina
                     code: AR
         404:
-          description: no se encontró ninguna transferencia con ese ID.
+          description: any transfer with this ID has been found.
     put:
       description: |
         Update an existing transfer.
@@ -2195,18 +2195,18 @@ paths:
       parameters:
         - name: id
           in: path
-          description: el ID de la transferencia que se quiere editar.
+          description: Transfer ID to edit.
           required: true
           type: integer
         - name: transfer
           in: body
-          description: los datos de la transferencia que se quieren guardar. Dependiendo del estado de la transferencia algunos datos podrían ser no editables.
+          description: Transfer data to save. Depends on the state, some may be not editable.
           required: true
           schema:
             $ref: '#/definitions/NewTransfer'
       responses:
         200:
-          description: La transferencia actualizada.
+          description: Updated transfer.
           schema:
             $ref: '#/definitions/Transfer'
           examples:
@@ -3839,7 +3839,7 @@ definitions:
               type: integer
             status:
               type: string
-              description: Could be active, inactive, hide or unauthorized.
+              description: Could be `active`, `inactive`, `hide` or `unauthorized`.
             account:
               type: object
               properties:
