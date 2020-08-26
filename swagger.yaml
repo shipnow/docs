@@ -308,8 +308,8 @@ info:
     
     Shipping Pricing
     -----------------
-    The shipping price of an order will depend on the account id, the zip_code from where the order is sent,
-    the zip_code to where the order is sent, and the weight and volume of the package.
+    The shipping price of an order will depend on the account id,
+    the zip_code to where the order is sent, and its total weight.
     
     ### Pre-calculate price
     If you want to know an approximate price before creating an order, you can make a `GET` request to 
@@ -433,6 +433,17 @@ info:
     name: ShipNow API Team
     email: developers@shipnow.com.ar
     url: https://www.shipnow.com.ar
+
+securityDefinitions:
+  token:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+    description: Used for all non-public endpoints.
+  auth:
+    type: "basic"
+    description: Used to obtain a per-user token.
+
 host: api.shipnow.com.ar
 basePath: /
 schemes:
@@ -2297,19 +2308,49 @@ paths:
         Use this endpoint to test connectivity to the ShipNow API, response
         times, or debug other possible network-related issues.
       operationId: ping
-      security: []
       responses:
         200:
           description: This endpoint will always return the string "pong".
-securityDefinitions:
-  token:
-    type: "apiKey"
-    name: "Authorization"
-    in: "header"
-    description: Used for all non-public endpoints.
-  auth:
-    type: "basic"
-    description: Used to obtain a per-user token.
+          
+  /shipping_options:
+    get:
+      description:
+        Returns an array of objects that represents an option to ship
+        (up to three for each mail that sends to the area of​the
+        indicated postal code)
+      operationId: shipping_options
+      security: 
+        - token: []
+      parameters:
+        - name: weight
+          in: query
+          description: total weight
+          required: true
+          type: integer
+          format: int64
+        - name: to_zip_code
+          in: query
+          description: destination zip code
+          required: true
+          type: integer
+          format: int64
+        - name: types
+          in: query
+          description: type of ship (`ship_pap`, `ship_pas` or both separated by a comma `ship_pap,ship_pas`)
+          required: true
+          type: string
+      responses:
+        200:
+          description: An array of ShippingOptions (could be an empty array).
+          schema:
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/ShippingOptions'
+            required:
+              - results
 parameters:
   NewOrder:
     in: body
@@ -3761,3 +3802,63 @@ definitions:
                 type: integer
               price:
                 type: integer
+  
+  ShippingOptions:
+      type: object
+      properties:
+        minimum_delivery:
+          type: string
+          description: A datetime that indicates the earliest time delivery can arrive.
+          format: date-time
+          example: 2018-03-25T14:00:00.599-03:00
+        maximum_delivery:
+          type: string
+          description: A datetime that indicates the latest moment in that the delivery can arrive.
+          format: date-time
+          example: 2018-03-25T14:00:00.599-03:00
+        price:
+          type: number
+          description: The pre-calculated price for this option (float).
+        ship_from_type:
+          type: string
+          description: The type of ship_from. Could be `Warehouse`, `PostOffice` or `null` (Object null, not string "null")
+        ship_from:
+          type: object
+          description: Could be `null`, `PostOffice` or `Warehouse` object
+        ship_to_type:
+          type: string
+          description: The type of ship_to. Could be `Warehouse`, `PostOffice` or `null` (Object null, not string "null")
+        ship_to:
+          type: object
+          description: Could be `null`, `PostOffice` or `Warehouse` object
+        shipping_contract:
+          type: object
+          description: The contract for this shipping
+          properties:
+            id:
+              type: integer
+            status:
+              type: string
+              description: Could be active, inactive, hide or unauthorized.
+            account:
+              type: object
+              properties:
+                id:
+                  type: integer
+            shipping_service:
+              type: object
+              properties:
+                id:
+                  type: integer
+        shipping_service: 
+          type: object
+          description: The service for this shipping
+          $ref: '#/definitions/ShippingService'
+      required:
+      - minimum_delivery
+      - maximum_delivery
+      - price
+      - ship_from_type
+      - ship_to_type
+      - shipping_contract
+      - shipping_service
