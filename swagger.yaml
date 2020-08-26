@@ -315,7 +315,7 @@ info:
     If you want to know an approximate price before creating an order, you can make a `GET` request to 
     `/shipping_options?weight={weight}&to_zip_code={zip_code}&types={types}`
     specifying the total weight of the order the zip code where it will be send to and the type of the shipping
-    being `ship_pap`, `ship_pas` or both (separate by a comma in that case `ship_pap,ship_pas`)
+    being `ship_pap`, `ship_pas` or both (separate by a comma in that case `ship_pap,ship_pas`).
     The shipping services are explained <a href="#/introduction/shipping-services">here</a>.
     It is commonly necessary to use `ship_pap` and `ship_pas` to get the shipping options for an order delivery.
 
