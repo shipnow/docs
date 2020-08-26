@@ -316,7 +316,9 @@ info:
     `/shipping_options?weight={weight}&to_zip_code={zip_code}&types={types}`
     specifying the total weight of the order the zip code where it will be send to and the type of the shipping
     being `ship_pap`, `ship_pas` or both (separate by a comma in that case `ship_pap,ship_pas`)
-    
+    The shipping services are explained <a href="#/introduction/shipping-services">here</a>.
+    It is commonly necessary to use `ship_pap` and `ship_pas` to get the shipping options for an order delivery.
+
     The response has in the result field a list with the three closest branches of each post office that ships to that zip code. 
 
     Every element of the list has the following attributes:
@@ -2315,9 +2317,9 @@ paths:
   /shipping_options:
     get:
       description:
-        Returns an array of objects that represents an option to ship
-        (up to three for each mail that sends to the area of​the
-        indicated postal code)
+        Returns an array of objects that represents an option to ship an order
+        (up to three for each carrier that sends to the area of​the
+        indicated zip code)
       operationId: shipping_options
       security: 
         - token: []
@@ -3837,9 +3839,6 @@ definitions:
           properties:
             id:
               type: integer
-            status:
-              type: string
-              description: Could be `active`, `inactive`, `hide` or `unauthorized`.
             account:
               type: object
               properties:
