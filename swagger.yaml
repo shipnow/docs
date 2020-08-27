@@ -2338,7 +2338,7 @@ paths:
           format: int64
         - name: types
           in: query
-          description: type of ship (`ship_pap`, `ship_pas` or both separated by a comma `ship_pap,ship_pas`)
+          description: type of <a href="#/introduction/shipping-services">ship</a> (`ship_pap`, `ship_pas` or both separated by a comma `ship_pap,ship_pas`)
           required: true
           type: string
       responses:
@@ -3810,12 +3810,12 @@ definitions:
       properties:
         minimum_delivery:
           type: string
-          description: A datetime that indicates the earliest time delivery can arrive.
+          description: A datetime that indicates an estimate of the first time delivery can arrive.
           format: date-time
           example: 2018-03-25T14:00:00.599-03:00
         maximum_delivery:
           type: string
-          description: A datetime that indicates the latest moment in that the delivery can arrive.
+          description: A datetime that indicates an estimate of the last time the shipment can arrive.
           format: date-time
           example: 2018-03-25T14:00:00.599-03:00
         price:
@@ -3823,13 +3823,13 @@ definitions:
           description: The pre-calculated price for this option (float).
         ship_from_type:
           type: string
-          description: The type of ship_from. Could be `Warehouse`, `PostOffice` or `null` (Object null, not string "null")
+          description: The type of ship_from. Could be `Warehouse`, `PostOffice` or `null` (Object null, not string "null"). With `ship_pap` or `ship_pas` is a Warehouse.
         ship_from:
           type: object
           description: Could be `null`, `PostOffice` or `Warehouse` object
         ship_to_type:
           type: string
-          description: The type of ship_to. Could be `Warehouse`, `PostOffice` or `null` (Object null, not string "null")
+          description: The type of ship_to. Could be `Warehouse`, `PostOffice` or `null` (Object null, not string "null"), With `ship_pap` is null and with `ship_pas` is a PostOffice.
         ship_to:
           type: object
           description: Could be `null`, `PostOffice` or `Warehouse` object
