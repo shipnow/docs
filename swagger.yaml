@@ -434,7 +434,7 @@ info:
   contact:
     name: ShipNow API Team
     email: developers@shipnow.com.ar
-    url: https://www.shipnow.com.ar
+    url: https://shipnow.com.ar
 
 securityDefinitions:
   token:
@@ -2182,7 +2182,7 @@ paths:
                   name: Shipnow
                   last_name:
                   phone:
-                  email: info@shipnow.com.ar
+                  email: info@C
                   lon: -58.475772
                   lat: -34.592206
                   country:
