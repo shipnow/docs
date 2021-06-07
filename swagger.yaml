@@ -25,29 +25,13 @@ info:
 
     ### Authentication
 
-    Authentication is not yet done via OAuth, but a simpler password-based
-    mechanism.
-
-    Users will provide their username and password, which you will then exchange
-    for a `Token` by `POST`ing to `/users/authentication`, using HTTP Basic
-    Authentication (as defined in [rfc2617][rfc2617]). This will return the entire
-    user object, which contains the user's token:
-
-        {
-            "id": 1,
-            "email": "hugo@barrera.io",
-            "token": "1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5",
-            "type": "human",
-            "description": "Hugo",
-            "role": "admin",
-            "account": {},
-            "avatar_url": null
-        }
+    An authentication token is requiered to use this API. This token must be requested
+    by email to developers@shipnow.com.ar
 
     This token should be included in every request header to operate on behalf of
     the user, inside the `Authorization` header, as follows:
 
-        Token token=1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5
+        Bearer 1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5
 
     You SHOULD NOT store user's username or password. You should only store the
     provided token.
@@ -442,9 +426,6 @@ securityDefinitions:
     name: "Authorization"
     in: "header"
     description: Used for all non-public endpoints.
-  auth:
-    type: "basic"
-    description: Used to obtain a per-user token.
 
 host: api.shipnow.com.ar
 basePath: /
@@ -1452,33 +1433,6 @@ paths:
                 $ref: '#/definitions/Account'
         403:
           description: Current User cannot modify target User.
-  /users/authentication:
-    post:
-      description: |
-        Authenticates a user and returns an API-compatible token.
-        Implementations should provide the username and password using HTTP
-        Basic Auth (as defined in RFC2617).
-      operationId: authenticateUser
-      security:
-        - auth: []
-      responses:
-        200:
-          description: the user object
-          schema:
-            $ref: '#/definitions/User'
-          examples:
-            application/json:
-              id: 1000
-              active: true
-              admin: false
-              avatar_url: https://cdn.shipnow.com.ar/avatars/1000.png
-              created_at: 2018-04-18T15:22:16.779-03:00
-              email: john@doe.com
-              last_name: Doe
-              name: John
-              role: manager
-              token: 1234abcDEFGHIJkmnlopQRsT0uv1WxyZABcdEF2gH34IjkmNO5
-              type: human
   /accounts:
     get:
       description: |
