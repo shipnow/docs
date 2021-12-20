@@ -2136,7 +2136,7 @@ paths:
                   name: Shipnow
                   last_name:
                   phone:
-                  email: info@C
+                  email: info@shipnow.com.ar
                   lon: -58.475772
                   lat: -34.592206
                   country:
@@ -2320,6 +2320,9 @@ parameters:
       properties:
         external_reference:
           type: string
+          description: A free-form text to later find this order. Unique within the account's orders.
+        external_reference_user:
+          type: string
           description: A free-form text to later find this order.
         comment:
           type: string
@@ -2379,10 +2382,6 @@ parameters:
         store_id:
           type: string
           description: The id of this order's store.
-        store_type:
-          type: string
-          description: The store_type for this order's store.
-          readOnly: true
         status:
           type: string
           example: "awating_payment"
@@ -2440,6 +2439,9 @@ parameters:
         - title
       properties:
         external_reference:
+          type: string
+          description: A free-form text to later find and search this variant. Unique within the account's variants.
+        external_reference_user:
           type: string
           description: A free-form text to later find and search this variant.
         title:
@@ -2720,7 +2722,7 @@ definitions:
         description: date and hour of update
       external_reference:
         type: string
-        description: A free-form text to later find and search this order
+        description: A free-form text to later find this order. Unique within the account's orders.
       status:
         type: string
         example: "awating_payment"
@@ -3110,6 +3112,9 @@ definitions:
       updated_at:
         type: string
       external_reference:
+        type: string
+        description: A free-form text to later find and search this variant. Unique within the account's variants.
+      external_reference_user:
         type: string
         description: A free-form text to later find and search this variant.
       title:
