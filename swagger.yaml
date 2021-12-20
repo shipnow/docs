@@ -2323,7 +2323,7 @@ parameters:
           description: A free-form text to later find this order. Unique within the account's orders.
         external_reference_user:
           type: string
-          description: A free-form text to later identify this order. Usually mor user-friendly than external_reference.
+          description: A free-form text to later identify this order. Usually more user-friendly than external_reference.
         comment:
           type: string
         ship_to:
@@ -2443,7 +2443,7 @@ parameters:
           description: A free-form text to later find and search this variant. Unique within the account's variants.
         external_reference_user:
           type: string
-          description: A free-form text to later identify this variant. Usually mor user-friendly than external_reference.
+          description: A free-form text to later identify this variant. Usually more user-friendly than external_reference.
         title:
           type: string
           description: A name for this variant. This is free-form text, and is only used for display purposes.
@@ -2725,7 +2725,7 @@ definitions:
         description: A free-form text to later find this order. Unique within the account's orders.
       external_reference_user:
         type: string
-        description: A free-form text to later identify this order. Usually mor user-friendly than external_reference.
+        description: A free-form text to later identify this order. Usually more user-friendly than external_reference.
       status:
         type: string
         example: "awating_payment"
@@ -3119,7 +3119,7 @@ definitions:
         description: A free-form text to later find and search this variant. Unique within the account's variants.
       external_reference_user:
         type: string
-        description: A free-form text to later identify this variant. Usually mor user-friendly than external_reference.
+        description: A free-form text to later identify this variant. Usually more user-friendly than external_reference.
       title:
         type: string
         description: A name for this variant. This is free-form text, and is only used for display purposes.
