@@ -3,7 +3,7 @@ info:
   version: 1.1.0
   title: Shipnow API
   description: |
-    ShipNow exposes it's information using RESTful interface. Detailed
+    Shipnow exposes it's information using RESTful interface. Detailed
     documentation of every endpoint is available below.
 
     Requests
@@ -26,7 +26,7 @@ info:
     ### Authentication
 
     An authentication token is requiered to use this API. This token must be requested
-    by email to developers@shipnow.com.ar
+    by email to developers@.ar
 
     This token should be included in every request header to operate on behalf of
     the user, inside the `Authorization` header, as follows:
@@ -136,7 +136,7 @@ info:
     A single account may also have more than one store for the same store type
     (eg: a single account can be linked to two MercadoLibre profiles).
 
-    If your intention is to read order data from ShipNow, you generally won't
+    If your intention is to read order data from shipnow, you generally won't
     pay much attention to stores. If your intention is to create orders, you'll
     probably want to use the store type "custom".
 
@@ -319,9 +319,9 @@ info:
     Post Offices
     ------------
     
-    As Shipnow works with differents carriers, some of them provide us the possibility 
+    As shipnow works with differents carriers, some of them provide us the possibility 
     of using their post offices so clients can picking up their package.
-     Shipnow can deliver orders to Oca, Garbarino and Andreani post offices.
+    Shipnow can deliver orders to Oca and Andreani post offices.
 
     Webhooks
     --------
@@ -408,7 +408,7 @@ info:
     issue in this project's issue tracker. We'll update the documentation (or fix
     the underlying issue).
 
-    Copyright (c) 2016 ShipNow SRL <developers@shipnow.com.ar>
+    Copyright (c) 2016 shipnow SRL <developers@shipnow.com.ar>
 
     [json]: http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
     [http1.1]: https://tools.ietf.org/html/rfc2616
@@ -416,7 +416,7 @@ info:
     [rfc2617]: https://tools.ietf.org/html/rfc2617#section-2
     [iso8601]: https://en.wikipedia.org/wiki/ISO_8601
   contact:
-    name: ShipNow API Team
+    name: shipnow API Team
     email: developers@shipnow.com.ar
     url: https://shipnow.com.ar
 
@@ -2261,7 +2261,7 @@ paths:
   /ping:
     get:
       description:
-        Use this endpoint to test connectivity to the ShipNow API, response
+        Use this endpoint to test connectivity to the shipnow API, response
         times, or debug other possible network-related issues.
       operationId: ping
       responses:
