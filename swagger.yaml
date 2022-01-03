@@ -26,7 +26,7 @@ info:
     ### Authentication
 
     An authentication token is requiered to use this API. This token must be requested
-    by email to developers@.ar
+    by email to developers@shipnow.com.ar
 
     This token should be included in every request header to operate on behalf of
     the user, inside the `Authorization` header, as follows:
@@ -2409,11 +2409,11 @@ parameters:
               - quantity
               properties:
                 id:
-                  description: The id of a variants. See /variants.
+                  description: The ID of the variant that the item belongs to. Can be ommited if external_reference is present. See /variants.
                   type: integer
                 external_reference:
                   type: string
-                  description: The variant's external_reference.
+                  description: The external_reference of the variant that the item belongs to.
                   readOnly: true
                 quantity:
                   description: The amount of this variant that this order contains.
@@ -2428,6 +2428,10 @@ parameters:
                 image_url:
                   description: Ths variant's image_url.
                   type: string
+                package_number:
+                  description: If the order items need to be shipped in *n* separate packages, indicate the package_number from 1 to *n* for each of the order items.
+                  type: integer
+                  default: 1
         #shipments
   Variant:
     in: body
